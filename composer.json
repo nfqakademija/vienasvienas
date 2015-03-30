@@ -21,7 +21,10 @@
         "incenteev/composer-parameter-handler": "~2.0"
     },
     "require-dev": {
-        "sensio/generator-bundle": "~2.3"
+        "sensio/generator-bundle": "~2.3",
+        "ongr/ongr-strict-standard": "~1.0",
+        "squizlabs/php_codesniffer": "~1",
+        "phpmd/phpmd" : "@stable"
     },
     "scripts": {
         "post-root-package-install": [
