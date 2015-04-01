@@ -1,3 +1,4 @@
-Komanda: vienasvienas
-Mentorius: Augustinas
-Vilnius 2015 
+#Komanda: vienasvienas <br/>
+Projektas: Biblioteka <br/>
+Mentorius: Augustinas <br/>
+*Vilnius 2015*  <br />
