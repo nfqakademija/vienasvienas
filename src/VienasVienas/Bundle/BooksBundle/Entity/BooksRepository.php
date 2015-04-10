@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace VienasVienas\Bundle\BooksBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

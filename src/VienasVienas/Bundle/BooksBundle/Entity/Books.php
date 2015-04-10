@@ -1,14 +1,16 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace VienasVienas\Bundle\BooksBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Books
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="AppBundle\Entity\BooksRepository")
+ * @ORM\Entity(repositoryClass="VienasVienas\Bundle\BooksBundle\Entity\BooksRepository")
  */
 class Books
 {
@@ -38,14 +40,14 @@ class Books
     /**
      * @var integer
      *
-     * @ORM\Column(name="pages", type="smallint")
+     * @ORM\Column(name="pages", type="integer")
      */
     private $pages;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="isbn", type="string", length=13)
+     * @ORM\Column(name="isbn", type="string", length=15)
      */
     private $isbn;
 
@@ -66,16 +68,16 @@ class Books
     /**
      * @var string
      *
-     * @ORM\Column(name="cover", type="blob")
+     * @ORM\Column(name="cover", type="string", length=255)
      */
     private $cover;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="added_at", type="datetime")
+     * @ORM\Column(name="registration_date", type="datetime")
      */
-    private $addedAt;
+    private $registrationDate;
 
     /**
      * @var integer
@@ -83,6 +85,13 @@ class Books
      * @ORM\Column(name="category_id", type="integer")
      */
     private $categoryId;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_available", type="boolean")
+     */
+    private $isAvailable;
 
 
     /**
@@ -257,26 +266,26 @@ class Books
     }
 
     /**
-     * Set addedAt
+     * Set registrationDate
      *
-     * @param \DateTime $addedAt
+     * @param \DateTime $registrationDate
      * @return Books
      */
-    public function setAddedAt($addedAt)
+    public function setRegistrationDate($registrationDate)
     {
-        $this->addedAt = $addedAt;
+        $this->registrationDate = $registrationDate;
 
         return $this;
     }
 
     /**
-     * Get addedAt
+     * Get registrationDate
      *
      * @return \DateTime 
      */
-    public function getAddedAt()
+    public function getRegistrationDate()
     {
-        return $this->addedAt;
+        return $this->registrationDate;
     }
 
     /**
@@ -300,5 +309,28 @@ class Books
     public function getCategoryId()
     {
         return $this->categoryId;
+    }
+
+    /**
+     * Set isAvailable
+     *
+     * @param boolean $isAvailable
+     * @return Books
+     */
+    public function setIsAvailable($isAvailable)
+    {
+        $this->isAvailable = $isAvailable;
+
+        return $this;
+    }
+
+    /**
+     * Get isAvailable
+     *
+     * @return boolean 
+     */
+    public function getIsAvailable()
+    {
+        return $this->isAvailable;
     }
 }

@@ -1,0 +1,3 @@
+books_homepage:
+    path:     /add
+    defaults: { _controller: BooksBundle:Books:index }

@@ -1,3 +1,11 @@
+base:
+    resource: "@BaseBundle/Resources/config/routing.yml"
+    prefix:   /
+
+books:
+    resource: "@BooksBundle/Resources/config/routing.yml"
+    prefix:   /book
+
 app:
-    resource: "@AppBundle/Controller/"
+    resource: "@BooksBundle/Controller/"
     type:     annotation
