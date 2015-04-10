@@ -4,7 +4,7 @@ base:
 
 books:
     resource: "@BooksBundle/Resources/config/routing.yml"
-    prefix:   /book
+    prefix:   /
 
 app:
     resource: "@BooksBundle/Controller/"
