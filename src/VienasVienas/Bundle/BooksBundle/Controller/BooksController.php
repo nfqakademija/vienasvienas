@@ -13,7 +13,7 @@ use VienasVienas\Bundle\BooksBundle\Form\BooksType;
 /**
  * Books controller.
  *
- * @Route("/books")
+ * @Route("/books/list")
  */
 class BooksController extends Controller
 {
