@@ -1,4 +1,16 @@
 services:
-#    books.example:
-#        class: VienasVienas\Bundle\BooksBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    book.entity:
+        class: VienasVienas\Bundle\BooksBundle\Entity\Books
+        public: false
+
+    google.books.finder.parser:
+        class: VienasVienas\Bundle\BooksBundle\GoogleBookFinderParser
+        arguments: [@book.entity]
+
+    google.books:
+        class: VienasVienas\Bundle\BooksBundle\GoogleBookFinder
+        arguments: [@google.books.finder.parser]
+
+    books.finder:
+        class: VienasVienas\Bundle\BooksBundle\BookFinder
+        arguments: [@google.books]

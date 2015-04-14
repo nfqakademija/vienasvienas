@@ -54,7 +54,7 @@ class Books
     /**
      * @var string
      *
-     * @ORM\Column(name="rating", type="decimal")
+     * @ORM\Column(name="rating", type="float")
      */
     private $rating;
 
@@ -68,14 +68,14 @@ class Books
     /**
      * @var string
      *
-     * @ORM\Column(name="cover", type="string", length=255)
+     * @ORM\Column(name="cover", type="string", length=1000)
      */
     private $cover;
 
     /**
-     * @var \DateTime
+     * @var \Date
      *
-     * @ORM\Column(name="registration_date", type="datetime")
+     * @ORM\Column(name="registration_date", type="date")
      */
     private $registrationDate;
 

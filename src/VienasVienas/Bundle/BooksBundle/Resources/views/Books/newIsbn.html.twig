@@ -1,0 +1,22 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Add books by ISBN</h1>
+    {% if book is defined %}
+               {{ book.getCover|raw }} <br>
+        Author:{{ book.getAuthor}}     <br>
+        Title: {{ book.getTitle }}     <br>
+        Pages: {{ book.getPages }}     <br>
+        About: {{ book.getAbout }}     <br>
+        <br>
+    {% endif %}
+    {{ form(form) }}
+
+    <ul class="record_actions">
+        <li>
+            <a href="{{ path('books') }}">
+                Back to the list
+            </a>
+        </li>
+    </ul>
+{% endblock %}

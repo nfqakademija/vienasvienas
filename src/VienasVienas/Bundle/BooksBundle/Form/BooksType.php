@@ -24,9 +24,7 @@ class BooksType extends AbstractType
             ->add('cover')
             ->add('registrationDate')
             ->add('categoryId')
-            ->add('isAvailable')
-            ->add('Save', 'submit')
-        ;
+            ->add('isAvailable');
     }
     
     /**

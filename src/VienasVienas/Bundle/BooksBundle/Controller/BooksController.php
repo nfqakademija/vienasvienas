@@ -2,6 +2,8 @@
 
 namespace VienasVienas\Bundle\BooksBundle\Controller;
 
+use Beta\B;
+use Buzz\Message\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -9,6 +11,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use VienasVienas\Bundle\BooksBundle\Entity\Books;
 use VienasVienas\Bundle\BooksBundle\Form\BooksType;
+use VienasVienas\Bundle\BooksBundle\Isbn;
+use VienasVienas\Bundle\BooksBundle\GoogleBookFinderParser;
 
 /**
  * Books controller.
@@ -35,6 +39,7 @@ class BooksController extends Controller
             'entities' => $entities,
         );
     }
+
     /**
      * Creates a new Books entity.
      *
@@ -58,7 +63,7 @@ class BooksController extends Controller
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
@@ -91,11 +96,44 @@ class BooksController extends Controller
     public function newAction()
     {
         $entity = new Books();
-        $form   = $this->createCreateForm($entity);
+        $form = $this->createCreateForm($entity);
 
         return array(
             'entity' => $entity,
-            'form'   => $form->createView(),
+            'form' => $form->createView(),
+        );
+    }
+
+    /**
+     * Displays a form to create a new Books entity by ISBN.
+     *
+     * @Route("/new_isbn", name="books_new_isbn")
+     * @Template()
+     */
+    public function newIsbnAction(Request $request)
+    {
+        $form = $this->createFormBuilder()
+            ->add('isbn', 'text')
+            ->add('search', 'submit')
+            ->getForm();
+
+        $isbn = new Isbn();
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $isbnValue = $form["isbn"]->getData();
+            $isbn->setIsbn($isbnValue);
+            $bookFinder = $this->get('books.finder');
+            $book =  $bookFinder->getBookByIsbn($isbn);
+            $form = $this->createCreateForm($book);
+
+            return array(
+                'form' => $form->createView(),
+                'book'=> $book,
+            );
+        }
+        return array(
+          'form' => $form->createView(),
         );
     }
 
@@ -119,7 +157,7 @@ class BooksController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
         );
     }
@@ -145,19 +183,19 @@ class BooksController extends Controller
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
 
     /**
-    * Creates a form to edit a Books entity.
-    *
-    * @param Books $entity The entity
-    *
-    * @return \Symfony\Component\Form\Form The form
-    */
+     * Creates a form to edit a Books entity.
+     *
+     * @param Books $entity The entity
+     *
+     * @return \Symfony\Component\Form\Form The form
+     */
     private function createEditForm(Books $entity)
     {
         $form = $this->createForm(new BooksType(), $entity, array(
@@ -169,6 +207,7 @@ class BooksController extends Controller
 
         return $form;
     }
+
     /**
      * Edits an existing Books entity.
      *
@@ -197,11 +236,12 @@ class BooksController extends Controller
         }
 
         return array(
-            'entity'      => $entity,
-            'edit_form'   => $editForm->createView(),
+            'entity' => $entity,
+            'edit_form' => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
     }
+
     /**
      * Deletes a Books entity.
      *
@@ -241,7 +281,6 @@ class BooksController extends Controller
             ->setAction($this->generateUrl('books_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
-            ->getForm()
-        ;
+            ->getForm();
     }
 }
