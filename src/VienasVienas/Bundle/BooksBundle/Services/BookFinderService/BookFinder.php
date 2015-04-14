@@ -1,6 +1,8 @@
 <?php
 
-namespace VienasVienas\Bundle\BooksBundle;
+namespace VienasVienas\Bundle\BooksBundle\Services\BooksFinderServices;
+
+use VienasVienas\Bundle\BooksBundle\BookFinderServiceInterface;
 
 class BookFinder
 {
