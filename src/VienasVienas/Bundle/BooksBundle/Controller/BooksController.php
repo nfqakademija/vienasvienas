@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use VienasVienas\Bundle\BooksBundle\Entity\Books;
 use VienasVienas\Bundle\BooksBundle\Form\BooksType;
 use VienasVienas\Bundle\BooksBundle\Isbn;
-use VienasVienas\Bundle\BooksBundle\GoogleBookFinderParser;
 
 /**
  * Books controller.

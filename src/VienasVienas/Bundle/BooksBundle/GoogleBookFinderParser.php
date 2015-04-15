@@ -1,5 +1,10 @@
 <?php
-
+/*
+ * This file is part of the BooksBundle package.
+ *
+ * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
+ *
+ */
 namespace VienasVienas\Bundle\BooksBundle;
 
 use VienasVienas\Bundle\BooksBundle\Entity\Books;
@@ -122,6 +127,10 @@ class GoogleBookFinderParser
         return $content->items[0]->volumeInfo->averageRating;
     }
 
+    /**
+     * @param $content
+     * @return bool
+     */
     private function checkContent($content)
     {
         if (!isset($content->items)) {

@@ -1,12 +1,27 @@
 <?php
-
+/*
+ * This file is part of the BooksBundle package.
+ *
+ * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
+ *
+ */
 namespace VienasVienas\Bundle\BooksBundle;
 
 
+/**
+ * Class Isbn
+ * @package VienasVienas\Bundle\BooksBundle
+ */
 class Isbn
 {
+    /**
+     * @var
+     */
     protected $isbn;
 
+    /**
+     * @param $isbn
+     */
     public function __constructor($isbn)
     {
         $this->isbn = $isbn;
