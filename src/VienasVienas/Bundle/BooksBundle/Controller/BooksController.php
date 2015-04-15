@@ -123,7 +123,7 @@ class BooksController extends Controller
             $isbnValue = $form["isbn"]->getData();
             $isbn->setIsbn($isbnValue);
             $bookFinder = $this->get('books.finder');
-            $book =  $bookFinder->getBookByIsbn($isbn);
+            $book = $bookFinder->getBookByIsbn($isbn);
             $form = $this->createCreateForm($book);
 
             return array(

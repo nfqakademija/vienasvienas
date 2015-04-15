@@ -268,7 +268,7 @@ class Books
     /**
      * Set registrationDate
      *
-     * @param \DateTime $registrationDate
+     * @param \Date $registrationDate
      * @return Books
      */
     public function setRegistrationDate($registrationDate)
@@ -281,7 +281,7 @@ class Books
     /**
      * Get registrationDate
      *
-     * @return \DateTime 
+     * @return \Date
      */
     public function getRegistrationDate()
     {

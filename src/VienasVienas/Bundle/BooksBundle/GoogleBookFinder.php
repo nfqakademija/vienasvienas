@@ -44,7 +44,7 @@ class GoogleBookFinder implements BookFinderServiceInterface
     public function getContent(Isbn $isbn)
     {
         $isbn = $isbn->getIsbn();
-        $query = "?q=isbn:".urlencode($isbn);
+        $query = "?q=isbn:" . urlencode($isbn);
         $url = static::API_URL . $query;
         $session = curl_init($url);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);

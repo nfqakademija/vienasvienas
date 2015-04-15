@@ -19,7 +19,7 @@ class BookFinder
      */
     public function __construct(BookFinderServiceInterface $bookFinder)
     {
-         $this->BookFinder = $bookFinder;
+         $this->bookFinder = $bookFinder;
     }
 
     /**
@@ -28,6 +28,6 @@ class BookFinder
      */
     public function getBookByIsbn(Isbn $isbn)
     {
-        return $this->BookFinder->getBookByIsbn($isbn);
+        return $this->bookFinder->getBookByIsbn($isbn);
     }
 }
