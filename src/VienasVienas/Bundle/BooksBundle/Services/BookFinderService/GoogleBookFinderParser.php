@@ -1,6 +1,11 @@
 <?php
-
-namespace VienasVienas\Bundle\BooksBundle\Services\BooksFinderServices;
+/*
+ * This file is part of the BooksBundle package.
+ *
+ * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
+ *
+ */
+namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
 use VienasVienas\Bundle\BooksBundle\Entity\Books;
 
@@ -20,7 +25,7 @@ class GoogleBookFinderParser
 
     /**
      * @param object $content
-     * @return Books
+     * @return Books $book
      */
     public function parseBook($content)
     {

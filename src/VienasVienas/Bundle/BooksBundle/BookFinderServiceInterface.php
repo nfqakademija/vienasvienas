@@ -7,8 +7,7 @@
  */
 namespace VienasVienas\Bundle\BooksBundle;
 
-use VienasVienas\Bundle\BooksBundle\Services\BooksFinderServices\Isbn;
-
+use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
 
 /**
  * Interface BookFinderServiceInterface
