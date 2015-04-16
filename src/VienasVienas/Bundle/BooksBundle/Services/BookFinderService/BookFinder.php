@@ -5,12 +5,13 @@
  * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
  *
  */
+namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
-namespace VienasVienas\Bundle\BooksBundle;
+use VienasVienas\Bundle\BooksBundle\BookFinderServiceInterface;
 
 /**
  * Class BookFinder
- * @package VienasVienas\Bundle\BooksBundle
+ * @package VienasVienas\Bundle\BooksBundle\Services\BookFinderService
  */
 class BookFinder
 {
@@ -19,15 +20,15 @@ class BookFinder
      */
     public function __construct(BookFinderServiceInterface $bookFinder)
     {
-         $this->bookFinder = $bookFinder;
+         $this->BookFinder = $bookFinder;
     }
 
     /**
      * @param Isbn $isbn
-     * @return Entity\Books object
+     * @return object
      */
     public function getBookByIsbn(Isbn $isbn)
     {
-        return $this->bookFinder->getBookByIsbn($isbn);
+        return $this->BookFinder->getBookByIsbn($isbn);
     }
 }

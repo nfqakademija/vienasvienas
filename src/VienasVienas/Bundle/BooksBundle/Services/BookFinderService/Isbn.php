@@ -5,17 +5,17 @@
  * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
  *
  */
-namespace VienasVienas\Bundle\BooksBundle;
+namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
 
 /**
  * Class Isbn
- * @package VienasVienas\Bundle\BooksBundle
+ * @package VienasVienas\Bundle\BooksBundle\Services\BookFinderService
  */
 class Isbn
 {
     /**
-     * @var
+     * @var string ISBN
      */
     protected $isbn;
 
@@ -27,7 +27,7 @@ class Isbn
         $this->isbn = $isbn;
     }
     /**
-     * @return string
+     * @return string $isbn
      */
     public function getIsbn()
     {

@@ -4,13 +4,13 @@ services:
         public: false
 
     google.books.finder.parser:
-        class: VienasVienas\Bundle\BooksBundle\GoogleBookFinderParser
+        class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoogleBookFinderParser
         arguments: [@book.entity]
 
     google.books:
-        class: VienasVienas\Bundle\BooksBundle\GoogleBookFinder
+        class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoogleBookFinder
         arguments: [@google.books.finder.parser]
 
     books.finder:
-        class: VienasVienas\Bundle\BooksBundle\BookFinder
+        class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\BookFinder
         arguments: [@google.books]

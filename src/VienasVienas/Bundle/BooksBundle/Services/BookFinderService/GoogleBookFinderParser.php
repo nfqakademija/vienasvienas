@@ -5,7 +5,7 @@
  * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
  *
  */
-namespace VienasVienas\Bundle\BooksBundle;
+namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
 use VienasVienas\Bundle\BooksBundle\Entity\Books;
 
@@ -25,7 +25,7 @@ class GoogleBookFinderParser
 
     /**
      * @param object $content
-     * @return Books
+     * @return Books $book
      */
     public function parseBook($content)
     {
@@ -127,10 +127,6 @@ class GoogleBookFinderParser
         return $content->items[0]->volumeInfo->averageRating;
     }
 
-    /**
-     * @param $content
-     * @return bool
-     */
     private function checkContent($content)
     {
         if (!isset($content->items)) {

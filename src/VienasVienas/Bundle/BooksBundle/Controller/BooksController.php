@@ -2,16 +2,15 @@
 
 namespace VienasVienas\Bundle\BooksBundle\Controller;
 
-use Beta\B;
-use Buzz\Message\Response;
-use Symfony\Component\HttpFoundation\Request;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use VienasVienas\Bundle\BooksBundle\Entity\Books;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use VienasVienas\Bundle\BooksBundle\Entity\Books;
 use VienasVienas\Bundle\BooksBundle\Form\BooksType;
-use VienasVienas\Bundle\BooksBundle\Isbn;
+use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
 
 /**
  * Books controller.
@@ -128,11 +127,12 @@ class BooksController extends Controller
 
             return array(
                 'form' => $form->createView(),
-                'book'=> $book,
+                'book' => $book,
             );
         }
+
         return array(
-          'form' => $form->createView(),
+            'form' => $form->createView(),
         );
     }
 
