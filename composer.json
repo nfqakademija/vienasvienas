@@ -18,14 +18,16 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~3.0,>=3.0.12",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "twbs/bootstrap": "3.3.*@dev",
+        "components/jquery": "2.1.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
         "ongr/ongr-strict-standard": "~1.0",
         "squizlabs/php_codesniffer": "~1",
-      "phpmd/phpmd": "@stable",
-      "phpunit/phpunit": "4.6.*"
+        "phpmd/phpmd": "@stable",
+        "phpunit/phpunit": "4.6.*"
     },
     "scripts": {
         "post-root-package-install": [
