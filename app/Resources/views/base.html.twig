@@ -1,13 +1,148 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta http-equiv="content-type" content="text/html;  charset=UTF-8" />
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <title>{% block title %}Welcome to Library!{% endblock %}</title>
+        {% block stylesheets %}
+            {% stylesheets filter='cssrewrite'
+                '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap.css'
+                '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/css/bootstrap-theme.css'
+                '@BaseBundle/Resources/public/styles.css'
+            %}
+            <link rel="stylesheet" href="{{ asset_url }}" />
+            {% endstylesheets %}
+        {% endblock %}
+        <!--[if lt IE 9]>
+             <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
     </head>
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <div id="top-nav" class="navbar navbar-inverse navbar-static-top">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Library</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
+                        <ul id="g-account-menu" class="dropdown-menu" role="menu">
+                            <li><a href="#">My Profile</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <!-- /container -->
+    </div>
+    <!-- /Header -->
+
+    <!-- Main -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-2">
+                <!-- Left column -->
+                <strong>Books categories</strong>
+
+                <hr>
+
+                <ul class="nav nav-stacked">
+                    <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#userMenu1">Fiction</a>
+                        <ul class="nav nav-stacked collapse in" id="userMenu1">
+                            <li><a href="#">Lorem ipsum</a></li>
+                            <li><a href="#">Lorem Ipsum</a></li>
+                            <li><a href="#">Lorem Ipsum</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-header"> <a href="#" data-toggle="collapse" data-target="#menu4">Computers &amp; Technology</a>
+
+                        <ul class="nav nav-stacked collapse" id="menu4">
+                            <li><a href="#">Lorem Ipsum</a>
+                            </li>
+                            <li><a href="#">Lorem Ipsum</a>
+                            </li>
+                            <li><a href="#">Lorem Ipsum</a>
+                            </li>
+                            <li><a href="#">Lorem Ipsum</a>
+                            </li>
+                            <li><a href="#">Lorem Ipsum</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-header">
+                        <a href="#" data-toggle="collapse" data-target="#menu5"> Lorem Ipsum <i class="glyphicon glyphicon-chevron-right"></i></a>
+                        <ul class="nav nav-stacked collapse" id="menu5">
+                            <li><a href="">Lorem Ipsum</a></li>
+                            <li><a href="">Lorem Ipsum</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <hr>
+
+                <strong>Most Popular</strong>
+
+                <hr>
+
+                <ul class="nav nav-pills nav-stacked">
+                    <li class="nav-header"></li>
+                    <li><a href="#">Lorem Ipsum</a></li>
+                    <li><a href="#">Lorem Ipsum</a></li>
+                    <li><a href="#">Lorem Ipsum</a></li>
+                    <li><a href="#">Lorem Ipsum</a></li>
+                    <li><a href="#">Lorem Ipsum</a></li>
+                    <li><a href="#">Lorem Ipsum</a></li>
+                </ul>
+            </div>
+
+
+            <div class="col-sm-8">
+                {% block body %}
+                {% endblock %}
+            </div>
+
+
+            <div class="col-sm-2">
+                <!-- Right column -->
+                <a href="#"><strong>Your Books</strong></a>
+
+                <hr>
+
+                <ul class="nav nav-stacked">
+                    <li><a href="#">Lorem Ipsum</a></li>
+                </ul>
+
+                <hr>
+
+                <a href="#"><strong>Your reservations</strong></a>
+
+                <hr>
+
+                <ul class="nav nav-stacked">
+                    <li><a href="#">Lorem Ipsum</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <footer class="text-center">Library &copy; 2015</footer>
+
+    {% block javascripts %}
+        {% javascripts
+            '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
+            '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.js'
+            '@BaseBundle/Resources/public/scripts.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+        {% endjavascripts %}
+    {% endblock %}
     </body>
 </html>
