@@ -11,10 +11,16 @@ namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
 use VienasVienas\Bundle\BooksBundle\BookFinderServiceInterface;
 
+/**
+ * Class GoodreadsFinder
+ * @package VienasVienas\Bundle\BooksBundle\Services\BookFinderService
+ */
 class GoodreadsFinder implements BookFinderServiceInterface
 {
-
-
+    /**
+     * @param Isbn $isbn
+     * @return mixed|string
+     */
     public function getBookByIsbn(Isbn $isbn)
     {
         $content = $this->getComments($isbn);
@@ -25,6 +31,7 @@ class GoodreadsFinder implements BookFinderServiceInterface
      * @param Isbn $isbn
      * @return mixed|string
      */
+    
     public function getComments(Isbn $isbn)
     {
         $url = 'https://www.goodreads.com/book/isbn?isbn=';
