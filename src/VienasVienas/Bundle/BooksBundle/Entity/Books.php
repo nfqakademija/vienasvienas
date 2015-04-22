@@ -73,7 +73,7 @@ class Books
     private $cover;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="registration_date", type="date")
      */
@@ -268,7 +268,7 @@ class Books
     /**
      * Set registrationDate
      *
-     * @param \Date $registrationDate
+     * @param \DateTime $registrationDate
      * @return Books
      */
     public function setRegistrationDate($registrationDate)
@@ -281,7 +281,7 @@ class Books
     /**
      * Get registrationDate
      *
-     * @return \Date
+     * @return \DateTime
      */
     public function getRegistrationDate()
     {

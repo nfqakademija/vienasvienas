@@ -43,3 +43,8 @@ footer {
 #books_list th {
     text-align: center;
 }
+
+.book_comments {
+    width: 565px;
+    margin: 0 auto;
+}

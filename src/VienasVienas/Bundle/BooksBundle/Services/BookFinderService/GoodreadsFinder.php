@@ -21,6 +21,10 @@ class GoodreadsFinder implements BookFinderServiceInterface
         return $content;
     }
 
+    /**
+     * @param Isbn $isbn
+     * @return mixed|string
+     */
     public function getComments(Isbn $isbn)
     {
         $url = 'https://www.goodreads.com/book/isbn?isbn=';
@@ -32,8 +36,12 @@ class GoodreadsFinder implements BookFinderServiceInterface
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($session);
         $response = json_decode($response);
+        if (isset($response->{'reviews_widget'})){
         $response = $response->{'reviews_widget'};
-
+        }
+        //Hiding unnecessary divs
+        $style = "#gr_header, .gr_branding {display:none;}";
+        $response = substr($response, 0, 7) . $style . substr($response, 7);
         return $response;
 
     }
