@@ -5,25 +5,26 @@ namespace VienasVienas\Bundle\BooksBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use VienasVienas\Bundle\BooksBundle\Entity\Books;
+use VienasVienas\Bundle\BooksBundle\Entity\Author;
+use VienasVienas\Bundle\BooksBundle\Entity\Book;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use VienasVienas\Bundle\BooksBundle\Form\BooksType;
+use VienasVienas\Bundle\BooksBundle\Form\BookType;
 use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
 
 /**
- * Books controller.
+ * Book controller.
  *
- * @Route("/books/list")
+ * @Route("/book/list")
  */
 class BooksController extends Controller
 {
 
     /**
-     * Lists all Books entities.
+     * Lists all Book entities.
      *
-     * @Route("/", name="books")
+     * @Route("/", name="book")
      * @Method("GET")
      * @Template()
      */
@@ -31,7 +32,7 @@ class BooksController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $entities = $em->getRepository('BooksBundle:Books')->findAll();
+        $entities = $em->getRepository('BooksBundle:Book')->findAll();
 
         return array(
             'entities' => $entities,
@@ -39,61 +40,74 @@ class BooksController extends Controller
     }
 
     /**
-     * Creates a new Books entity.
+     * Creates a new Book entity from scratch.
      *
-     * @Route("/", name="books_create")
+     * @Route("/", name="book_create")
      * @Method("POST")
      * @Template("BooksBundle:Books:new.html.twig")
      */
     public function createAction(Request $request)
     {
-        $entity = new Books();
-        $form = $this->createCreateForm($entity);
-        $form->handleRequest($request);
+        $bookEntity = new Book();
+        $form = $this->createCreateForm($bookEntity);
 
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+        //validacija padaryti authoriaus
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
+            if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $author = $form["author"]->getData();
+                $authorEntity = $em->getRepository('BooksBundle:Author')->findOneByAuthor($author);
 
-            return $this->redirect($this->generateUrl('books_show', array('id' => $entity->getId())));
+                if (!$authorEntity) {
+                    $authorEntity = new Author();
+                    $authorEntity->setAuthor($author);
+                }
+
+                $bookEntity->setAuthor($authorEntity);
+
+                $em->persist($bookEntity);
+                $em->flush();
+
+                return $this->redirect($this->generateUrl('book_show', array('id' => $bookEntity->getId())));
+            }
         }
 
         return array(
-            'entity' => $entity,
+            'entity' => $bookEntity,
             'form' => $form->createView(),
         );
     }
 
     /**
-     * Creates a form to create a Books entity.
+     * Creates a form to create a Book entity.
      *
-     * @param Books $entity The entity
+     * @param Book $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Books $entity)
+    private function createCreateForm(Book $entity)
     {
-        $form = $this->createForm(new BooksType(), $entity, array(
-            'action' => $this->generateUrl('books_create'),
+        $form = $this->createForm(new BookType(), $entity, array(
+            'action' => $this->generateUrl('book_create'),
             'method' => 'POST',
         ));
 
-        $form->add('submit', 'submit', array('label' => 'Create'));
+        $form->add('submit', 'submit', array('label' => 'Add'));
 
         return $form;
     }
 
     /**
-     * Displays a form to create a new Books entity.
+     * Displays a form to create a new Book entity.
      *
-     * @Route("/new", name="books_new")
+     * @Route("/new", name="book_new")
      * @Method("GET")
      * @Template()
      */
     public function newAction()
     {
-        $entity = new Books();
+        $entity = new Book();
         $form = $this->createCreateForm($entity);
 
         return array(
@@ -103,9 +117,9 @@ class BooksController extends Controller
     }
 
     /**
-     * Displays a form to create a new Books entity by ISBN.
+     * Displays a form to create a new Book entity by ISBN.
      *
-     * @Route("/new_isbn", name="books_new_isbn")
+     * @Route("/new_isbn", name="book_new_isbn")
      * @Template()
      */
     public function newIsbnAction(Request $request)
@@ -116,19 +130,24 @@ class BooksController extends Controller
             ->getForm();
 
         $isbn = new Isbn();
-        $form->handleRequest($request);
 
-        if ($form->isValid()) {
-            $isbnValue = $form["isbn"]->getData();
-            $isbn->setIsbn($isbnValue);
-            $bookFinder = $this->get('books.finder');
-            $book = $bookFinder->getBookByIsbn($isbn);
-            $form = $this->createCreateForm($book);
+        if ($request->getMethod() == 'POST') {
+            $form->handleRequest($request);
 
-            return array(
-                'form' => $form->createView(),
-                'book' => $book,
-            );
+            if ($form->isValid()) {
+                $isbnValue = $form['isbn']->getData();
+                $isbn->setIsbn($isbnValue);
+                $bookFinder = $this->get('book.finder');
+                $book = $bookFinder->getBookByIsbn($isbn);
+                $author = $book->getAuthor();
+                $form = $this->createCreateForm($book);
+                $form->get('author')->setData((String)$author);
+
+                return array(
+                    'form' => $form->createView(),
+                    'book' => $book,
+                );
+            }
         }
 
         return array(
@@ -137,20 +156,21 @@ class BooksController extends Controller
     }
 
     /**
-     * Finds and displays a Books entity.
+     * Finds and displays a Book entity.
      *
-     * @Route("/{id}", name="books_show")
+     * @Route("/{id}", name="book_show")
      * @Method("GET")
      * @Template()
      */
     public function showAction($id)
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BooksBundle:Books')->find($id);
+        $entity = $em->getRepository('BooksBundle:Book')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Books entity.');
+            throw $this->createNotFoundException('Unable to find Book entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -162,20 +182,21 @@ class BooksController extends Controller
     }
 
     /**
-     * Displays a form to edit an existing Books entity.
+     * Displays a form to edit an existing Book entity.
      *
-     * @Route("/{id}/edit", name="books_edit")
+     * @Route("/{id}/edit", name="book_edit")
      * @Method("GET")
      * @Template()
      */
     public function editAction($id)
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BooksBundle:Books')->find($id);
+        $entity = $em->getRepository('BooksBundle:Book')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Books entity.');
+            throw $this->createNotFoundException('Unable to find Book entity.');
         }
 
         $editForm = $this->createEditForm($entity);
@@ -189,16 +210,17 @@ class BooksController extends Controller
     }
 
     /**
-     * Creates a form to edit a Books entity.
+     * Creates a form to edit a Book entity.
      *
-     * @param Books $entity The entity
+     * @param Book $entity The entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createEditForm(Books $entity)
+    private function createEditForm(Book $entity)
     {
-        $form = $this->createForm(new BooksType(), $entity, array(
-            'action' => $this->generateUrl('books_update', array('id' => $entity->getId())),
+
+        $form = $this->createForm(new BookType(), $entity, array(
+            'action' => $this->generateUrl('book_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
 
@@ -208,20 +230,21 @@ class BooksController extends Controller
     }
 
     /**
-     * Edits an existing Books entity.
+     * Edits an existing Book entity.
      *
-     * @Route("/{id}", name="books_update")
+     * @Route("/{id}", name="book_update")
      * @Method("PUT")
      * @Template("BooksBundle:Books:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
+
         $em = $this->getDoctrine()->getManager();
 
-        $entity = $em->getRepository('BooksBundle:Books')->find($id);
+        $entity = $em->getRepository('BooksBundle:Book')->find($id);
 
         if (!$entity) {
-            throw $this->createNotFoundException('Unable to find Books entity.');
+            throw $this->createNotFoundException('Unable to find Book entity.');
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -231,7 +254,7 @@ class BooksController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('books_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('book_edit', array('id' => $id)));
         }
 
         return array(
@@ -242,33 +265,34 @@ class BooksController extends Controller
     }
 
     /**
-     * Deletes a Books entity.
+     * Deletes a Book entity.
      *
-     * @Route("/{id}", name="books_delete")
+     * @Route("/{id}", name="book_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
     {
+
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('BooksBundle:Books')->find($id);
+            $entity = $em->getRepository('BooksBundle:Book')->find($id);
 
             if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Books entity.');
+                throw $this->createNotFoundException('Unable to find Book entity.');
             }
 
             $em->remove($entity);
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('books'));
+        return $this->redirect($this->generateUrl('book'));
     }
 
     /**
-     * Creates a form to delete a Books entity by id.
+     * Creates a form to delete a Book entity by id.
      *
      * @param mixed $id The entity id
      *
@@ -277,7 +301,7 @@ class BooksController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('books_delete', array('id' => $id)))
+            ->setAction($this->generateUrl('book_delete', array('id' => $id)))
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm();

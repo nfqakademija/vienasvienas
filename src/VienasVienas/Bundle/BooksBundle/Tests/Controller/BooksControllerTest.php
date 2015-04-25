@@ -4,7 +4,7 @@ namespace VienasVienas\Bundle\BooksBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class BooksControllerTest extends WebTestCase
+class BookControllerTest extends WebTestCase
 {
     /*
     public function testCompleteScenario()

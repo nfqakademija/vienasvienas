@@ -4,7 +4,7 @@
     <h1>Add books by ISBN</h1>
     {% if book is defined %}
                {{ book.getCover|raw }} <br>
-        Author:{{ book.getAuthor}}     <br>
+        Author:{{ book.author.author}}   <br>
         Title: {{ book.getTitle }}     <br>
         Pages: {{ book.getPages }}     <br>
         About: {{ book.getAbout }}     <br>
@@ -14,7 +14,7 @@
 
     <ul class="record_actions">
         <li>
-            <a href="{{ path('books') }}">
+            <a href="{{ path('book') }}">
                 Back to the list
             </a>
         </li>

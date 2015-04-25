@@ -21,6 +21,11 @@ class GoogleBookFinder implements BookFinderServiceInterface
     const API_URL = "https://www.googleapis.com/books/v1/volumes";
 
     /**
+     * @var GoogleBookFinderParser
+     */
+    private $parser;
+
+    /**
      * @param GoogleBookFinderParser $parser
      */
     public function __construct(GoogleBookFinderParser $parser)
@@ -30,7 +35,7 @@ class GoogleBookFinder implements BookFinderServiceInterface
 
     /**
      * @param Isbn $isbn
-     * @return \VienasVienas\Bundle\BooksBundle\Entity\Books
+     * @return \VienasVienas\Bundle\BooksBundle\Entity\Book
      */
     public function getBookByIsbn(Isbn $isbn)
     {

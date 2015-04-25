@@ -15,7 +15,7 @@
             </tr>
             <tr>
                 <th>Author</th>
-                <td>{{ entity.author }}</td>
+                <td>{{ entity.author.author }}</td>
             </tr>
             <tr>
                 <th>Pages</th>
@@ -38,28 +38,31 @@
                 <td>{{ entity.cover }}</td>
             </tr>
             <tr>
-                <th>Registrationdate</th>
+                <th>Registration date</th>
                 <td>{{ entity.registrationDate|date('Y-m-d H:i:s') }}</td>
             </tr>
             <tr>
-                <th>Categoryid</th>
-                <td>{{ entity.categoryId }}</td>
+                <th>Category</th>
+                <td>{% for categories in entity.getCategories %}
+                    {{ categories.categoryName }}
+                {% endfor %}
+                </td>
             </tr>
             <tr>
-                <th>Isavailable</th>
-                <td>{{ entity.isAvailable }}</td>
+                <th>Quantity</th>
+                <td>{{ entity.quantity}}</td>
             </tr>
         </tbody>
     </table>
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('books') }}">
+        <a href="{{ path('book') }}">
             Back to the list
         </a>
     </li>
     <li>
-        <a href="{{ path('books_edit', { 'id': entity.id }) }}">
+        <a href="{{ path('book_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>

@@ -7,7 +7,8 @@
  */
 namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
-use VienasVienas\Bundle\BooksBundle\Entity\Books;
+use VienasVienas\Bundle\BooksBundle\Entity\Author;
+use VienasVienas\Bundle\BooksBundle\Entity\Book;
 
 /**
  * Class GoogleBookFinderParser
@@ -16,16 +17,26 @@ use VienasVienas\Bundle\BooksBundle\Entity\Books;
 class GoogleBookFinderParser
 {
     /**
-     * @param Books $book
+     * @var Book entity
      */
-    public function __construct(Books $book)
+    private $book;
+    /**
+     * @var Author
+     */
+    private $author;
+    /**
+     * @param Book $book
+     * @param Author $author
+     */
+    public function __construct(Book $book, Author $author)
     {
         $this->book = $book;
+        $this->author = $author;
     }
 
     /**
      * @param object $content
-     * @return Books $book
+     * @return Book $book
      */
     public function parseBook($content)
     {
@@ -33,7 +44,8 @@ class GoogleBookFinderParser
 
         if ($this->checkContent($content)) {
             $author = $this->parseAuthor($content);
-            $this->book->setAuthor($author);
+            $this->author->setAuthor($author);
+            $this->book->setAuthor($this->author);
 
             $title = $this->parseTitle($content);
             $this->book->setTitle($title);
@@ -127,6 +139,10 @@ class GoogleBookFinderParser
         return $content->items[0]->volumeInfo->averageRating;
     }
 
+    /**
+     * @param $content
+     * @return bool
+     */
     private function checkContent($content)
     {
         if (!isset($content->items)) {

@@ -1,16 +1,19 @@
 services:
     book.entity:
-        class: VienasVienas\Bundle\BooksBundle\Entity\Books
+        class: VienasVienas\Bundle\BooksBundle\Entity\Book
         public: false
+
+    author.entity:
+        class: VienasVienas\Bundle\BooksBundle\Entity\Author
 
     google.books.finder.parser:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoogleBookFinderParser
-        arguments: [@book.entity]
+        arguments: [@book.entity, @author.entity]
 
     google.books:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoogleBookFinder
         arguments: [@google.books.finder.parser]
 
-    books.finder:
+    book.finder:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\BookFinder
         arguments: [@google.books]

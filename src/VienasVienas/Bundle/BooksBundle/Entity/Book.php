@@ -5,14 +5,15 @@ namespace VienasVienas\Bundle\BooksBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Books
+ * Book
  *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="VienasVienas\Bundle\BooksBundle\Entity\BooksRepository")
+ * @ORM\Table(name="books")
+ * @ORM\Entity(repositoryClass="VienasVienas\Bundle\BooksBundle\Entity\BookRepository")
  */
-class Books
+class Book
 {
     /**
      * @var integer
@@ -31,11 +32,17 @@ class Books
     private $title;
 
     /**
-     * @var string
+     * @ORM\OneToOne(targetEntity="VienasVienas\Bundle\BaseBundle\Entity\Order", mappedBy="book")
+     **/
+    private $order;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Author", inversedBy="books", cascade={"persist"})
      *
-     * @ORM\Column(name="author", type="string", length=100)
-     */
+     **/
+
     private $author;
+
 
     /**
      * @var integer
@@ -73,26 +80,33 @@ class Books
     private $cover;
 
     /**
-     * @var \Date
+     * @var \DateTime
      *
      * @ORM\Column(name="registration_date", type="date")
      */
     private $registrationDate;
-
+    
     /**
      * @var integer
      *
-     * @ORM\Column(name="category_id", type="integer")
+     * @ORM\Column(name="quantity", type="integer")
      */
-    private $categoryId;
+    private $quantity;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_available", type="boolean")
-     */
-    private $isAvailable;
+     * @ORM\ManyToMany(targetEntity="Category")
+     * @ORM\JoinTable(name="books_categories",
+     *      joinColumns={@ORM\JoinColumn(name="book_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="categories_id", referencedColumnName="id")}
+     *      )
+     **/
 
+    private $categories;
+
+    public function __construct()
+    {
+        $this->categories = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -108,7 +122,7 @@ class Books
      * Set title
      *
      * @param string $title
-     * @return Books
+     * @return Book
      */
     public function setTitle($title)
     {
@@ -128,33 +142,10 @@ class Books
     }
 
     /**
-     * Set author
-     *
-     * @param string $author
-     * @return Books
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    /**
-     * Get author
-     *
-     * @return string 
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
      * Set pages
      *
      * @param integer $pages
-     * @return Books
+     * @return Book
      */
     public function setPages($pages)
     {
@@ -177,7 +168,7 @@ class Books
      * Set isbn
      *
      * @param string $isbn
-     * @return Books
+     * @return Book
      */
     public function setIsbn($isbn)
     {
@@ -200,7 +191,7 @@ class Books
      * Set rating
      *
      * @param string $rating
-     * @return Books
+     * @return Book
      */
     public function setRating($rating)
     {
@@ -223,7 +214,7 @@ class Books
      * Set about
      *
      * @param string $about
-     * @return Books
+     * @return Book
      */
     public function setAbout($about)
     {
@@ -246,7 +237,7 @@ class Books
      * Set cover
      *
      * @param string $cover
-     * @return Books
+     * @return Book
      */
     public function setCover($cover)
     {
@@ -268,8 +259,8 @@ class Books
     /**
      * Set registrationDate
      *
-     * @param \Date $registrationDate
-     * @return Books
+     * @param \DateTime $registrationDate
+     * @return Book
      */
     public function setRegistrationDate($registrationDate)
     {
@@ -281,7 +272,7 @@ class Books
     /**
      * Get registrationDate
      *
-     * @return \Date
+     * @return \DateTime
      */
     public function getRegistrationDate()
     {
@@ -289,37 +280,14 @@ class Books
     }
 
     /**
-     * Set categoryId
-     *
-     * @param integer $categoryId
-     * @return Books
-     */
-    public function setCategoryId($categoryId)
-    {
-        $this->categoryId = $categoryId;
-
-        return $this;
-    }
-
-    /**
-     * Get categoryId
-     *
-     * @return integer 
-     */
-    public function getCategoryId()
-    {
-        return $this->categoryId;
-    }
-
-    /**
      * Set isAvailable
      *
-     * @param boolean $isAvailable
-     * @return Books
+     * @param integer $quantity
+     * @return Book
      */
-    public function setIsAvailable($isAvailable)
+    public function setQuantity($quantity)
     {
-        $this->isAvailable = $isAvailable;
+        $this->quantity = $quantity;
 
         return $this;
     }
@@ -327,10 +295,67 @@ class Books
     /**
      * Get isAvailable
      *
-     * @return boolean 
+     * @return integer
      */
-    public function getIsAvailable()
+    public function getQuantity()
     {
-        return $this->isAvailable;
+        return $this->quantity;
     }
+
+    /**
+     * Add categories
+     *
+     * @param \VienasVienas\Bundle\BooksBundle\Entity\Category $categories
+     * @return Book
+     */
+    public function addCategory(\VienasVienas\Bundle\BooksBundle\Entity\Category $categories)
+    {
+        $this->categories[] = $categories;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \VienasVienas\Bundle\BooksBundle\Entity\Category $category
+     */
+    public function removeCategory(\VienasVienas\Bundle\BooksBundle\Entity\Category $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Set author
+     *
+     * @param \VienasVienas\Bundle\BooksBundle\Entity\Author $author
+     * @return Book
+     */
+    public function setAuthor(Author $author = null)
+    {
+        $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * Get author
+     *
+     * @return \VienasVienas\Bundle\BooksBundle\Entity\Author
+     */
+    public function getAuthor()
+    {
+        return $this->author;
+    }
+
 }

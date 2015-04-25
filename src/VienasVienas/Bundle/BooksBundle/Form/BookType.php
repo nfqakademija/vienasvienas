@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class BooksType extends AbstractType
+class BookType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,16 +15,18 @@ class BooksType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('author', 'text', array(
+                'mapped' => false,
+            ))
             ->add('title')
-            ->add('author')
             ->add('pages')
             ->add('isbn')
             ->add('rating')
             ->add('about')
             ->add('cover')
             ->add('registrationDate')
-            ->add('categoryId')
-            ->add('isAvailable');
+            ->add('categories')
+            ->add('quantity');
     }
     
     /**
@@ -33,7 +35,7 @@ class BooksType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'VienasVienas\Bundle\BooksBundle\Entity\Books'
+            'data_class' => 'VienasVienas\Bundle\BooksBundle\Entity\Book'
         ));
     }
 
@@ -42,6 +44,6 @@ class BooksType extends AbstractType
      */
     public function getName()
     {
-        return 'vienasvienas_bundle_booksbundle_books';
+        return 'vienasvienas_bundle_booksbundle_book';
     }
 }

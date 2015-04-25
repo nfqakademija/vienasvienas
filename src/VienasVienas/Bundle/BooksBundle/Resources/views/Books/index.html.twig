@@ -22,7 +22,7 @@
             <tr>
                 <td>{{ entity.cover|raw }}</td>
                 <td>{{ entity.title }}</td>
-                <td>{{ entity.author }}</td>
+                <td>{{ entity.author.author }}</td>
                 <td>{{ entity.pages }}</td>
                 <td>{{ entity.isbn }}</td>
                 <td>{{ entity.rating }}</td>
@@ -30,10 +30,10 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('books_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('book_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('books_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('book_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>
@@ -44,12 +44,12 @@
 
         <ul>
         <li>
-            <a href="{{ path('books_new') }}">
+            <a href="{{ path('book_new') }}">
                 Create a new entry
             </a>
         </li>
             <li>
-                <a href="{{ path('books_new_isbn') }}">
+                <a href="{{ path('book_new_isbn') }}">
                     Create a new entry by ISBN
                 </a>
             </li>
