@@ -17,5 +17,6 @@ services:
     book.finder:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\BookFinder
         arguments: [@google.books]
+
     goodreads.comments:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoodreadsFinder
