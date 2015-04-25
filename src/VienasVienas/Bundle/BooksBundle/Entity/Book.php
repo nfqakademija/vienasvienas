@@ -43,7 +43,6 @@ class Book
 
     private $author;
 
-
     /**
      * @var integer
      *
@@ -214,7 +213,7 @@ class Book
      * Set about
      *
      * @param string $about
-     * @return Book
+     * @return Books
      */
     public function setAbout($about)
     {

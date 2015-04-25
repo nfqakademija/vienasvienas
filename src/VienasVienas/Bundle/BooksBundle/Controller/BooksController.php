@@ -175,9 +175,17 @@ class BooksController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        $isbn = new Isbn();
+        $number = $entity->getIsbn();
+        $isbn->setIsbn($number);
+
+        $goodreads = $this->get('goodreads.comments');
+        $comments = $goodreads->getComments($isbn);
+
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
+            'comments' => $comments,
         );
     }
 
