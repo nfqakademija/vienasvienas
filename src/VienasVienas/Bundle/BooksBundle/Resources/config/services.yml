@@ -16,3 +16,6 @@ services:
         arguments: [@google.books]
     goodreads.comments:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoodreadsFinder
+
+    amazon.books:
+        class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\AmazonBookFinder
