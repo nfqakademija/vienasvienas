@@ -5,6 +5,8 @@ namespace VienasVienas\Bundle\BooksBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use VienasVienas\Bundle\BooksBundle\Form\DataTransformer\AuthorToStringTransformer;
+
 
 class BookType extends AbstractType
 {
@@ -14,10 +16,15 @@ class BookType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+
+        $entityManager = $options['em'];
+        $transformer = new AuthorToStringTransformer($entityManager);
+
         $builder
-            ->add('author', 'text', array(
-                'mapped' => false,
-            ))
+            ->add(
+                $builder->create('author', 'text')
+                ->addModelTransformer($transformer)
+            )
             ->add('title')
             ->add('pages')
             ->add('isbn')
@@ -35,8 +42,11 @@ class BookType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'VienasVienas\Bundle\BooksBundle\Entity\Book'
-        ));
+            'data_class' => 'VienasVienas\Bundle\BooksBundle\Entity\Book',
+        ))
+            ->setRequired(array('em'))
+            ->setAllowedTypes('em', 'Doctrine\Common\Persistence\ObjectManager');
+
     }
 
     /**

@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use VienasVienas\Bundle\BooksBundle\Form\BookType;
+use VienasVienas\Bundle\BooksBundle\Form\AuthorType;
 use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
 
 /**
@@ -51,27 +52,15 @@ class BooksController extends Controller
         $form = $this->createForm(new BookType(), $bookEntity, array(
             'action' => $this->generateUrl('book_create'),
             'method' => 'POST',
+            'em' => $this->getDoctrine()->getManager(),
         ));
 
         $form->add('submit', 'submit', array('label' => 'Add'));
 
-        //validacija padaryti authoriaus
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-                $em = $this->getDoctrine()->getManager();
-                $author = $form["author"]->getData();
-                $authorEntity = $em->getRepository('BooksBundle:Author')->findOneByAuthor($author);
-
-                if (!$authorEntity) {
-                    $authorEntity = new Author();
-                    $authorEntity->setAuthor($author);
-                }
-
-                $bookEntity->setAuthor($authorEntity);
-
-                $em->persist($bookEntity);
-                $em->flush();
+               
 
                 return $this->redirect($this->generateUrl('book_show', array('id' => $bookEntity->getId())));
             }
@@ -93,6 +82,7 @@ class BooksController extends Controller
     private function createBookForm(Book $entity)
     {
         $form = $this->createForm(new BookType(), $entity, array(
+            'em' => $this->getDoctrine()->getManager(),
             'action' => $this->generateUrl('book_create'),
             'method' => 'POST',
         ));
@@ -148,21 +138,21 @@ class BooksController extends Controller
                 $author = $book->getAuthor();
 
                 $form = $this->createBookForm($book);
-                $form->get('author')->setData((String)$author);
+                $form->get('author')->setData($author);
 
                 $em = $this->getDoctrine()->getManager();
                 $authorEntity = $em->getRepository('BooksBundle:Author')->findOneByAuthor($author);
-
+                echo $authorEntity;
                 if (!$authorEntity) {
                     $authorEntity = new Author();
                     $authorEntity->setAuthor($author);
                 }
 
                 $book->setAuthor($authorEntity);
+                $em->persist($authorEntity);
 
 
 
-                var_dump($book);
                 return array(
                     'form' => $form->createView(),
                     'book' => $book,
