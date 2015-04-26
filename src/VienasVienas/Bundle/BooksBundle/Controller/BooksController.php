@@ -31,7 +31,6 @@ class BooksController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $entities = $em->getRepository('BooksBundle:Book')->findAll();
 
         return array(
@@ -49,7 +48,12 @@ class BooksController extends Controller
     public function createAction(Request $request)
     {
         $bookEntity = new Book();
-        $form = $this->createCreateForm($bookEntity);
+        $form = $this->createForm(new BookType(), $bookEntity, array(
+            'action' => $this->generateUrl('book_create'),
+            'method' => 'POST',
+        ));
+
+        $form->add('submit', 'submit', array('label' => 'Add'));
 
         //validacija padaryti authoriaus
         if ($request->getMethod() == 'POST') {
@@ -86,7 +90,7 @@ class BooksController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
-    private function createCreateForm(Book $entity)
+    private function createBookForm(Book $entity)
     {
         $form = $this->createForm(new BookType(), $entity, array(
             'action' => $this->generateUrl('book_create'),
@@ -108,7 +112,7 @@ class BooksController extends Controller
     public function newAction()
     {
         $entity = new Book();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createBookForm($entity);
 
         return array(
             'entity' => $entity,
@@ -137,12 +141,28 @@ class BooksController extends Controller
             if ($form->isValid()) {
                 $isbnValue = $form['isbn']->getData();
                 $isbn->setIsbn($isbnValue);
+
                 $bookFinder = $this->get('book.finder');
                 $book = $bookFinder->getBookByIsbn($isbn);
+
                 $author = $book->getAuthor();
-                $form = $this->createCreateForm($book);
+
+                $form = $this->createBookForm($book);
                 $form->get('author')->setData((String)$author);
 
+                $em = $this->getDoctrine()->getManager();
+                $authorEntity = $em->getRepository('BooksBundle:Author')->findOneByAuthor($author);
+
+                if (!$authorEntity) {
+                    $authorEntity = new Author();
+                    $authorEntity->setAuthor($author);
+                }
+
+                $book->setAuthor($authorEntity);
+
+
+
+                var_dump($book);
                 return array(
                     'form' => $form->createView(),
                     'book' => $book,
@@ -168,6 +188,8 @@ class BooksController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BooksBundle:Book')->find($id);
+        $quantity = $em->getRepository('BooksBundle:Book')->findQuantity($id);
+        var_dump($entity);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Book entity.');

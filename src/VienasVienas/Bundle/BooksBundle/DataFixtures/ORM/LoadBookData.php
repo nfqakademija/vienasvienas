@@ -8,24 +8,21 @@
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use VienasVienas\Bundle\BooksBundle\Entity\Books;
+use VienasVienas\Bundle\BooksBundle\Entity\Book;
 
-
-class LoadBookData implements FixtureInterface {
+class LoadBookData implements FixtureInterface
+{
 
     public function load(ObjectManager $manager)
     {
-        $book = new Books();
+        $book = new Book();
         $book->setIsbn('554646444');
-        $book->setCategoryId('55');
-        $book->setAuthor('Jonas');
         $book->setAbout('asdwjenejwf erjncje rcjenc ');
         $book->setTitle('pavadinimas?');
         $book->setCover('none');
         $book->setPages('25');
-        $book->setIsAvailable(true);
-        $book->setCategoryId(5);
         $book->setRating(4.6);
+        $book->setQuantity(10);
         $book->setRegistrationDate(new \DateTime("now"));
 
         $manager->persist($book);

@@ -12,4 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class BookRepository extends EntityRepository
 {
+    public function findQuantity($id)
+    {
+        $dq = $this->createQueryBuilder('r')
+            ->select('r.quantity')
+            ->where('r.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery();
+
+        return $dq->getSingleScalarResult();
+    }
+
+    public function selectBooks($id)
+    {
+
+
+        return $dq->getResult();
+    }
 }
