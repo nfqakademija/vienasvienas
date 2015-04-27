@@ -43,8 +43,8 @@ class GoodreadsFinder implements BookFinderServiceInterface
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($session);
         $response = json_decode($response);
-        if (isset($response->{'reviews_widget'})) {
-            $response = $response->{'reviews_widget'};
+        if (isset($response->{'reviews_widget'})){
+        $response = $response->{'reviews_widget'};
         }
         //Hiding unnecessary divs
         $style = "#gr_header, .gr_branding {display:none;}";
