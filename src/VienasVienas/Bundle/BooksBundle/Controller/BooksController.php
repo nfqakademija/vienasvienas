@@ -5,13 +5,11 @@ namespace VienasVienas\Bundle\BooksBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use VienasVienas\Bundle\BooksBundle\Entity\Author;
 use VienasVienas\Bundle\BooksBundle\Entity\Book;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use VienasVienas\Bundle\BooksBundle\Form\BookType;
-use VienasVienas\Bundle\BooksBundle\Form\AuthorType;
 use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
 
 /**
@@ -49,18 +47,15 @@ class BooksController extends Controller
     public function createAction(Request $request)
     {
         $bookEntity = new Book();
-        $form = $this->createForm(new BookType(), $bookEntity, array(
-            'action' => $this->generateUrl('book_create'),
-            'method' => 'POST',
-            'em' => $this->getDoctrine()->getManager(),
-        ));
 
-        $form->add('submit', 'submit', array('label' => 'Add'));
+        $form = $this->createBookForm($bookEntity);
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
             if ($form->isValid()) {
-               
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($bookEntity);
+                $em->flush();
 
                 return $this->redirect($this->generateUrl('book_show', array('id' => $bookEntity->getId())));
             }
@@ -135,23 +130,7 @@ class BooksController extends Controller
                 $bookFinder = $this->get('book.finder');
                 $book = $bookFinder->getBookByIsbn($isbn);
 
-                $author = $book->getAuthor();
-
                 $form = $this->createBookForm($book);
-                $form->get('author')->setData($author);
-
-                $em = $this->getDoctrine()->getManager();
-                $authorEntity = $em->getRepository('BooksBundle:Author')->findOneByAuthor($author);
-                echo $authorEntity;
-                if (!$authorEntity) {
-                    $authorEntity = new Author();
-                    $authorEntity->setAuthor($author);
-                }
-
-                $book->setAuthor($authorEntity);
-                $em->persist($authorEntity);
-
-
 
                 return array(
                     'form' => $form->createView(),
@@ -178,8 +157,6 @@ class BooksController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BooksBundle:Book')->find($id);
-        $quantity = $em->getRepository('BooksBundle:Book')->findQuantity($id);
-        var_dump($entity);
 
         if (!$entity) {
             throw $this->createNotFoundException('Unable to find Book entity.');

@@ -213,7 +213,7 @@ class Book
      * Set about
      *
      * @param string $about
-     * @return Books
+     * @return Book
      */
     public function setAbout($about)
     {

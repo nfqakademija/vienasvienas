@@ -22,11 +22,4 @@ class BookRepository extends EntityRepository
 
         return $dq->getSingleScalarResult();
     }
-
-    public function selectBooks($id)
-    {
-
-
-        return $dq->getResult();
-    }
 }

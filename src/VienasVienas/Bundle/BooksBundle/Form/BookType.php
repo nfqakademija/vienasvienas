@@ -7,7 +7,6 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use VienasVienas\Bundle\BooksBundle\Form\DataTransformer\AuthorToStringTransformer;
 
-
 class BookType extends AbstractType
 {
     /**

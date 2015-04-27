@@ -25,7 +25,7 @@ class Author
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(name="author", type="string", length=255)
      */
     private $author;
 
@@ -34,6 +34,9 @@ class Author
      **/
     private $books;
 
+    /**
+     *
+     */
     public function __construct()
     {
         $this->books = new ArrayCollection();
@@ -49,7 +52,7 @@ class Author
     }
 
     /**
-     * Set firstName
+     * Set Author
      *
      * @param string $author
      * @return Author
@@ -58,11 +61,11 @@ class Author
     {
         $this->author = $author;
 
-        return $this;
+        return (string)$this;
     }
 
     /**
-     * Get firstName
+     * Get Author
      *
      * @return string 
      */
@@ -103,8 +106,12 @@ class Author
     {
         return $this->books;
     }
+
+    /**
+     * @return string
+     */
     public function __toString()
     {
-        return $this->author;
+        return (string)$this->author;
     }
 }

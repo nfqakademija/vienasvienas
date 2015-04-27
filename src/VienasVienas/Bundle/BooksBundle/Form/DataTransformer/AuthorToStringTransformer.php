@@ -58,16 +58,15 @@ class AuthorToStringTransformer implements DataTransformerInterface
             return null;
         }
 
+
         $author = $this->om
             ->getRepository('BooksBundle:Author')
             ->findOneBy(array('author' => $name))
         ;
 
         if (null === $author) {
-            throw new TransformationFailedException(sprintf(
-                'An author with name "%s" does not exist!',
-                $name
-            ));
+            $author = new Author();
+            $author->setAuthor($name);
         }
 
         return $author;
