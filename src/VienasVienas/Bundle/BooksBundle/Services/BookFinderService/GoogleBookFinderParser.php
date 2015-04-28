@@ -89,7 +89,11 @@ class GoogleBookFinderParser
      */
     private function parseAbout($content)
     {
-        return $content->items[0]->volumeInfo->description;
+        if (!isset($content->items[0]->volumeInfo->description)) {
+            return "";
+        } else {
+            return $content->items[0]->volumeInfo->description;
+        }
     }
     /**
      * @param $content

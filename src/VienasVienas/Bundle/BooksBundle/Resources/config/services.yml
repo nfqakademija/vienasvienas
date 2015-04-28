@@ -16,7 +16,7 @@ services:
 
     book.finder:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\BookFinder
-        arguments: [@google.books, @amazon.books]
+        arguments: [@google.books]
 
     goodreads.comments:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoodreadsFinder
@@ -28,6 +28,6 @@ services:
 
     amazon.books:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\AmazonBookFinder
-        arguments: [@amazon.books.parser]
+        arguments: [@amazon.books.parser, %amazon_key%, %amazon_secret_key%, %amazon_tag%]
 
 

@@ -131,7 +131,7 @@ class BooksController extends Controller
                 $bookFinder = $this->get('book.finder');
                 $book = $bookFinder->getBookByIsbn($isbn);
                 //if nothing found on google, try amazon API
-                if (!isset($book->isbn)) {
+                if (null == $book->getIsbn()) {
                     $amazon = $this->get('amazon.books');
                     $book = $amazon->getBookByIsbn($isbn);
                 }

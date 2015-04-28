@@ -95,7 +95,11 @@ class AmazonBookParser
      */
     private function parseAbout($content)
     {
-        return (string)$content->Items->Item->EditorialReviews->EditorialReview->Content;
+        if (!isset($content->Items->Item->EditorialReviews->EditorialReview->Content)) {
+            return "";
+        } else {
+            return (string)$content->Items->Item->EditorialReviews->EditorialReview->Content;
+        }
     }
 
     /**

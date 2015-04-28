@@ -17,6 +17,17 @@ use VienasVienas\Bundle\BooksBundle\BookFinderServiceInterface;
  */
 class GoodreadsFinder implements BookFinderServiceInterface
 {
+
+    private $key_url;
+
+    /**
+     * @param $key_url
+     */
+    public function __construct($key_url)
+    {
+        $this->key_url = $key_url;
+    }
+
     /**
      * @param Isbn $isbn
      * @return mixed|string
@@ -32,20 +43,18 @@ class GoodreadsFinder implements BookFinderServiceInterface
      * @return mixed|string
      */
 
-    
     public function getComments(Isbn $isbn)
     {
         $url = 'https://www.goodreads.com/book/isbn?isbn=';
-        $key_url = 'v0RTVOCyM4jroqWH4P5vQ';
         $format = "&format=json";
 
         $isbn = $isbn->getIsbn();
-        $query = $url . $isbn ."&key=" . $key_url . $format;
+        $query = $url . $isbn ."&key=" . $this->key_url . $format;
         $session = curl_init($query);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($session);
         $response = json_decode($response);
-        if (isset($response->{'reviews_widget'})){
+        if (isset($response->{'reviews_widget'})) {
              $response = $response->{'reviews_widget'};
         }
         //Hiding unnecessary divs
@@ -53,6 +62,5 @@ class GoodreadsFinder implements BookFinderServiceInterface
         $response = substr($response, 0, 7) . $style . substr($response, 7);
 
         return $response;
-
     }
 }

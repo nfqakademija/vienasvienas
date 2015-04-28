@@ -16,17 +16,23 @@ use VienasVienas\Bundle\BooksBundle\BookFinderServiceInterface;
  */
 class AmazonBookFinder implements BookFinderServiceInterface
 {
-    /**
-     * @var AmazonBookParser
-     */
     private $parser;
+    private $awsAccessKeyID;
+    private $awsSecretKey;
+    private $awsAssociateTag;
 
     /**
      * @param AmazonBookParser $parser
+     * @param $awsAccessKeyID
+     * @param $awsSecretKey
+     * @param $awsAssociateTag
      */
-    public function __construct(AmazonBookParser $parser)
+    public function __construct(AmazonBookParser $parser, $awsAccessKeyID, $awsSecretKey, $awsAssociateTag)
     {
         $this->parser = $parser;
+        $this->awsAccessKeyID = $awsAccessKeyID;
+        $this->awsSecretKey = $awsSecretKey;
+        $this->awsAssociateTag = $awsAssociateTag;
     }
 
     /**
@@ -37,7 +43,6 @@ class AmazonBookFinder implements BookFinderServiceInterface
     {
         $content = $this->getContent($isbn);
         return $this->parser->parseBook($content);
-
     }
 
     /**
@@ -83,16 +88,13 @@ class AmazonBookFinder implements BookFinderServiceInterface
      */
     public function getQuery(Isbn $isbn, $response)
     {
-        $awsAccessKeyID = 'AKIAJXXI3QWCQW7QVGAQ';
-        $awsSecretKey = '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';
-        $awsAssociateTag = 'librarbooks-20';
         $host = 'ecs.amazonaws.com';
         $path = '/onca/xml';
 
         //query tag's
         $args = array(
-            'AssociateTag' => $awsAssociateTag,
-            'AWSAccessKeyId' => $awsAccessKeyID,
+            'AssociateTag' => $this->awsAssociateTag,
+            'AWSAccessKeyId' => $this->awsAccessKeyID,
             'IdType' => 'ISBN',
             'ItemId' => $isbn->getIsbn(),
             'Operation' => 'ItemLookup',
@@ -116,7 +118,7 @@ class AmazonBookFinder implements BookFinderServiceInterface
         $stringToSign = str_replace(';', urlencode(';'), $stringToSign);
 
         // Signing the request
-        $signature = hash_hmac("sha256", $stringToSign, $awsSecretKey, true);
+        $signature = hash_hmac("sha256", $stringToSign, $this->awsSecretKey, true);
 
         // Base64 encode the signature and make it URL safe
         $signature = base64_encode($signature);
