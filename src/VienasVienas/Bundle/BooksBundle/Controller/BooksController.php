@@ -227,6 +227,7 @@ class BooksController extends Controller
     {
 
         $form = $this->createForm(new BookType(), $entity, array(
+            'em' => $this->getDoctrine()->getManager(),
             'action' => $this->generateUrl('book_update', array('id' => $entity->getId())),
             'method' => 'PUT',
         ));
