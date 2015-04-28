@@ -18,3 +18,9 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ~
+
+    #keys for GoodReads and Amazon API
+    goodreads_key: ~
+    amazon_key: ~
+    amazon_secret_key: ~
+    amazon_tag: ~
