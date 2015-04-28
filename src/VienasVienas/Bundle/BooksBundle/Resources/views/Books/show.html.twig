@@ -6,6 +6,10 @@
     <table class="record_properties">
         <tbody>
             <tr>
+                <th>Cover</th>
+                <td>{{ entity.cover|raw }}</td>
+            </tr>
+            <tr>
                 <th>Id</th>
                 <td>{{ entity.id }}</td>
             </tr>
@@ -31,15 +35,11 @@
             </tr>
             <tr>
                 <th>About</th>
-                <td>{{ entity.about }}</td>
-            </tr>
-            <tr>
-                <th>Cover</th>
-                <td>{{ entity.cover }}</td>
+                <td>{{ entity.about|raw }}</td>
             </tr>
             <tr>
                 <th>Registration date</th>
-                <td>{{ entity.registrationDate|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.registrationDate|date('Y-m-d') }}</td>
             </tr>
             <tr>
                 <th>Category</th>
@@ -68,5 +68,6 @@
     </li>
     <li>{{ form(delete_form) }}</li>
 </ul>
-    <div class="book_comments">{{ comments|raw }}</div>
+    <div class="book_comments">{{ amazon_comments|raw }}</div>
+    <div class="book_comments">{{ goodreads_comments|raw }}</div>
 {% endblock %}

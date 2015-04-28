@@ -8,32 +8,79 @@
 
 namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
-
-use Symfony\Component\BrowserKit\Response;
 use VienasVienas\Bundle\BooksBundle\BookFinderServiceInterface;
 
+/**
+ * Class AmazonBookFinder
+ * @package VienasVienas\Bundle\BooksBundle\Services\BookFinderService
+ */
 class AmazonBookFinder implements BookFinderServiceInterface
 {
+    /**
+     * @var AmazonBookParser
+     */
+    private $parser;
 
+    /**
+     * @param AmazonBookParser $parser
+     */
+    public function __construct(AmazonBookParser $parser)
+    {
+        $this->parser = $parser;
+    }
+
+    /**
+     * @param Isbn $isbn
+     * @return \VienasVienas\Bundle\BooksBundle\Entity\Book
+     */
     public function getBookByIsbn(Isbn $isbn)
     {
         $content = $this->getContent($isbn);
-        return $content;
+        return $this->parser->parseBook($content);
+
     }
 
-
+    /**
+     * @param Isbn $isbn
+     * @return \SimpleXMLElement
+     */
     public function getContent(Isbn $isbn)
     {
         $response = 'Medium';
         return $this->getQuery($isbn, $response);
     }
 
+    /**
+     * @param Isbn $isbn
+     * @return \SimpleXMLElement|string
+     */
     public function getComments(Isbn $isbn)
     {
         $response = 'Reviews';
-        return $this->getQuery($isbn, $response);
+        $comments = $this->getQuery($isbn, $response);
+        //counting review items in json
+        $count = count($comments ->{'Items'}->{'Item'});
+        // if no review, return empty string
+        if ($count <=0) {
+            return "";
+        };
+        //looking for element with review
+        for ($i = 0; $i <= $count; $i++) {
+            if ($comments ->{'Items'}->{'Item'}[$i]->{'CustomerReviews'}->{'HasReviews'} == "true") {
+                $comments = $comments ->{'Items'}->{'Item'}[$i]->{'CustomerReviews'}->{'IFrameURL'};
+                $comments = '<iframe src="' . $comments . '" width="100%" height="100%"></iframe>';
+                return $comments;
+            }
+        }
+        // if no reviews or some mistake, return empty string
+        return "";
     }
 
+    /**
+     * @param Isbn $isbn
+     * @param $response
+     * @return \SimpleXMLElement
+     */
     public function getQuery(Isbn $isbn, $response)
     {
         $awsAccessKeyID = 'AKIAJXXI3QWCQW7QVGAQ';
@@ -58,8 +105,7 @@ class AmazonBookFinder implements BookFinderServiceInterface
 
         ksort($args);
         $parts = array();
-        foreach(array_keys($args) as $key)
-        {
+        foreach (array_keys($args) as $key) {
             $parts[] = $key . "=" . $args[$key];
         }
 
@@ -82,8 +128,6 @@ class AmazonBookFinder implements BookFinderServiceInterface
 
         $rawData = file_get_contents($url);
         $metadata = simplexml_load_string($rawData);
-        $metadata = json_encode($metadata);
-
         return $metadata;
     }
 }

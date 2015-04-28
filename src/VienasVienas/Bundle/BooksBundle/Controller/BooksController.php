@@ -125,10 +125,16 @@ class BooksController extends Controller
 
             if ($form->isValid()) {
                 $isbnValue = $form['isbn']->getData();
+                $isbnValue = preg_replace('/\D/', '', $isbnValue);
                 $isbn->setIsbn($isbnValue);
 
                 $bookFinder = $this->get('book.finder');
                 $book = $bookFinder->getBookByIsbn($isbn);
+                //if nothing found on google, try amazon API
+                if (!isset($book->isbn)) {
+                    $amazon = $this->get('amazon.books');
+                    $book = $amazon->getBookByIsbn($isbn);
+                }
 
                 $form = $this->createBookForm($book);
 
@@ -169,12 +175,16 @@ class BooksController extends Controller
         $isbn->setIsbn($number);
 
         $goodreads = $this->get('goodreads.comments');
-        $comments = $goodreads->getComments($isbn);
+        $goodReadsComments = $goodreads->getComments($isbn);
+
+        $amazon = $this->get('amazon.books');
+        $amazonComments = $amazon->getComments($isbn);
 
         return array(
             'entity' => $entity,
             'delete_form' => $deleteForm->createView(),
-            'comments' => $comments,
+            'goodreads_comments' => $goodReadsComments,
+            'amazon_comments' => $amazonComments,
         );
     }
 

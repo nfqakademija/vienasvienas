@@ -7,7 +7,7 @@
         Author:{{ book.author.author}}   <br>
         Title: {{ book.getTitle }}     <br>
         Pages: {{ book.getPages }}     <br>
-        About: {{ book.getAbout }}     <br>
+        About: {{ book.getAbout|raw }}     <br>
         <br>
     {% endif %}
     {{ form(form) }}

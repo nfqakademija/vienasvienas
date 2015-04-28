@@ -1,18 +1,15 @@
 <?php
-/*
- * This file is part of the BooksBundle package.
- *
- * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
- *
- */
+
 namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
+
 use VienasVienas\Bundle\BooksBundle\Entity\Author;
 use VienasVienas\Bundle\BooksBundle\Entity\Book;
+
 /**
- * Class GoogleBookFinderParser
+ * Class AmazonBookParser
  * @package VienasVienas\Bundle\BooksBundle
  */
-class GoogleBookFinderParser
+class AmazonBookParser
 {
     /**
      * @var Book entity
@@ -31,29 +28,36 @@ class GoogleBookFinderParser
         $this->book = $book;
         $this->author = $author;
     }
+
     /**
      * @param object $content
      * @return Book $book
      */
     public function parseBook($content)
     {
-        $content = json_decode($content);
         if ($this->checkContent($content)) {
             $author = $this->parseAuthor($content);
             $this->author->setAuthor($author);
+
             $this->book->setAuthor($this->author);
             $title = $this->parseTitle($content);
             $this->book->setTitle($title);
+
             $about = $this->parseAbout($content);
             $this->book->setAbout($about);
+
             $pages = $this->parsePageCount($content);
             $this->book->setPages($pages);
+
             $cover = $this->parseCover($content);
             $this->book->setCover($cover);
+
             $isbn = $this->parseIsbn($content);
             $this->book->setIsbn($isbn);
+
             $rating = $this->parseRating($content);
             $this->book->setRating($rating);
+
             $date = new \DateTime();
             $this->book->setRegistrationDate($date);
 
@@ -62,13 +66,14 @@ class GoogleBookFinderParser
             return $this->book;
         }
     }
+
     /**
      * @param $content
      * @return string
      */
     private function parseAuthor($content)
     {
-        $author = $content->items[0]->volumeInfo->authors[0];
+        $author = (string)$content->Items->Item->ItemAttributes->Author;
         if (isset($author)) {
             return $author;
         } else {
@@ -81,59 +86,63 @@ class GoogleBookFinderParser
      */
     private function parseTitle($content)
     {
-        return $content->items[0]->volumeInfo->title;
+        return (string)$content->Items->Item->ItemAttributes->Title;
     }
+
     /**
      * @param $content
      * @return string
      */
     private function parseAbout($content)
     {
-        return $content->items[0]->volumeInfo->description;
+        return (string)$content->Items->Item->EditorialReviews->EditorialReview->Content;
     }
+
     /**
      * @param $content
      * @return integer
      */
     private function parsePageCount($content)
     {
-        return $content->items[0]->volumeInfo->pageCount;
+        return (integer)$content->Items->Item->ItemAttributes->NumberOfPages;
     }
+
+
     /**
      * @param $content
      * @return string
      */
     private function parseCover($content)
     {
-        return '<img src="'.$content->items[0]->volumeInfo->imageLinks->thumbnail.'">';
+        return '<img src="'. (string)$content->Items->Item->MediumImage->URL .'">';
     }
+
     /**
      * @param $content
      * @return string
      */
     private function parseIsbn($content)
     {
-        return $content->items[0]->volumeInfo->industryIdentifiers[0]->identifier;
+        return (string)$content->Items->Item->ItemAttributes->EAN;
     }
+
     /**
      * @param $content
      * @return float
      */
     private function parseRating($content)
     {
-        if (!isset($content->items[0]->volumeInfo->averageRating)) {
-            return 0;
-        } else {
-            return $content->items[0]->volumeInfo->averageRating;
-        }
+        //return number, because Amazon API removed support for accessing rating information in 2010
+        return "0";
     }
+
     /**
      * @param $content
      * @return bool
      */
     private function checkContent($content)
     {
-        if (!isset($content->items)) {
+        if (!isset($content->Items)) {
             return false;
         } else {
             return true;

@@ -31,24 +31,27 @@ class GoodreadsFinder implements BookFinderServiceInterface
      * @param Isbn $isbn
      * @return mixed|string
      */
+
     
     public function getComments(Isbn $isbn)
     {
         $url = 'https://www.goodreads.com/book/isbn?isbn=';
-        $key_url = '&key=v0RTVOCyM4jroqWH4P5vQ&format=json';
+        $key_url = 'v0RTVOCyM4jroqWH4P5vQ';
+        $format = "&format=json";
 
         $isbn = $isbn->getIsbn();
-        $query = $url . $isbn . $key_url;
+        $query = $url . $isbn ."&key=" . $key_url . $format;
         $session = curl_init($query);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($session);
         $response = json_decode($response);
         if (isset($response->{'reviews_widget'})){
-        $response = $response->{'reviews_widget'};
+             $response = $response->{'reviews_widget'};
         }
         //Hiding unnecessary divs
-        $style = "#gr_header, .gr_branding {display:none;}";
+        $style = 'gr_header, .gr_branding {display:none;}';
         $response = substr($response, 0, 7) . $style . substr($response, 7);
+
         return $response;
 
     }

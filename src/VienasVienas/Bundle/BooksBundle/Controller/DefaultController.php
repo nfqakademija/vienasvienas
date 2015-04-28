@@ -11,12 +11,6 @@ class DefaultController extends Controller
 
     public function indexAction()
     {
-        //$isbn = "9785415023097";
-        $isbn = new Isbn();
-        $isbn->setIsbn('9785415023097');
-        $amazon = $this->get('amazon.books');
-        $response = $amazon->getBookByIsbn($isbn);
-
-        return new Response($response);
+        return $this->render('BooksBundle:Default:index.html.twig');
     }
 }

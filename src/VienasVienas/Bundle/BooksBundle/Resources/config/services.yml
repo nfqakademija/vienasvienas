@@ -16,10 +16,18 @@ services:
 
     book.finder:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\BookFinder
-        arguments: [@google.books]
+        arguments: [@google.books, @amazon.books]
 
     goodreads.comments:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoodreadsFinder
+        arguments: [%goodreads_key%]
+
+    amazon.books.parser:
+        class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\AmazonBookParser
+        arguments: [@book.entity, @author.entity]
 
     amazon.books:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\AmazonBookFinder
+        arguments: [@amazon.books.parser]
+
+
