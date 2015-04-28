@@ -20,7 +20,7 @@ parameters:
     secret:            ~
 
     #keys for GoodReads and Amazon API
-    goodreads_key: ~
-    amazon_key: ~
-    amazon_secret_key: ~
-    amazon_tag: ~
+    goodreads_key:      ~
+    amazon_key:         ~
+    amazon_secret_key:  ~
+    amazon_tag:         ~
