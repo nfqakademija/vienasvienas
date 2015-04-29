@@ -28,9 +28,10 @@ class GoodreadsFinder implements BookFinderServiceInterface
         $this->key_url = $key_url;
     }
 
+
     /**
      * @param Isbn $isbn
-     * @return mixed|string
+     * @return object
      */
     public function getBookByIsbn(Isbn $isbn)
     {

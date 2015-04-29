@@ -55,7 +55,7 @@ class AmazonBookParser
             $isbn = $this->parseIsbn($content);
             $this->book->setIsbn($isbn);
 
-            $rating = $this->parseRating($content);
+            $rating = $this->parseRating();
             $this->book->setRating($rating);
 
             $date = new \DateTime();
@@ -131,10 +131,9 @@ class AmazonBookParser
     }
 
     /**
-     * @param $content
      * @return float
      */
-    private function parseRating($content)
+    private function parseRating()
     {
         //return number, because Amazon API removed support for accessing rating information in 2010
         return "0";
