@@ -31,7 +31,7 @@ class GoodreadsFinder implements BookFinderServiceInterface
 
     /**
      * @param Isbn $isbn
-     * @return object
+     * @return string
      */
     public function getBookByIsbn(Isbn $isbn)
     {
