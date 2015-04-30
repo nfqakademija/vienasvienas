@@ -12,10 +12,6 @@ class BookControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/');
         print_r($crawler);
-       // $form = $crawler->selectButton('form[search]')->form();
-       // $form['form[isbn]'] = '9781449355739';
-       // $crawler = $client->submit($form);
-
         $this->assertTrue($crawler->filter('html:contains("Welcome")')->count() > 0);
 
     }
