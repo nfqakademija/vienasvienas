@@ -61,7 +61,7 @@ class Author
     {
         $this->author = $author;
 
-        return (string)$this;
+        return (string) $this;
     }
 
     /**
@@ -112,6 +112,6 @@ class Author
      */
     public function __toString()
     {
-        return (string)$this->author;
+        return (string) $this->author;
     }
 }

@@ -66,7 +66,7 @@ class AmazonBookFinder implements BookFinderServiceInterface
         //counting review items in json
         $count = count($comments ->{'Items'}->{'Item'});
         // if no review, return empty string
-        if ($count <=0) {
+        if ($count <= 0) {
             return "";
         };
         //looking for element with review

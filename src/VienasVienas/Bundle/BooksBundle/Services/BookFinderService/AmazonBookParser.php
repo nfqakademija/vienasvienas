@@ -73,7 +73,7 @@ class AmazonBookParser
      */
     private function parseAuthor($content)
     {
-        $author = (string)$content->Items->Item->ItemAttributes->Author;
+        $author = (string) $content->Items->Item->ItemAttributes->Author;
         if (isset($author)) {
             return $author;
         } else {
@@ -86,7 +86,7 @@ class AmazonBookParser
      */
     private function parseTitle($content)
     {
-        return (string)$content->Items->Item->ItemAttributes->Title;
+        return (string) $content->Items->Item->ItemAttributes->Title;
     }
 
     /**
@@ -98,7 +98,7 @@ class AmazonBookParser
         if (!isset($content->Items->Item->EditorialReviews->EditorialReview->Content)) {
             return "";
         } else {
-            return (string)$content->Items->Item->EditorialReviews->EditorialReview->Content;
+            return (string) $content->Items->Item->EditorialReviews->EditorialReview->Content;
         }
     }
 
@@ -108,7 +108,7 @@ class AmazonBookParser
      */
     private function parsePageCount($content)
     {
-        return (integer)$content->Items->Item->ItemAttributes->NumberOfPages;
+        return (integer) $content->Items->Item->ItemAttributes->NumberOfPages;
     }
 
 
@@ -118,7 +118,7 @@ class AmazonBookParser
      */
     private function parseCover($content)
     {
-        return '<img src="'. (string)$content->Items->Item->MediumImage->URL .'">';
+        return '<img src="'. (string) $content->Items->Item->MediumImage->URL .'">';
     }
 
     /**

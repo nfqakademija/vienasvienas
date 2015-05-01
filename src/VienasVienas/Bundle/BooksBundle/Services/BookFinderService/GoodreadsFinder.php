@@ -1,10 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: aleksandr
- * Date: 4/21/15
- * Time: 11:24 AM
- */
+    /**
+     * Created by PhpStorm.
+     * User: aleksandr
+     * Date: 4/21/15
+     * Time: 11:24 AM
+     */
 
 namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
@@ -41,7 +41,7 @@ class GoodreadsFinder implements BookFinderServiceInterface
 
     /**
      * @param Isbn $isbn
-     * @return mixed|string
+     * @return string
      */
 
     public function getComments(Isbn $isbn)
@@ -50,7 +50,7 @@ class GoodreadsFinder implements BookFinderServiceInterface
         $format = "&format=json";
 
         $isbn = $isbn->getIsbn();
-        $query = $url . $isbn ."&key=" . $this->key_url . $format;
+        $query = $url . $isbn . "&key=" . $this->key_url . $format;
         $session = curl_init($query);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($session);
