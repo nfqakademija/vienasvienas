@@ -118,7 +118,7 @@ class AmazonBookParser
      */
     private function parseCover($content)
     {
-        return '<img src="'. (string) $content->Items->Item->MediumImage->URL .'">';
+        return '<img src="' . (string) $content->Items->Item->MediumImage->URL .'">';
     }
 
     /**
@@ -127,7 +127,7 @@ class AmazonBookParser
      */
     private function parseIsbn($content)
     {
-        return (string)$content->Items->Item->ItemAttributes->EAN;
+        return (string) $content->Items->Item->ItemAttributes->EAN;
     }
 
     /**
