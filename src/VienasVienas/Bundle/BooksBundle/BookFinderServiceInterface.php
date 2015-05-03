@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the BooksBundle package.
+ * This file is part of the BooksBundle.
  *
  * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
  *

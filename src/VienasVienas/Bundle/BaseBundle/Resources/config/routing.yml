@@ -1,3 +1,15 @@
-base_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: BaseBundle:Default:index }
+make_order:
+    path:     /order/{id}
+    defaults: { _controller: BaseBundle:Order:makeOrder }
+
+return_order:
+    path:     /order/return/{id}
+    defaults: { _controller: BaseBundle:Order:returnOrder }
+
+reserve_order:
+    path:     /order/reserve/{id}
+    defaults: { _controller: BaseBundle:Order:reserveOrder }
+
+update_order:
+    path:     /order/update/{id}
+    defaults: { _controller: BaseBundle:Order:updateOrder }

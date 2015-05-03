@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Order
  *
  * @ORM\Table(name="orders")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="VienasVienas\Bundle\BaseBundle\Entity\OrderRepository")
  */
 class Order
 {
@@ -22,28 +22,30 @@ class Order
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="VienasVienas\Bundle\BooksBundle\Entity\Book", inversedBy="order")
+     * @ORM\ManyToOne(targetEntity="VienasVienas\Bundle\BooksBundle\Entity\Book", inversedBy="orders",
+     * cascade={"persist"})
+     * JoinColumn(name="book_id", referencedColumnName="id")
      **/
     private $book;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="pickup_date", type="date")
+     * @ORM\Column(name="pickup_date", type="date", nullable=true)
      */
     private $pickupDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="return_date", type="date")
+     * @ORM\Column(name="return_date", type="date", nullable=true)
      */
     private $returnDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="reservation_date", type="datetime")
+     * @ORM\Column(name="reservation_date", type="datetime", nullable=true)
      */
     private $reservationDate;
 
@@ -51,12 +53,16 @@ class Order
      * @ORM\ManyToOne(targetEntity="User", inversedBy="orders")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      **/
-    private $userId;
+    private $user;
+
+    /** @ORM\Column(type="string", columnDefinition="ENUM('active', 'reserved', 'done')")
+     */
+    private $status;
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return int
      */
     public function getId()
     {
@@ -133,25 +139,63 @@ class Order
     }
 
     /**
-     * Set userId
+     * Set User
      *
-     * @param \VienasVienas\Bundle\BaseBundle\Entity\User $userId
+     * @param \VienasVienas\Bundle\BaseBundle\Entity\User $user
      * @return Order
      */
-    public function setUserId(\VienasVienas\Bundle\BaseBundle\Entity\User $userId = null)
+    public function setUser(\VienasVienas\Bundle\BaseBundle\Entity\User $user = null)
     {
-        $this->userId = $userId;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Get userId
+     * Get User
      *
      * @return \VienasVienas\Bundle\BaseBundle\Entity\User 
      */
-    public function getUserId()
+    public function getUser()
     {
-        return $this->userId;
+        return $this->user;
+    }
+
+    /**
+     * Set book
+     *
+     * @param \VienasVienas\Bundle\BooksBundle\Entity\Book $book
+     * @return Order
+     */
+    public function setBook(\VienasVienas\Bundle\BooksBundle\Entity\Book $book = null)
+    {
+        $this->book = $book;
+
+        return $this;
+    }
+
+    /**
+     * Get book
+     *
+     * @return \VienasVienas\Bundle\BooksBundle\Entity\Book 
+     */
+    public function getBook()
+    {
+        return $this->book;
+    }
+    /**
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
     }
 }
