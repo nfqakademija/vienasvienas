@@ -8,10 +8,10 @@
 namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 use VienasVienas\Bundle\BooksBundle\Entity\Author;
 use VienasVienas\Bundle\BooksBundle\Entity\Book;
-/**
- * Class GoogleBookFinderParser
- * @package VienasVienas\Bundle\BooksBundle
- */
+    /**
+     * Class GoogleBookFinderParser
+     * @package VienasVienas\Bundle\BooksBundle
+     */
 class GoogleBookFinderParser
 {
     /**
@@ -109,7 +109,7 @@ class GoogleBookFinderParser
      */
     private function parseCover($content)
     {
-        return '<img src="'.$content->items[0]->volumeInfo->imageLinks->thumbnail.'">';
+        return '<img src="' . $content->items[0]->volumeInfo->imageLinks->thumbnail .'">';
     }
     /**
      * @param $content

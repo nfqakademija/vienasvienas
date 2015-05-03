@@ -55,7 +55,7 @@ class AmazonBookParser
             $isbn = $this->parseIsbn($content);
             $this->book->setIsbn($isbn);
 
-            $rating = $this->parseRating($content);
+            $rating = $this->parseRating();
             $this->book->setRating($rating);
 
             $date = new \DateTime();
@@ -73,7 +73,7 @@ class AmazonBookParser
      */
     private function parseAuthor($content)
     {
-        $author = (string)$content->Items->Item->ItemAttributes->Author;
+        $author = (string) $content->Items->Item->ItemAttributes->Author;
         if (isset($author)) {
             return $author;
         } else {
@@ -86,7 +86,7 @@ class AmazonBookParser
      */
     private function parseTitle($content)
     {
-        return (string)$content->Items->Item->ItemAttributes->Title;
+        return (string) $content->Items->Item->ItemAttributes->Title;
     }
 
     /**
@@ -98,7 +98,7 @@ class AmazonBookParser
         if (!isset($content->Items->Item->EditorialReviews->EditorialReview->Content)) {
             return "";
         } else {
-            return (string)$content->Items->Item->EditorialReviews->EditorialReview->Content;
+            return (string) $content->Items->Item->EditorialReviews->EditorialReview->Content;
         }
     }
 
@@ -108,7 +108,7 @@ class AmazonBookParser
      */
     private function parsePageCount($content)
     {
-        return (integer)$content->Items->Item->ItemAttributes->NumberOfPages;
+        return (integer) $content->Items->Item->ItemAttributes->NumberOfPages;
     }
 
 
@@ -118,7 +118,7 @@ class AmazonBookParser
      */
     private function parseCover($content)
     {
-        return '<img src="'. (string)$content->Items->Item->MediumImage->URL .'">';
+        return '<img src="' . (string) $content->Items->Item->MediumImage->URL .'">';
     }
 
     /**
@@ -127,14 +127,13 @@ class AmazonBookParser
      */
     private function parseIsbn($content)
     {
-        return (string)$content->Items->Item->ItemAttributes->EAN;
+        return (string) $content->Items->Item->ItemAttributes->EAN;
     }
 
     /**
-     * @param $content
      * @return float
      */
-    private function parseRating($content)
+    private function parseRating()
     {
         //return number, because Amazon API removed support for accessing rating information in 2010
         return "0";

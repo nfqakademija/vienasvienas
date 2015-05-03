@@ -1,10 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: aleksandr
- * Date: 4/23/15
- * Time: 2:11 PM
- */
+    /**
+     * Created by PhpStorm.
+     * User: aleksandr
+     * Date: 4/23/15
+     * Time: 2:11 PM
+     */
 
 namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
@@ -66,7 +66,7 @@ class AmazonBookFinder implements BookFinderServiceInterface
         //counting review items in json
         $count = count($comments ->{'Items'}->{'Item'});
         // if no review, return empty string
-        if ($count <=0) {
+        if ($count <= 0) {
             return "";
         };
         //looking for element with review
