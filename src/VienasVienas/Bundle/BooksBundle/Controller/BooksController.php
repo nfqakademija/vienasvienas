@@ -2,9 +2,10 @@
 
 namespace VienasVienas\Bundle\BooksBundle\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use VienasVienas\Bundle\BooksBundle\Entity\Book;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -19,7 +20,6 @@ use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
  */
 class BooksController extends Controller
 {
-
     /**
      * Lists all Book entities.
      *
@@ -57,7 +57,9 @@ class BooksController extends Controller
                 $em->persist($bookEntity);
                 $em->flush();
 
-                return $this->redirect($this->generateUrl('book_show', array('id' => $bookEntity->getId())));
+                return $this->redirect(
+                    $this->generateUrl('book_show', array('id' => $bookEntity->getId()))
+                );
             }
         }
 
@@ -125,10 +127,16 @@ class BooksController extends Controller
 
             if ($form->isValid()) {
                 $isbnValue = $form['isbn']->getData();
+                $isbnValue = preg_replace('/\D/', '', $isbnValue);
                 $isbn->setIsbn($isbnValue);
 
                 $bookFinder = $this->get('book.finder');
                 $book = $bookFinder->getBookByIsbn($isbn);
+                // If nothing found on google, try amazon API.
+                if (null == $book->getIsbn()) {
+                    $amazon = $this->get('amazon.books');
+                    $book = $amazon->getBookByIsbn($isbn);
+                }
 
                 $form = $this->createBookForm($book);
 
@@ -153,28 +161,53 @@ class BooksController extends Controller
      */
     public function showAction($id)
     {
-
+        $userReservation = null;
+        $isBookReservedByThisUser = false;
         $em = $this->getDoctrine()->getManager();
+        $bookEntity = $em->getRepository('BooksBundle:Book')->find($id);
 
-        $entity = $em->getRepository('BooksBundle:Book')->find($id);
+        $userEntity = $this->getUser();
+        $userOrderStatus = $this->get('user.checker')->orderUserFinder($bookEntity, $userEntity);
 
-        if (!$entity) {
+        if (!$bookEntity) {
             throw $this->createNotFoundException('Unable to find Book entity.');
+        }
+        $isBookReserved = $em->getRepository('BaseBundle:Order')->isBookReserved($bookEntity);
+
+        if ($bookEntity->getQuantity() == 1 || $bookEntity->getQuantity() == 0) {
+            $userEntity = $this->getUser();
+
+            $userEntity = $this->get('user.checker')->reservationUserFinder($bookEntity, $userEntity);
+
+            if ($userEntity === true) {
+                $userReservation = true;
+                $isBookReservedByThisUser = true;
+            } else {
+                $userReservation = false;
+            }
         }
 
         $deleteForm = $this->createDeleteForm($id);
 
         $isbn = new Isbn();
-        $number = $entity->getIsbn();
+        $number = $bookEntity->getIsbn();
         $isbn->setIsbn($number);
 
         $goodreads = $this->get('goodreads.comments');
-        $comments = $goodreads->getComments($isbn);
+        $goodReadsComments = $goodreads->getComments($isbn);
+
+        $amazon = $this->get('amazon.books');
+        $amazonComments = $amazon->getComments($isbn);
 
         return array(
-            'entity' => $entity,
+            'entity' => $bookEntity,
             'delete_form' => $deleteForm->createView(),
-            'comments' => $comments,
+            'goodreads_comments' => $goodReadsComments,
+            'amazon_comments' => $amazonComments,
+            'user' => $userReservation,
+            'order' => $userOrderStatus,
+            'isBookReserved' => $isBookReserved,
+            'isBookReservedByThisUser' => $isBookReservedByThisUser,
         );
     }
 
@@ -187,7 +220,6 @@ class BooksController extends Controller
      */
     public function editAction($id)
     {
-
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BooksBundle:Book')->find($id);
@@ -233,6 +265,7 @@ class BooksController extends Controller
      * @Route("/{id}", name="book_update")
      * @Method("PUT")
      * @Template("BooksBundle:Books:edit.html.twig")
+     * @return view
      */
     public function updateAction(Request $request, $id)
     {
@@ -252,7 +285,7 @@ class BooksController extends Controller
         if ($editForm->isValid()) {
             $em->flush();
 
-            return $this->redirect($this->generateUrl('book_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('book_edit', ['id' => $id]));
         }
 
         return array(
@@ -270,7 +303,6 @@ class BooksController extends Controller
      */
     public function deleteAction(Request $request, $id)
     {
-
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);
 

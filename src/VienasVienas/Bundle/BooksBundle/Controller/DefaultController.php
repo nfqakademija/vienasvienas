@@ -8,6 +8,7 @@ use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
 
 class DefaultController extends Controller
 {
+
     public function indexAction()
     {
         return $this->render('BooksBundle:Default:index.html.twig');

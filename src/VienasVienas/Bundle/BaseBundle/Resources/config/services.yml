@@ -1,4 +1,20 @@
 services:
-#    base.example:
-#        class: VienasVienas\Bundle\BaseBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    make.order:
+        class: VienasVienas\Bundle\BaseBundle\Services\OrderService\OrderMake
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    order.complete:
+        class: VienasVienas\Bundle\BaseBundle\Services\OrderService\OrderComplete
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    user.checker:
+        class: VienasVienas\Bundle\BaseBundle\Services\OrderService\UserChecker
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    order.update:
+        class: VienasVienas\Bundle\BaseBundle\Services\OrderService\OrderUpdate
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    reservation:
+        class: VienasVienas\Bundle\BaseBundle\Services\OrderService\Reservation
+        arguments: ["@doctrine.orm.entity_manager"]

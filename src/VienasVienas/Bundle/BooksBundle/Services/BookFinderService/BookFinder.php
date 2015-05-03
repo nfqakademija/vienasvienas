@@ -1,10 +1,12 @@
 <?php
+
 /*
  * This file is part of the BooksBundle package.
  *
  * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
  *
  */
+
 namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 
 use VienasVienas\Bundle\BooksBundle\BookFinderServiceInterface;

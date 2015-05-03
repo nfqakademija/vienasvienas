@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Book
+ * Book Entity.
  *
  * @ORM\Table(name="books")
  * @ORM\Entity(repositoryClass="VienasVienas\Bundle\BooksBundle\Entity\BookRepository")
@@ -16,7 +16,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 class Book
 {
     /**
-     * @var integer
+     * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -32,9 +32,11 @@ class Book
     private $title;
 
     /**
-     * @ORM\OneToOne(targetEntity="VienasVienas\Bundle\BaseBundle\Entity\Order", mappedBy="book")
+     * @var string
+     *
+     * @ORM\OneToMany(targetEntity="VienasVienas\Bundle\BaseBundle\Entity\Order", mappedBy="book")
      **/
-    private $order;
+    private $orders;
 
     /**
      * @ORM\ManyToOne(targetEntity="Author", inversedBy="books", cascade={"persist"})
@@ -84,13 +86,13 @@ class Book
      * @ORM\Column(name="registration_date", type="date")
      */
     private $registrationDate;
-    
+
     /**
      * @var integer
      *
      * @ORM\Column(name="quantity", type="integer")
      */
-    private $quantity;
+    private $quantity = 1;
 
     /**
      * @ORM\ManyToMany(targetEntity="Category")
@@ -99,18 +101,19 @@ class Book
      *      inverseJoinColumns={@ORM\JoinColumn(name="categories_id", referencedColumnName="id")}
      *      )
      **/
-
     private $categories;
+
 
     public function __construct()
     {
         $this->categories = new ArrayCollection();
+        $this->orders = new ArrayCollection();
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -133,7 +136,7 @@ class Book
     /**
      * Get title
      *
-     * @return string 
+     * @return string
      */
     public function getTitle()
     {
@@ -156,7 +159,7 @@ class Book
     /**
      * Get pages
      *
-     * @return integer 
+     * @return integer
      */
     public function getPages()
     {
@@ -177,9 +180,9 @@ class Book
     }
 
     /**
-     * Get isbn
+     * Get isbn.
      *
-     * @return string 
+     * @return string
      */
     public function getIsbn()
     {
@@ -202,7 +205,7 @@ class Book
     /**
      * Get rating
      *
-     * @return string 
+     * @return string
      */
     public function getRating()
     {
@@ -225,7 +228,7 @@ class Book
     /**
      * Get about
      *
-     * @return string 
+     * @return string
      */
     public function getAbout()
     {
@@ -248,7 +251,7 @@ class Book
     /**
      * Get cover
      *
-     * @return string 
+     * @return string
      */
     public function getCover()
     {
@@ -292,7 +295,7 @@ class Book
     }
 
     /**
-     * Get isAvailable
+     * Get quantity
      *
      * @return integer
      */
@@ -327,7 +330,7 @@ class Book
     /**
      * Get categories
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getCategories()
     {
@@ -355,5 +358,38 @@ class Book
     public function getAuthor()
     {
         return $this->author;
+    }
+
+    /**
+     * Add orders
+     *
+     * @param \VienasVienas\Bundle\BaseBundle\Entity\Order $orders
+     * @return Book
+     */
+    public function addOrder(\VienasVienas\Bundle\BaseBundle\Entity\Order $orders)
+    {
+        $this->orders[] = $orders;
+
+        return $this;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \VienasVienas\Bundle\BaseBundle\Entity\Order $orders
+     */
+    public function removeOrder(\VienasVienas\Bundle\BaseBundle\Entity\Order $orders)
+    {
+        $this->orders->removeElement($orders);
+    }
+
+    /**
+     * Get orders
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }

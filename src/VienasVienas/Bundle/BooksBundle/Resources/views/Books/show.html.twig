@@ -6,8 +6,12 @@
     <table class="record_properties">
         <tbody>
             <tr>
+                <th>Cover</th>
+                <td>{{ entity.cover|raw }}</td>
+            </tr>
+            <tr>
                 <th>Id</th>
-                <td>{{ entity.id }}</td>
+                <td id="entity_id">{{ entity.id }}</td>
             </tr>
             <tr>
                 <th>Title</th>
@@ -31,42 +35,66 @@
             </tr>
             <tr>
                 <th>About</th>
-                <td>{{ entity.about }}</td>
-            </tr>
-            <tr>
-                <th>Cover</th>
-                <td>{{ entity.cover }}</td>
+                <td>{{ entity.about|raw }}</td>
             </tr>
             <tr>
                 <th>Registration date</th>
-                <td>{{ entity.registrationDate|date('Y-m-d H:i:s') }}</td>
+                <td>{{ entity.registrationDate|date('Y-m-d') }}</td>
             </tr>
             <tr>
                 <th>Category</th>
                 <td>{% for categories in entity.getCategories %}
-                    {{ categories.categoryName }}
-                {% endfor %}
+                        {{ categories.categoryName }}
+                    {% endfor %}
                 </td>
             </tr>
             <tr>
                 <th>Quantity</th>
-                <td>{{ entity.quantity}}</td>
+                <td id="query_result">{{ entity.quantity}}</td>
             </tr>
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('book') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('book_edit', { 'id': entity.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>{{ form(delete_form) }}</li>
-</ul>
-    <div class="book_comments">{{ comments|raw }}</div>
+    <ul class="record_actions">
+        <li id="ajax_message">
+
+        </li>
+        <li>
+            <a href="{{ path('book') }}">
+                Back to the list
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('book_edit', { 'id': entity.id }) }}">
+                Edit
+            </a>
+        </li>
+        <li>
+            {% if entity.quantity > 0 and order == false and isBookReserved == false %}
+                <button type="button" id="order_button">Order book</button>
+                <button type="button" id="return_button" style="display: none">Return book</button>
+            {% elseif order == true %}
+                <button type="button" id="return_button">Return book</button>
+                <button type="button" id="order_button" style="display: none">Order book</button>
+            {% elseif entity.quantity == 0 and user == null %}
+                <button type="button" id="reserve_button">Reserve book</button>
+            {% elseif entity.quantity == 1 and user == true %}
+                <button type="button" id="order_update_button">Order book</button>
+            {% elseif entity.quantity == 1 and user == false and isBookReserved == true %}
+                Book is reserved, you can't take it.
+                <button type="button" id="reserve_button">Reserve book</button>
+            {% elseif entity.quantity == 0 and isBookReservedByThisUser == true and user == true%}
+                You already reserved this book.
+            {% endif %}
+        </li>
+        <li>
+
+        </li>
+        <li>
+            {{ form(delete_form) }}
+        </li>
+
+    </ul>
+    <div class="book_comments">{{ amazon_comments|raw }}</div>
+    <div class="book_comments">{{ goodreads_comments|raw }}</div>
 {% endblock %}

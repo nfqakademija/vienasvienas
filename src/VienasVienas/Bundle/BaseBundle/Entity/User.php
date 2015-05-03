@@ -20,7 +20,7 @@ class User extends BaseUser
      */
     protected $id;
     /**
-     * @ORM\OneToMany(targetEntity="VienasVienas\Bundle\BaseBundle\Entity\Order", mappedBy="userId")
+     * @ORM\OneToMany(targetEntity="VienasVienas\Bundle\BaseBundle\Entity\Order", mappedBy="user")
      */
     protected $orders;
 
@@ -72,5 +72,15 @@ class User extends BaseUser
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * Remove orders
+     *
+     * @param \VienasVienas\Bundle\BaseBundle\Entity\Order $orders
+     */
+    public function removeOrder(\VienasVienas\Bundle\BaseBundle\Entity\Order $orders)
+    {
+        $this->orders->removeElement($orders);
     }
 }
