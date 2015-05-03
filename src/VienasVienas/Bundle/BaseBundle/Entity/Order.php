@@ -55,7 +55,7 @@ class Order
      **/
     private $user;
 
-    /** @ORM\Column(type="string", columnDefinition="ENUM('active', 'reserved', 'done')")
+    /** @ORM\Column(type="string")
      */
     private $status;
 
