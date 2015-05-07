@@ -24,7 +24,7 @@ class TokenGenerator
     /**
      * Generates unique token.
      *
-     * @param \DateTime $returnDate
+     * @param string $returnDate
      *
      * @return string
      */

@@ -44,10 +44,10 @@ class NotificationService
         $message = \Swift_Message::newInstance()
             ->setSubject(
                 'You order confirmation, book: '
+                . $order->getBook()->getAuthor() . ' '
                 . $order->getBook()->getTitle() . ' '
-                . $order->getBook()->getAuthor() .' '
             )
-            ->setFrom('valdemar.karasevic@gmail.com')
+            ->setFrom('infovienasvienas@gmail.com')
             ->setTo($user->getEmail())
             ->setBody(
                 'You can order your book within 24 hours from receiving this message<br>

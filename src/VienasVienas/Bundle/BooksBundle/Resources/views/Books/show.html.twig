@@ -7,7 +7,7 @@
         <tbody>
             <tr>
                 <th>Cover</th>
-                <td>{{ entity.cover|raw }}</td>
+                <td>{{ entity.cover | raw }}</td>
             </tr>
             <tr>
                 <th>Id</th>
@@ -95,6 +95,7 @@
         </li>
 
     </ul>
-    <div class="book_comments">{{ amazon_comments|raw }}</div>
-    <div class="book_comments">{{ goodreads_comments|raw }}</div>
+    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': '{{ entity.id }}'} %}
+    <div class="book_comments">{{ amazon_comments|raw }} </div>
+    <div class="book_comments">{{ goodreads_comments|raw }} </div>
 {% endblock %}

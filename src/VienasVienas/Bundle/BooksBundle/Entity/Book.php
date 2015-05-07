@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
+use VienasVienas\Bundle\BaseBundle\Entity\Order;
 
 /**
  * Book Entity.
@@ -32,7 +33,7 @@ class Book
     private $title;
 
     /**
-     * @var string
+     * @var Order
      *
      * @ORM\OneToMany(targetEntity="VienasVienas\Bundle\BaseBundle\Entity\Order", mappedBy="book")
      **/
