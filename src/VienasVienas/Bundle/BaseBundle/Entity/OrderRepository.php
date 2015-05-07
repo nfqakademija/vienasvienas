@@ -59,7 +59,7 @@ class OrderRepository extends EntityRepository
     /**
      * Method for finding expired reservations in database.
      *
-     * @param Book $bookId
+     * @param \DateTime $dateTime
      *
      * @return array
      */
@@ -69,7 +69,7 @@ class OrderRepository extends EntityRepository
 
         $dq = $this->createQueryBuilder('o')
             ->select('o')
-            ->where('o.returnDate < :time')
+            ->where('o.tokenDate < :time')
             ->andWhere('o.token IS NOT NULL')
             ->orderBy('o.reservationDate', 'ASC')
             ->setParameter('time', $time)
@@ -95,10 +95,6 @@ class OrderRepository extends EntityRepository
             ->andWhere('o.book = :id')
             ->setParameter('id', $book);
         $count = $dq->getQuery()->getSingleScalarResult();
-
-        if ($count == null) {
-            echo 'aaaaa';
-        }
 
         return $count;
     }

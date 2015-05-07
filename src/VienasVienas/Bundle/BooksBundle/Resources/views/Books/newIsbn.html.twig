@@ -3,10 +3,10 @@
 {% block body -%}
     <h1>Add books by ISBN</h1>
     {% if book is defined %}
-               {{ book.getCover|raw }} <br>
-        Author:{{ book.author.author}}   <br>
-        Title: {{ book.getTitle }}     <br>
-        Pages: {{ book.getPages }}     <br>
+             {{ book.getCover| raw  }}<br>
+        Author:{{ book.author.author}}     <br>
+        Title: {{ book.getTitle }}         <br>
+        Pages: {{ book.getPages }}         <br>
         About: {{ book.getAbout|raw }}     <br>
         <br>
     {% endif %}

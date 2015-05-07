@@ -120,7 +120,6 @@ class BooksController extends Controller
             ->add('search', 'submit')
             ->getForm();
 
-
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
