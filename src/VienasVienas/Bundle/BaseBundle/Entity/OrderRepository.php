@@ -32,4 +32,74 @@ class OrderRepository extends EntityRepository
 
         return false;
     }
+
+    /**
+     * Method for finding oldest reservation in database.
+     *
+     * @param Book $bookId
+     *
+     * @return Order
+     */
+    public function findByMinReservationDate(Book $bookId)
+    {
+        $dq = $this->createQueryBuilder('o')
+            ->select('o')
+            ->where('o.book = :id')
+            ->andWhere('o.reservationDate IS NOT NULL')
+            ->orderBy('o.reservationDate', 'ASC')
+            ->setMaxResults(1)
+            ->setParameter('id', $bookId)
+            ->getQuery();
+
+        $order = $dq->getSingleResult();
+
+        return $order;
+    }
+
+    /**
+     * Method for finding expired reservations in database.
+     *
+     * @param Book $bookId
+     *
+     * @return array
+     */
+    public function findOldReservations(\DateTime $dateTime)
+    {
+        $time = $dateTime->modify('-24 hours');
+
+        $dq = $this->createQueryBuilder('o')
+            ->select('o')
+            ->where('o.returnDate < :time')
+            ->andWhere('o.token IS NOT NULL')
+            ->orderBy('o.reservationDate', 'ASC')
+            ->setParameter('time', $time)
+            ->getQuery();
+
+        $orders = $dq->getResult();
+
+        return $orders;
+    }
+
+    /**
+     * Method for counting tokens.
+     *
+     * @param Book $book
+     *
+     * @return int
+     */
+    public function countTokens(Book $book)
+    {
+        $dq = $this->createQueryBuilder('o')
+            ->select('count(o.token)')
+            ->where('o.token IS NOT NULL')
+            ->andWhere('o.book = :id')
+            ->setParameter('id', $book);
+        $count = $dq->getQuery()->getSingleScalarResult();
+
+        if ($count == null) {
+            echo 'aaaaa';
+        }
+
+        return $count;
+    }
 }

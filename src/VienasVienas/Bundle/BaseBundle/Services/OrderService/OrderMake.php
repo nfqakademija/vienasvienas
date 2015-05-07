@@ -44,13 +44,12 @@ class OrderMake
      *
      * @throws Exception No enough books exception
      */
-    public function makeOrder(Book $bookEntity, User $userEntity, $reservationDate = null)
+    public function makeOrder(Book $bookEntity, User $userEntity)
     {
         $order = new Order();
         $order->setUser($userEntity);
         $order->setBook($bookEntity);
         $order->setPickupDate(new \DateTime());
-        $order->setReservationDate($reservationDate);
         $order->setStatus('active');
         $returnDate = new \DateTime();
         $returnDate->modify('+ 30 days');
