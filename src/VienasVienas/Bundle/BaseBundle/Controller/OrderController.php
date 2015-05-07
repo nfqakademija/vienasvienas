@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Order controller.
@@ -15,13 +16,17 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class OrderController extends Controller
 {
-
-/**
- * Makes orders
- *
- * @Route("/{id}", name="make_order")
- * @Method("POST")
- */
+    /**
+     * Makes orders.
+     *
+     * @param Request $request
+     *
+     * @Route("/{id}", name="make_order")
+     * @Method("POST")
+     *
+     *
+     * @return JsonResponse
+     */
     public function makeOrderAction(Request $request)
     {
         if (!$request->isXmlHttpRequest()) {
@@ -68,6 +73,12 @@ class OrderController extends Controller
         $userEntity = $this->getUser();
         $this->get('order.complete')->returnOrder($bookEntity, $userEntity);
 
+        $isBookReserved = $em->getRepository('BaseBundle:Order')->isBookReserved($bookEntity);
+
+        if ($isBookReserved == true) {
+            $this->get('token.setter')->setTokenToUser($bookEntity);
+        }
+
         $quantity = $bookEntity->getQuantity();
 
         if (!$bookEntity) {
@@ -84,8 +95,13 @@ class OrderController extends Controller
     /**
      * Reserve order.
      *
+     * @param Request $request
+     *
      * @Route("/reserve/{id}", name="reserve_order")
      * @Method("POST")
+     *
+     *
+     * @return JsonResponse
      */
     public function reserveOrderAction(Request $request)
     {
@@ -145,5 +161,82 @@ class OrderController extends Controller
             'quantity' => $quantity,
             'message' => 'Order confirmed',
         ), 200);
+    }
+
+    /**
+     * Updates order by email.
+     *
+     * @Route("/update/{id}/{token}", name="update_order_by_email")
+     * @Method("PUT")
+     */
+    public function updateOrderByEmailAction(Request $request, $id, $token)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $orderEntity = $em->getRepository('BaseBundle:Order')->findOneByToken($token);
+        $bookEntity = $em->getRepository('BooksBundle:Book')->findOneById($id);
+
+        if (!$bookEntity) {
+            throw $this->createNotFoundException('Unable to find Book entity.');
+        }
+
+        if ($orderEntity == true) {
+            $requestTime = $request->server->get('REQUEST_TIME');
+
+            $validToken = $this->get('token.checker')->checkToken($requestTime, $orderEntity);
+
+            if ($validToken) {
+                $userEntity = $this->getUser();
+                $this->get('order.update')->updateOrder($bookEntity, $userEntity);
+                $orderEntity->setToken(null);
+
+                $em->flush();
+            }
+        } else {
+            throw $this->createNotFoundException('Token is not valid');
+        }
+
+        return $this->render(':Order:orderConfirmed.html.twig');
+    }
+
+    /**
+     * Deletes order by email.
+     *
+     * @Route("/delete/{id}/{token}", name="delete_order_by_email")
+     * @Method("PUT")
+     */
+    public function deleteOrderByEmailAction(Request $request, $id, $token)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $orderEntity = $em->getRepository('BaseBundle:Order')->findOneByToken($token);
+        $bookEntity = $em->getRepository('BooksBundle:Book')->findOneById($id);
+
+        if (!$bookEntity) {
+            throw $this->createNotFoundException('Unable to find Book entity.');
+        }
+
+        if ($orderEntity == true) {
+            $requestTime = $request->server->get('REQUEST_TIME');
+
+            $validToken = $this->get('token.checker')->checkToken($requestTime, $orderEntity);
+
+            if ($validToken) {
+                $orderEntity->setToken(null);
+                $orderEntity->setStatus('done');
+                $orderEntity->setReservationDate(null);
+
+                $em->flush();
+
+                $isBookReserved = $em->getRepository('BaseBundle:Order')->isBookReserved($bookEntity);
+
+                if ($isBookReserved == true) {
+                    $this->get('token.setter')->setTokenToUser($bookEntity);
+                }
+            }
+        } else {
+            throw $this->createNotFoundException('Token is not valid');
+        }
+
+        return $this->render(
+            ':Order:orderCancel.html.twig');
     }
 }

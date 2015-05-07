@@ -120,12 +120,12 @@ class BooksController extends Controller
             ->add('search', 'submit')
             ->getForm();
 
-        $isbn = new Isbn();
 
         if ($request->getMethod() == 'POST') {
             $form->handleRequest($request);
 
             if ($form->isValid()) {
+                $isbn = new Isbn();
                 $isbnValue = $form['isbn']->getData();
                 $isbnValue = preg_replace('/\D/', '', $isbnValue);
                 $isbn->setIsbn($isbnValue);
@@ -162,7 +162,6 @@ class BooksController extends Controller
     public function showAction($id)
     {
         $userReservation = null;
-        $isBookReservedByThisUser = false;
         $em = $this->getDoctrine()->getManager();
         $bookEntity = $em->getRepository('BooksBundle:Book')->find($id);
 
@@ -181,7 +180,6 @@ class BooksController extends Controller
 
             if ($userEntity === true) {
                 $userReservation = true;
-                $isBookReservedByThisUser = true;
             } else {
                 $userReservation = false;
             }
@@ -207,7 +205,6 @@ class BooksController extends Controller
             'user' => $userReservation,
             'order' => $userOrderStatus,
             'isBookReserved' => $isBookReserved,
-            'isBookReservedByThisUser' => $isBookReservedByThisUser,
         );
     }
 

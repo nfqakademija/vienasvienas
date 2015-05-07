@@ -61,12 +61,13 @@ class OrderUpdate
             ->setParameter('user', $userId)
             ->getQuery();
 
-        $dq->execute();
+        $order = $dq->execute();
 
         $quantity = $bookEntity->getQuantity();
         $bookEntity->setQuantity($quantity - 1);
 
         $this->entityManager->persist($bookEntity);
         $this->entityManager->flush();
+
     }
 }

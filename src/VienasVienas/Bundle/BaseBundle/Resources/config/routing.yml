@@ -13,3 +13,11 @@ reserve_order:
 update_order:
     path:     /order/update/{id}
     defaults: { _controller: BaseBundle:Order:updateOrder }
+
+update_order_by_email:
+   path:      /order/update/{id}/{token}
+   defaults: { _controller: BaseBundle:Order:updateOrderByEmail }
+
+delete_order_by_email:
+   path:      /order/delete/{id}/{token}
+   defaults: { _controller: BaseBundle:Order:deleteOrderByEmail }
