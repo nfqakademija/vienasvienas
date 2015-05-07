@@ -78,3 +78,20 @@ fos_user:
     firewall_name: main
     user_class: VienasVienas\Bundle\BaseBundle\Entity\User
 
+fos_elastica:
+    clients:
+        default: { host: localhost, port: 9200 }
+    indexes:
+        app:
+            client: default
+            types:
+                book:
+                    mappings:
+                        isbn:
+                        title:
+                    persistence:
+                        driver: orm
+                        model: VienasVienas\Bundle\BooksBundle\Entity\Book
+                        provider:
+                        listener:
+                        finder:

@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new VienasVienas\Bundle\BooksBundle\BooksBundle(),
             new VienasVienas\Bundle\BaseBundle\BaseBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new FOS\ElasticaBundle\FOSElasticaBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

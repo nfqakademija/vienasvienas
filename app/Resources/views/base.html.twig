@@ -30,6 +30,15 @@
                 <a class="navbar-brand" href="#">Library</a>
             </div>
             <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav navbar-left">
+                    <div class="input-group">
+                    <form action="{{ path('books_search') }}">
+                    <input type="text" name = "search" class="form-control" placeholder="Search for...">
+                    <form>
+                    </div>
+                </ul>
+
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
