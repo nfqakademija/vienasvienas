@@ -31,14 +31,14 @@ class Order
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="pickup_date", type="date", nullable=true)
+     * @ORM\Column(name="pickup_date", type="datetime", nullable=true)
      */
     private $pickupDate;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="return_date", type="date", nullable=true)
+     * @ORM\Column(name="return_date", type="datetime", nullable=true)
      */
     private $returnDate;
 
@@ -58,6 +58,14 @@ class Order
     /** @ORM\Column(type="string")
      */
     private $status;
+
+    /** @ORM\Column(type="string", nullable=true)
+     */
+    private $token;
+
+    /** @ORM\Column(name="token_date", type="datetime", nullable=true)
+     */
+    private $tokenDate;
 
     /**
      * Get id
@@ -197,5 +205,51 @@ class Order
     public function setStatus($status)
     {
         $this->status = $status;
+    }
+
+    /**
+     * Set token
+     *
+     * @param string $token
+     * @return Order
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get token
+     *
+     * @return string 
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * Set tokenDate
+     *
+     * @param \DateTime $tokenDate
+     * @return Order
+     */
+    public function setTokenDate($tokenDate)
+    {
+        $this->tokenDate = $tokenDate;
+
+        return $this;
+    }
+
+    /**
+     * Get tokenDate
+     *
+     * @return \DateTime 
+     */
+    public function getTokenDate()
+    {
+        return $this->tokenDate;
     }
 }

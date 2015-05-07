@@ -18,3 +18,18 @@ services:
     reservation:
         class: VienasVienas\Bundle\BaseBundle\Services\OrderService\Reservation
         arguments: ["@doctrine.orm.entity_manager"]
+
+    token.generator:
+        class: VienasVienas\Bundle\BaseBundle\Services\NotificationService\TokenGenerator
+
+    notification.service:
+        class: VienasVienas\Bundle\BaseBundle\Services\NotificationService\NotificationService
+        arguments: ["@swiftmailer.mailer"]
+
+    token.checker:
+        class: VienasVienas\Bundle\BaseBundle\Services\NotificationService\TokenChecker
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    token.setter:
+        class: VienasVienas\Bundle\BaseBundle\Services\NotificationService\TokenSetter
+        arguments: ["@doctrine.orm.entity_manager", "@notification.service", "@token.generator"]

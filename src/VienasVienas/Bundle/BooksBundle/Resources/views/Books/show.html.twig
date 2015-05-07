@@ -83,7 +83,7 @@
             {% elseif entity.quantity == 1 and user == false and isBookReserved == true %}
                 Book is reserved, you can't take it.
                 <button type="button" id="reserve_button">Reserve book</button>
-            {% elseif entity.quantity == 0 and isBookReservedByThisUser == true and user == true%}
+            {% elseif entity.quantity == 0 and user == true %}
                 You already reserved this book.
             {% endif %}
         </li>
