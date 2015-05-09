@@ -2,10 +2,12 @@
 
 namespace VienasVienas\Bundle\BooksBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use VienasVienas\Bundle\BooksBundle\Entity\Book;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -40,9 +42,14 @@ class BooksController extends Controller
     /**
      * Creates a new Book entity from scratch.
      *
+     * @param Request $request
+     *
      * @Route("/", name="book_create")
      * @Method("POST")
      * @Template("BooksBundle:Books:new.html.twig")
+     *
+     *
+     * @return array|\Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function createAction(Request $request)
     {
@@ -72,7 +79,7 @@ class BooksController extends Controller
     /**
      * Creates a form to create a Book entity.
      *
-     * @param Book $entity The entity
+     * @param Book $entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
@@ -110,8 +117,12 @@ class BooksController extends Controller
     /**
      * Displays a form to create a new Book entity by ISBN.
      *
+     * @param Request $request
+     *
      * @Route("/new_isbn", name="book_new_isbn")
      * @Template()
+     *
+     * @return Response
      */
     public function newIsbnAction(Request $request)
     {
@@ -154,9 +165,14 @@ class BooksController extends Controller
     /**
      * Finds and displays a Book entity.
      *
+     * @param Book.id $id
+     *
      * @Route("/{id}", name="book_show")
      * @Method("GET")
      * @Template()
+     *
+     * @return Response
+     * @throws NotFoundHttpException
      */
     public function showAction($id)
     {
@@ -172,16 +188,12 @@ class BooksController extends Controller
         }
         $isBookReserved = $em->getRepository('BaseBundle:Order')->isBookReserved($bookEntity);
 
-        if ($bookEntity->getQuantity() == 1 || $bookEntity->getQuantity() == 0) {
-            $userEntity = $this->getUser();
-
             $userEntity = $this->get('user.checker')->reservationUserFinder($bookEntity, $userEntity);
 
-            if ($userEntity === true) {
-                $userReservation = true;
-            } else {
-                $userReservation = false;
-            }
+        if ($userEntity === true) {
+            $userReservation = true;
+        } else {
+            $userReservation = false;
         }
 
         $deleteForm = $this->createDeleteForm($id);
@@ -210,9 +222,14 @@ class BooksController extends Controller
     /**
      * Displays a form to edit an existing Book entity.
      *
+     * @param Book.id $id
+     *
      * @Route("/{id}/edit", name="book_edit")
      * @Method("GET")
      * @Template()
+     *
+     * @return Response
+     * @throws NotFoundHttpException
      */
     public function editAction($id)
     {
@@ -237,16 +254,21 @@ class BooksController extends Controller
     /**
      * Creates a form to edit a Book entity.
      *
-     * @param Book $entity The entity
+     * @param Book $entity
      *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createEditForm(Book $entity)
     {
 
-        $form = $this->createForm(new BookType(), $entity, array(
+        $form = $this->createForm(
+            new BookType(), $entity, array(
             'em' => $this->getDoctrine()->getManager(),
-            'action' => $this->generateUrl('book_update', array('id' => $entity->getId())),
+            'action' => $this->generateUrl(
+                'book_update', array(
+                    'id' => $entity->getId()
+                )
+            ),
             'method' => 'PUT',
         ));
 
@@ -258,14 +280,18 @@ class BooksController extends Controller
     /**
      * Edits an existing Book entity.
      *
+     * @param Request $request
+     * @param Book.id $id
+     *
      * @Route("/{id}", name="book_update")
      * @Method("PUT")
      * @Template("BooksBundle:Books:edit.html.twig")
-     * @return view
+     *
+     * @return Response
+     * @throws NotFoundHttpException
      */
     public function updateAction(Request $request, $id)
     {
-
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BooksBundle:Book')->find($id);
@@ -294,8 +320,14 @@ class BooksController extends Controller
     /**
      * Deletes a Book entity.
      *
+     * @param Request $request
+     * @param Book.id $id
+     *
      * @Route("/{id}", name="book_delete")
      * @Method("DELETE")
+     *
+     * @return Response
+     * @throws NotFoundHttpException
      */
     public function deleteAction(Request $request, $id)
     {
@@ -320,14 +352,21 @@ class BooksController extends Controller
     /**
      * Creates a form to delete a Book entity by id.
      *
-     * @param mixed $id The entity id
+     * @param Book.id $id
      *
      * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()
-            ->setAction($this->generateUrl('book_delete', array('id' => $id)))
+            ->setAction(
+                $this->generateUrl(
+                    'book_delete',
+                    array(
+                        'id' => $id
+                    )
+                )
+            )
             ->setMethod('DELETE')
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm();

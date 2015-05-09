@@ -23,7 +23,8 @@
         "components/jquery": "1.8.3",
         "doctrine/doctrine-fixtures-bundle": "2.2.*",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "friendsofsymfony/comment-bundle": "~2.0"
+        "friendsofsymfony/comment-bundle": "~2.0",
+        "hwi/oauth-bundle": "0.4.*@dev"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3",
