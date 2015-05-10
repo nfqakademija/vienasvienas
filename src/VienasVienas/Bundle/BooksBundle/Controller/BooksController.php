@@ -38,22 +38,6 @@ class BooksController extends Controller
     }
 
     /**
-     * @Route("/search", name="search")
-     * @Method({ "head", "get" })
-     * @Template
-     */
-    public function searchAction(Request $request)
-    {
-        $finder = $this->get('fos_elastica.finder.app.book');
-        $searchTerm = $request->query->get('search');
-        $sites = $finder->find($searchTerm);
-
-        return array(
-            'entities' => $sites
-        );
-    }
-
-    /**
      * Creates a new Book entity from scratch.
      *
      * @Route("/", name="book_create")

@@ -4,4 +4,7 @@ books_homepage:
 
 books_search:
     path:     /search/
-    defaults: { _contoller:  BooksBundle:Books:search }
+    defaults: { _controller: BooksBundle:Search:index }
+auto_books_search:
+    path:     /search/auto/
+    defaults: { _controller: BooksBundle:Search:autoComplete }

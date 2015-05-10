@@ -34,8 +34,9 @@
                 <ul class="nav navbar-nav navbar-left">
                     <div class="input-group">
                     <form action="{{ path('books_search') }}">
-                    <input type="text" name = "search" class="form-control" placeholder="Search for...">
-                    <form>
+                    <input type="text" id="books_search" name ="q" class="typeahead" placeholder="Search for...">
+                        <input type="submit" />
+                        </form>
                     </div>
                 </ul>
 
@@ -149,6 +150,9 @@
             '%kernel.root_dir%/../vendor/components/jquery/jquery.js'
             '%kernel.root_dir%/../vendor/twbs/bootstrap/dist/js/bootstrap.js'
             '@BaseBundle/Resources/public/scripts.js'
+            '@BooksBundle/Resources/public/typeahead.js'
+            '@BooksBundle/Resources/public/script.js'
+
         %}
         <script src="{{ asset_url }}"></script>
         {% endjavascripts %}
