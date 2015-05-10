@@ -11,7 +11,12 @@
 /bin/
 /composer.phar
 .idea/
-/web/js
-/web/css
 /components
 *~
+bower_components/
+node_modules/
+/web/css/
+/web/js/
+/web/fonts/
+/web/img/
+/.sass-cache/

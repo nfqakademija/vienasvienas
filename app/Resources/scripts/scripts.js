@@ -11,8 +11,9 @@ $('[data-toggle=collapse]').click(function(){
 //AJAX for Order/Reservation buttons
 $(document).ready(function() {
     var id = $("#entity_id").text();
-
+    $("#order_button").attr('disabled', false);
     $("#order_button").click(function (ev) {
+
         $.ajax({
             type: 'POST',
             url: "/order/"+ id,
@@ -66,6 +67,7 @@ $(document).ready(function() {
             .success(function (data) {
                 $("#ajax_message").text(data.message);
                 $("#query_result").text(data.quantity);
+                $("#order_update_button").attr('disabled', true);
             })
             .fail(function (errorThrown) {
                 console.log(errorThrown);

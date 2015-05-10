@@ -1,0 +1,8 @@
+{
+  "name": "nfqakademija/vienasvienas",
+  "private": true,
+  "dependencies": {
+    "jquery": "1.9.*",
+    "bootstrap-sass-official": "~3.2.0"
+  }
+}
