@@ -33,3 +33,7 @@ services:
     token.setter:
         class: VienasVienas\Bundle\BaseBundle\Services\NotificationService\TokenSetter
         arguments: ["@doctrine.orm.entity_manager", "@notification.service", "@token.generator"]
+
+    security_success_handler:
+            class: VienasVienas\Bundle\BaseBundle\Services\AuthSuccessHandler\AuthSuccessHandler
+            arguments:  [@router]

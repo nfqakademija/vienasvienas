@@ -1,27 +1,43 @@
 security:
     encoders:
         FOS\UserBundle\Model\UserInterface: sha512
+    acl:
+            connection: default
 
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
 
     providers:
-        fos_userbundle:
-            id: fos_user.user_provider.username
+            fos_userbundle:
+                id: fos_user.user_provider.username_email
 
     firewalls:
-        main:
+        secure_area:
             pattern: ^/
-            form_login:
+
+            oauth:
+                failure_path: /login
+                login_path: /login
+                check_path: /login_check
+                default_target_path: ^/
+                success_handler: security_success_handler
                 provider: fos_userbundle
-                csrf_provider: form.csrf_provider
-            logout:       true
+                resource_owners:
+                    facebook:           "/login/check-facebook"
+                    google:             "/login/check-google"
+                oauth_user_provider:
+                    service: my_user_provider
+
             anonymous:    true
+            logout:
+                path:           /logout
+                target:         /login #where to go after logout
+                success_handler: security_success_handler
 
     access_control:
-        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login/, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/book/list, role: ROLE_USER }
-        - { path: ^/order/*, role: ROLE_USER }
+        - { path: ^/, role: ROLE_USER }

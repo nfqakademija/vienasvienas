@@ -1,0 +1,11 @@
+{
+    "app.js": [
+    "../../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js",
+    "../../../app/Resources/scripts/scripts.js",
+    "../../../vendor/friendsofsymfony/comment-bundle/FOS/CommentBundle/Resources/assets/js/comments.js"
+
+],
+    "jquery.js": [
+    "../../../bower_components/jquery/dist/jquery.min.js"
+]
+}

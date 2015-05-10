@@ -61,7 +61,6 @@ class DbUpdateCronTaskCommand extends ContainerAwareCommand
             for ($i = 0; $i < $iterator; $i++) {
                 if ($reservation->getToken() == null) {
                     $this->getContainer()->get('token.setter')->setTokenToUser($book);
-                    echo 'aaaa';
                     $output->writeln('Email sended!');
                 }
             }
