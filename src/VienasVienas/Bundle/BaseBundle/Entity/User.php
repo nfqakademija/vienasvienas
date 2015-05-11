@@ -187,4 +187,10 @@ class User extends BaseUser
     {
         return $this->google_access_token;
     }
+
+    public function setEmail($email)
+    {
+        parent::setEmail($email);
+        $this->setUsername($email);
+    }
 }

@@ -1,0 +1,10 @@
+{% extends "BaseBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+    {{ form(form) }}
+{% endblock fos_user_content %}

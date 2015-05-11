@@ -2,7 +2,8 @@
     "app.js": [
     "../../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js",
     "../../../app/Resources/scripts/scripts.js",
-    "../../../vendor/friendsofsymfony/comment-bundle/FOS/CommentBundle/Resources/assets/js/comments.js"
+    "../../../vendor/friendsofsymfony/comment-bundle/FOS/CommentBundle/Resources/assets/js/comments.js",
+    "../../../app/Resources/scripts/register_login.js"
 
 ],
     "jquery.js": [
