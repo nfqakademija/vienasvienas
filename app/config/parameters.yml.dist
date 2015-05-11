@@ -24,8 +24,8 @@ parameters:
     amazon_key:         ~
     amazon_secret_key:  ~
     amazon_tag:         ~
-
-    facebook_id         ~
+    # FB and G+ login
+    facebook_id:        ~
     facebook_secret:    ~
     google_id:          ~
     google_secret:      ~
