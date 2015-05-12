@@ -24,6 +24,15 @@
                 <a class="navbar-brand" href="#">Library</a>
             </div>
             <div class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav navbar-left">
+                    <div class="input-group">
+                        <form action="{{ path('books_search') }}">
+                            <input type="text" id="books_search" name ="q" class="typeahead" placeholder="Search for...">
+                            <input type="submit" id="searchsubmit" />
+                        </form>
+                    </div>
+                </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">Admin <span class="caret"></span></a>
@@ -132,6 +141,7 @@
     {% block javascripts %}
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script>window.jQuery || document.write('<script src="{{ asset('js/jquery.js') }}"><\/script>')</script>
+        <script src="{{ asset('js/typeahead.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
     {% endblock %}
     </body>

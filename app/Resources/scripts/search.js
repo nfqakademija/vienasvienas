@@ -15,7 +15,8 @@ $( document ).ready(function() {
     $('#books_search').typeahead({
             hint: true,
             highlight: true,
-            minLength: 3
+            minLength: 3,
+            limit: 5
         },
         {
             name: 'book-search',
@@ -23,9 +24,7 @@ $( document ).ready(function() {
             source: books,
             templates: {
                 empty: [
-                    '<div class="empty-message">',
-                    'unable to find any books that match the current query',
-                    '</div>'
+                    '<div class="empty-message">Unable to find any books that match the current query</div>'
                 ]
             }
         }).on('typeahead:selected', function(e, data) {
