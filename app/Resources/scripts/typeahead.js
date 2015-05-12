@@ -6,7 +6,7 @@
 
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
-        define("bloodhound", [ "jquery" ], function(a0) {
+        define("bloodhound", [ "../../../bower_components/jquery/jquery" ], function(a0) {
             return root["Bloodhound"] = factory(a0);
         });
     } else if (typeof exports === "object") {
@@ -919,7 +919,7 @@
 
 (function(root, factory) {
     if (typeof define === "function" && define.amd) {
-        define("typeahead.js", [ "jquery" ], function(a0) {
+        define("typeahead.js", [ "../../../bower_components/jquery/jquery" ], function(a0) {
             return factory(a0);
         });
     } else if (typeof exports === "object") {
