@@ -30,4 +30,8 @@ services:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\AmazonBookFinder
         arguments: [@amazon.books.parser, %amazon_key%, %amazon_secret_key%, %amazon_tag%]
 
+    search.books:
+        class: VienasVienas\Bundle\BooksBundle\Services\SearchService\BooksSearch
+        arguments: [@fos_elastica.finder.app.book, @book.entity]
+
 
