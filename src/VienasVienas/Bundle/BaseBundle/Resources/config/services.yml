@@ -35,7 +35,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager", "@notification.service", "@token.generator"]
 
     security_success_handler:
-        class: VienasVienas\Bundle\BaseBundle\Services\AuthSuccessHandler\AuthSuccessHandler
+        class: VienasVienas\Bundle\BaseBundle\Services\AuthSuccessHandler\AuthenticationHandler
         arguments:  [@router]
 
     vienasvienas_user.registration.form.type:
@@ -43,3 +43,7 @@ services:
         arguments: [%fos_user.model.user.class%]
         tags:
             - { name: form.type, alias: base_user_registration }
+
+    ajax.login.handler:
+        class: VienasVienas\Bundle\BaseBundle\Services\AuthSuccessHandler\LoginAuthenticationHandler
+        arguments: ["@translator.default", "@router"]

@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  *
  * @package VienasVienas\Bundle\BaseBundle\Services\AuthSuccessHandler
  */
-class AuthSuccessHandler implements
+class AuthenticationHandler implements
     AuthenticationSuccessHandlerInterface,
     AuthenticationFailureHandlerInterface,
     LogoutSuccessHandlerInterface
@@ -67,7 +67,7 @@ class AuthSuccessHandler implements
 
         $request->getSession()->set('login_error', $error);
 
-        return new \Symfony\Component\HttpFoundation\RedirectResponse($this->router->generate('hwi_oauth_connect'));
+        return new \Symfony\Component\HttpFoundation\RedirectResponse($this->router->generate('fos_user_security_login'));
     }
 
     /**
@@ -81,7 +81,7 @@ class AuthSuccessHandler implements
     {
         $referrer = $request->headers->get('referrer');
         if (empty($referrer)) {
-            return new RedirectResponse($this->router->generate('hwi_oauth_connect'));
+            return new RedirectResponse($this->router->generate('fos_user_security_login'));
         } else {
             return new RedirectResponse($referrer);
         }
