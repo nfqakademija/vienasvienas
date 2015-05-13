@@ -13,8 +13,18 @@ security:
                 id: fos_user.user_provider.username_email
 
     firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
         secure_area:
             pattern: ^/
+            form_login:
+                provider:               fos_userbundle
+                login_path:             /login
+                check_path:             /login_check
+                success_handler:        ajax.login.handler
+                failure_handler:        ajax.login.handler
+
 
             oauth:
                 failure_path: /login
@@ -23,6 +33,8 @@ security:
                 default_target_path: ^/
                 success_handler: security_success_handler
                 provider: fos_userbundle
+                login_path:             /login
+                check_path:             /login_check
                 resource_owners:
                     facebook:           "/login/check-facebook"
                     google:             "/login/check-google"
@@ -35,9 +47,11 @@ security:
                 target:         /login #where to go after logout
                 success_handler: security_success_handler
 
+
+
     access_control:
-        - { path: ^/login/, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, role: ROLE_USER }
+        - { path: ^/login*/$, role: ROLE_USER }

@@ -64,6 +64,10 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: VienasVienas\Bundle\BaseBundle\Entity\User
+    registration:
+        form:
+            type: base_user_registration
+            validation_groups: [VienasVienasRegistration]
 
 fos_comment:
     db_driver: orm
@@ -100,7 +104,6 @@ fos_comment:
 
 hwi_oauth:
     connect:
-        confirmation: true
         account_connector: my_user_provider
     firewall_name: secure_area
     fosub:

@@ -4,13 +4,11 @@
     "../../../app/Resources/scripts/scripts.js",
     "../../../vendor/friendsofsymfony/comment-bundle/FOS/CommentBundle/Resources/assets/js/comments.js",
     "../../../app/Resources/scripts/search.js"
+    "../../../vendor/friendsofsymfony/comment-bundle/FOS/CommentBundle/Resources/assets/js/comments.js",
+    "../../../app/Resources/scripts/register_login.js"
 
 ],
     "jquery.js": [
     "../../../bower_components/jquery/dist/jquery.min.js"
-],
-    "typeahead.js": [
-    "../../../app/Resources/scripts/handlebars.js",
-    "../../../app/Resources/scripts/typeahead.js"
-    ]
+]
 }

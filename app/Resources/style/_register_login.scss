@@ -1,0 +1,35 @@
+#login_container
+{
+  width: 350px;
+  position: absolute;
+  top: 25%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+a
+{
+  color: #000;
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+#login
+{
+  padding: 5px;
+}
+
+#register
+{
+  padding: 5px;
+}
+#right_side
+{
+  float: right;
+}
+#left_side
+{
+  float: left;
+}

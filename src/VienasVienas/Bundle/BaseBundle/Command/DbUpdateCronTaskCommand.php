@@ -53,10 +53,10 @@ class DbUpdateCronTaskCommand extends ContainerAwareCommand
 
         foreach ($reservations as $reservation) {
             $book = $reservation->getBook();
-            $quantity = $book->getQuantity();
-            $count = $em->getRepository('BaseBundle:Order')->countTokens($book);
+            $bookQuantity = $book->getQuantity();
+            $tokenQuantity = $em->getRepository('BaseBundle:Order')->countTokens($book);
 
-            $iterator = $quantity - $count;
+            $iterator = $bookQuantity - $tokenQuantity;
 
             for ($i = 0; $i < $iterator; $i++) {
                 if ($reservation->getToken() == null) {

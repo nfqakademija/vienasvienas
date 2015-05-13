@@ -1,3 +1,6 @@
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
+
 hwi_oauth_redirect:
     resource: "@HWIOAuthBundle/Resources/config/routing/redirect.xml"
     prefix:   /login
@@ -27,9 +30,6 @@ base:
 
 books:
     resource: "@BooksBundle/Resources/config/routing.yml"
-
-fos_user:
-    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 app:
     resource: "@BooksBundle/Controller/"
