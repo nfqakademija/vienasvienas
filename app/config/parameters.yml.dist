@@ -26,6 +26,6 @@ parameters:
     amazon_tag:         ~
     # FB and G+ login
     facebook_id:        132
-    facebook_secret:    ~
-    google_id:          ~
-    google_secret:      ~
+    facebook_secret:    123
+    google_id:          123
+    google_secret:      132
