@@ -12,6 +12,7 @@ $( document ).ready(function() {
         }
     });
 
+
     $('#books_search').typeahead({
             hint: true,
             highlight: true,
@@ -23,11 +24,9 @@ $( document ).ready(function() {
             display: 'query',
             source: books,
             templates: {
-                empty: [
-                    '<div class="empty-message">Unable to find any books that match the current query</div>'
-                ]
+                empty: '<div class="empty-message">Unable to find any books that match the current query</div>'
             }
         }).on('typeahead:selected', function(e, data) {
-            $(form).submit();
+            $("#search-form").submit();
         });
 });
