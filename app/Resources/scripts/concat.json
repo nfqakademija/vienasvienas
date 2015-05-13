@@ -1,13 +1,17 @@
 {
-    "app.js": [
+  "app.js": [
     "../../../bower_components/bootstrap-sass-official/assets/javascripts/bootstrap.js",
     "../../../app/Resources/scripts/scripts.js",
     "../../../vendor/friendsofsymfony/comment-bundle/FOS/CommentBundle/Resources/assets/js/comments.js",
     "../../../app/Resources/scripts/search.js",
     "../../../app/Resources/scripts/register_login.js"
 
-],
-    "jquery.js": [
+  ],
+  "jquery.js": [
     "../../../bower_components/jquery/dist/jquery.min.js"
-]
+  ],
+  "typeahead.js": [
+    "../../../app/Resources/scripts/handlebars.js",
+    "../../../app/Resources/scripts/typeahead.js"
+  ]
 }
