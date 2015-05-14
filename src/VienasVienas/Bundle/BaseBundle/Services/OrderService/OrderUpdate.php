@@ -41,33 +41,28 @@ class OrderUpdate
      */
     public function updateOrder(Book $bookEntity, User $userId)
     {
-        $pickupDate = new \DateTime();
-        $returnDate = new \DateTime();
-        $returnDate->modify('+ 30 days');
+        $pickupDate = new \DateTime('now');
 
-        $dq = $this->entityManager->createQueryBuilder('o')
+        $dq = $this->entityManager->createQueryBuilder()
             ->update('BaseBundle:Order', 'o')
             ->set('o.status', ':status')
             ->set('o.pickupDate', ':pickup_date')
-            ->set('o.returnDate', ':return_date')
             ->set('o.reservationDate', 'null')
             ->where('o.book = :id')
             ->andWhere('o.user = :user')
             ->andWhere('o.status = \'reserved\'')
             ->setParameter('status', 'active')
             ->setParameter('pickup_date', $pickupDate)
-            ->setParameter('return_date', $returnDate)
             ->setParameter('id', $bookEntity)
             ->setParameter('user', $userId)
             ->getQuery();
 
-        $order = $dq->execute();
+        $dq->execute();
 
         $quantity = $bookEntity->getQuantity();
         $bookEntity->setQuantity($quantity - 1);
 
         $this->entityManager->persist($bookEntity);
         $this->entityManager->flush();
-
     }
 }

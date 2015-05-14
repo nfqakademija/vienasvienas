@@ -51,9 +51,7 @@ class OrderMake
         $order->setBook($bookEntity);
         $order->setPickupDate(new \DateTime());
         $order->setStatus('active');
-        $returnDate = new \DateTime();
-        $returnDate->modify('+ 30 days');
-        $order->setReturnDate($returnDate);
+
 
 
         $quantity = $bookEntity->getQuantity();
@@ -63,7 +61,6 @@ class OrderMake
         $bookEntity->setQuantity($quantity - 1);
 
         $this->entityManager->persist($order);
-        $this->entityManager->persist($bookEntity);
         $this->entityManager->flush();
     }
 }

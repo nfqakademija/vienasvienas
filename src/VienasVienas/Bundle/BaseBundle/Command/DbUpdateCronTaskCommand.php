@@ -56,7 +56,12 @@ class DbUpdateCronTaskCommand extends ContainerAwareCommand
             $bookQuantity = $book->getQuantity();
             $tokenQuantity = $em->getRepository('BaseBundle:Order')->countTokens($book);
 
-            $iterator = $bookQuantity - $tokenQuantity;
+            if ($tokenQuantity == 0) {
+                $output->writeln('There is no active tokens!');
+                $iterator = $bookQuantity;
+            } else {
+                $iterator = $bookQuantity - $tokenQuantity;
+            }
 
             for ($i = 0; $i < $iterator; $i++) {
                 if ($reservation->getToken() == null) {

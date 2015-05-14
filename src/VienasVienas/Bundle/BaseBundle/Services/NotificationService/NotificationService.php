@@ -52,14 +52,14 @@ class NotificationService
             ->setBody(
                 'You can order your book within 24 hours from receiving this message<br>
                 by click on link below or by ordering directly from page:<br>
-                <a href="www.nfqakademija.dev/book/list/' . $order->getBook()->getId() . '">
-                www.nfqakademija.dev/book/list/' . $order->getBook()->getId() . '</a><br>
+                <a href="vilnius1.projektai.nfqakademija.lt/book/list/' . $order->getBook()->getId() . '">
+                vilnius1.projektai.nfqakademija.lt/book/list/' . $order->getBook()->getId() . '</a><br>
                  Order confirmation link:<br>
-                <a href="www.nfqakademija.dev/order/update/' . $order->getBook()->getId() . '/' . $token . '">
-                www.nfqakademija.dev/order/update/' . $order->getBook()->getId() . '/' . $token . '</a><br>
+                <a href="vilnius1.projektai.nfqakademija.lt/order/update/' . $order->getBook()->getId() . '/' . $token . '">
+                vilnius1.projektai.nfqakademija.lt/order/update/' . $order->getBook()->getId() . '/' . $token . '</a><br>
                 Order rejecting link:<br>
-                <a href="www.nfqakademija.dev/order/delete/' . $order->getBook()->getId() . '/' . $token . '">
-                www.nfqakademija.dev/order/delete/' . $order->getBook()->getId() . '/' . $token . '</a>',
+                <a href="vilnius1.projektai.nfqakademija.lt/order/delete/' . $order->getBook()->getId() . '/' . $token . '">
+                vilnius1.projektai.nfqakademija.lt/order/delete/' . $order->getBook()->getId() . '/' . $token . '</a>',
                 'text/html'
             );
         $this->mailer->send($message);

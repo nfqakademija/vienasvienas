@@ -8,12 +8,18 @@ $('[data-toggle=collapse]').click(function(){
 });
 });
 
+$(document).ready(function(){
+    $('#order_button').attr('disabled', false);
+    $('#reserve_button').attr('disabled', false);
+    $('#return_button').attr('disabled', false);
+    $('#order_update_button').attr('disabled', false);
+});
+
 //AJAX for Order/Reservation buttons
 $(document).ready(function() {
     var id = $('#entity_id').text();
-    $('#order_button').attr('disabled', false);
-    $('#order_button').click(function (ev) {
 
+    $('#order_button').click(function (ev) {
         $.ajax({
             type: 'POST',
             url: '/order/'+ id,
@@ -23,9 +29,8 @@ $(document).ready(function() {
                 $('#query_result').text(data.quantity);
                 $('#ajax_message').text(data.message);
                 $('#order_button').attr('disabled', true).hide();
-                $('#return_button').show().one('click', function(){
+                $('.return_button').show().one('click', function(){
                     $(this).attr('disabled', true);
-                    $('#order_button').attr('disabled', false);
                 });
             })
             .fail(function (errorThrown) {
@@ -45,11 +50,7 @@ $(document).ready(function() {
             .success(function (data) {
                 $('#query_result').text(data.quantity);
                 $('#ajax_message').text(data.message);
-                $('#return_button').attr('disabled', true).hide();
-                $('#order_button').show().one('click', function(){
-                    $(this).attr('disabled', true);
-                    $('#return_button').attr('disabled', false);
-                });
+                $('#return_button').attr('disabled', true);
             })
             .fail(function (errorThrown) {
                 console.log(errorThrown);

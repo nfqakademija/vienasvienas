@@ -177,7 +177,6 @@ class BooksController extends Controller
      */
     public function showAction($id)
     {
-        $userReservation = null;
         $em = $this->getDoctrine()->getManager();
         $bookEntity = $em->getRepository('BooksBundle:Book')->find($id);
 
@@ -189,7 +188,7 @@ class BooksController extends Controller
         }
         $isBookReserved = $em->getRepository('BaseBundle:Order')->isBookReserved($bookEntity);
 
-            $userEntity = $this->get('user.checker')->reservationUserFinder($bookEntity, $userEntity);
+        $userEntity = $this->get('user.checker')->reservationUserFinder($bookEntity, $userEntity);
 
         if ($userEntity === true) {
             $userReservation = true;

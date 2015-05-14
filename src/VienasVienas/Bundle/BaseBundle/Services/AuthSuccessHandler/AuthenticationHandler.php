@@ -44,12 +44,12 @@ class AuthenticationHandler implements
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-        $referrer = $request->headers->get('referrer');
+        $referer = $request->headers->get('referer');
 
-        if (empty($referrer)) {
+        if (empty($referer)) {
             return new RedirectResponse($this->router->generate('books_homepage'));
         } else {
-            return new RedirectResponse($referrer);
+            return new RedirectResponse($referer);
         }
     }
 
@@ -79,11 +79,11 @@ class AuthenticationHandler implements
      */
     public function onLogoutSuccess(Request $request)
     {
-        $referrer = $request->headers->get('referrer');
-        if (empty($referrer)) {
+        $referer = $request->headers->get('referer');
+        if (empty($referer)) {
             return new RedirectResponse($this->router->generate('fos_user_security_login'));
         } else {
-            return new RedirectResponse($referrer);
+            return new RedirectResponse($referer);
         }
     }
 }

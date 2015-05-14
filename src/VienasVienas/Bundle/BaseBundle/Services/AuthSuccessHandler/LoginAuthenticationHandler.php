@@ -2,7 +2,6 @@
 
 /*
  * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
- *
  */
 
 namespace VienasVienas\Bundle\BaseBundle\Services\AuthSuccessHandler;
@@ -55,12 +54,18 @@ class LoginAuthenticationHandler implements
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
+        $targetUrl = $request->getSession()->get('_security.secure_area.target_path');
+
+        if ($targetUrl == null) {
+            $targetUrl = $this->router->generate('books_homepage');
+        }
+
         if ($request->isXmlHttpRequest()) {
             $result = array(
-                'route' => $this->router->generate('books_homepage'),
+                'route' => $targetUrl,
             );
 
-        return new JsonResponse($result);
+            return new JsonResponse($result);
         }
     }
 

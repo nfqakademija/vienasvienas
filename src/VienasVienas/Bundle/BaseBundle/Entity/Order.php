@@ -35,12 +35,6 @@ class Order
      */
     private $pickupDate;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="return_date", type="datetime", nullable=true)
-     */
-    private $returnDate;
 
     /**
      * @var \DateTime
@@ -98,29 +92,6 @@ class Order
     public function getPickupDate()
     {
         return $this->pickupDate;
-    }
-
-    /**
-     * Set returnDate
-     *
-     * @param \DateTime $returnDate
-     * @return Order
-     */
-    public function setReturnDate($returnDate)
-    {
-        $this->returnDate = $returnDate;
-
-        return $this;
-    }
-
-    /**
-     * Get returnDate
-     *
-     * @return \DateTime 
-     */
-    public function getReturnDate()
-    {
-        return $this->returnDate;
     }
 
     /**

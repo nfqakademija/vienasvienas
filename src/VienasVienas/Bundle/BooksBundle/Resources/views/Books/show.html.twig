@@ -74,22 +74,25 @@
             You already reserved this book.
 
             {% elseif entity.quantity > 0 and user == true and isBookReserved == true %}
-                <button type="button" id="order_update_button">Order book</button>
+                <button type="button" id="order_update_button" disabled>Order book</button>
 
             {% elseif entity.quantity > 0 and order == false and isBookReserved == false %}
                 <button type="button" id="order_button" disabled>Order book</button>
-                <button type="button" id="return_button" style="display: none" disabled>Return book</button>
+                <button type="button" id="return_button" class="return_button" disabled>Return book</button>
 
             {% elseif order == true %}
-                <button type="button" id="return_button">Return book</button>
-                <button type="button" id="order_button" style="display: none">Order book</button>
+                <button type="button" id="return_button" disabled>Return book</button>
 
             {% elseif entity.quantity == 0 and user == false %}
-                <button type="button" id="reserve_button">Reserve book</button>
+                <button type="button" id="reserve_button" disabled>Reserve book</button>
 
             {% elseif entity.quantity == 1 and user == false and isBookReserved == true %}
                 Book is reserved, you can't take it.
-                <button type="button" id="reserve_button">Reserve book</button>
+                <button type="button" id="reserve_button" disabled>Reserve book</button>
+
+            {% elseif entity.quantity > 1 and user == false and isBookReserved == true %}
+                <button type="button" id="order_button" disabled>Order book</button>
+                <button type="button" id="return_button" class="return_button" disabled>Return book</button>
 
             {% elseif entity.quantity == 0 and user == true %}
                 You already reserved this book.
