@@ -32,5 +32,5 @@ books:
     resource: "@BooksBundle/Resources/config/routing.yml"
 
 app:
-    resource: "@BooksBundle/Controller/"
+    resource: "@BooksBundle/Controller/BooksController.php"
     type:     annotation

@@ -1,6 +1,6 @@
 books_homepage:
     path:     /
-    defaults: { _controller: BooksBundle:Default:index }
+    defaults: { _controller: BooksBundle:Books:index }
 
 books_search:
     path:     /search/
@@ -8,3 +8,7 @@ books_search:
 auto_books_search:
     path:     /search/auto/
     defaults: { _controller: BooksBundle:Search:autoComplete }
+
+books_categories:
+    path:     /category/{categoryName}
+    defaults: { _controller: BooksBundle:Category:categoriesAjax }

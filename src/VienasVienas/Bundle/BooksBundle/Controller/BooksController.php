@@ -18,7 +18,7 @@ use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
 /**
  * Book controller.
  *
- * @Route("/book/list")
+ * @Route("/book")
  */
 class BooksController extends Controller
 {
@@ -166,14 +166,12 @@ class BooksController extends Controller
     /**
      * Finds and displays a Book entity.
      *
-     * @param Book.id $id
+     * @param int $id
      *
      * @Route("/{id}", name="book_show")
      * @Method("GET")
      * @Template()
-     *
      * @return Response
-     * @throws NotFoundHttpException
      */
     public function showAction($id)
     {
@@ -222,7 +220,7 @@ class BooksController extends Controller
     /**
      * Displays a form to edit an existing Book entity.
      *
-     * @param Book.id $id
+     * @param int $id
      *
      * @Route("/{id}/edit", name="book_edit")
      * @Method("GET")
@@ -281,7 +279,7 @@ class BooksController extends Controller
      * Edits an existing Book entity.
      *
      * @param Request $request
-     * @param Book.id $id
+     * @param int     $id
      *
      * @Route("/{id}", name="book_update")
      * @Method("PUT")
@@ -321,7 +319,7 @@ class BooksController extends Controller
      * Deletes a Book entity.
      *
      * @param Request $request
-     * @param Book.id $id
+     * @param int     $id
      *
      * @Route("/{id}", name="book_delete")
      * @Method("DELETE")
@@ -350,9 +348,33 @@ class BooksController extends Controller
     }
 
     /**
+     * Gets most popular books.
+     *
+     * @param Request $request
+     *
+     * @Route("/popular", name="most_popular")
+     * @Method("GET")
+     *
+     * @return Response
+     * @throws NotFoundHttpException
+     */
+    public function mostPopularAction(Request $request)
+    {
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $mostPopular = $em->getRepository('BooksBundle:Book')->getMostPopularBooks();
+
+        return $this->render(
+            'BooksBundle:Books:mostPopular.html.twig', array(
+                'mostPopular' => $mostPopular,
+            )
+        );
+    }
+
+    /**
      * Creates a form to delete a Book entity by id.
      *
-     * @param Book.id $id
+     * @param int $id
      *
      * @return \Symfony\Component\Form\Form The form
      */

@@ -96,6 +96,14 @@ class Book
     private $quantity = 1;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="times_read", type="integer")
+     */
+    private $timesRead = 0;
+
+
+    /**
      * @ORM\ManyToMany(targetEntity="Category")
      * @ORM\JoinTable(name="books_categories",
      *      joinColumns={@ORM\JoinColumn(name="book_id", referencedColumnName="id")},
@@ -392,5 +400,21 @@ class Book
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTimesRead()
+    {
+        return $this->timesRead;
+    }
+
+    /**
+     * @param int $timesRead
+     */
+    public function setTimesRead($timesRead)
+    {
+        $this->timesRead = $timesRead;
     }
 }

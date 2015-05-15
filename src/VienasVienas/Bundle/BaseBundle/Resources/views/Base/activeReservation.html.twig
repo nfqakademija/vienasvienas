@@ -1,0 +1,8 @@
+{% if message == false %}
+{{ reservedBook.getBook().getCover() | raw }} <br>
+{{ reservedBook.getBook().getAuthor() }} <br>
+{{ reservedBook.getBook().getTitle() }} <br>
+<a class="btn" href={{ path('fos_user_profile_show')  }} >More</a>
+{% else %}
+    <b>There is no active reservations</b>
+{% endif %}

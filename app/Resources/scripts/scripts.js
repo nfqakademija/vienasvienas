@@ -96,5 +96,23 @@ $(document).ready(function() {
         ev.preventDefault();
     });
 });
+$(document).ready(function() {
+
+    $('.ajax_cat').click(function (ev) {
+        $.ajax({
+            type: 'POST',
+            url: '/category/' + ($(this).text()),
+            data: {'categoryName': ($(this).text())}
+        })
+            .success(function (jsondata) {
+                console.log(jsondata.books);
+                $('#main_list').html(jsondata.books);
+            })
+            .fail(function (errorThrown) {
+                console.log(errorThrown);
+            });
+        ev.preventDefault();
+    });
+});
 
 

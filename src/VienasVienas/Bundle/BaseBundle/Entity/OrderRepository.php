@@ -81,7 +81,7 @@ class OrderRepository extends EntityRepository
     }
 
     /**
-     * Method for counting tokens.
+     * Method for tokens counting.
      *
      * @param Book $book
      *
@@ -97,5 +97,53 @@ class OrderRepository extends EntityRepository
         $count = $dq->getQuery()->getSingleScalarResult();
 
         return $count;
+    }
+
+    /**
+     * Function finds latest active order by User.
+     *
+     * @param User $user
+     *
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getLatestActiveBook(User $user)
+    {
+        $dq = $this->createQueryBuilder('o')
+            ->select('o')
+            ->where('o.user = :user')
+            ->andWhere('o.status = \'active\'')
+            ->orderBy('o.pickupDate', 'DESC')
+            ->setParameter('user', $user)
+            ->setMaxResults(1)
+            ->getQuery();
+
+        $order = $dq->getOneOrNullResult();
+
+        return $order;
+    }
+
+    /**
+     * Function finds latest active reservation by User.
+     *
+     * @param User $user
+     *
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getActiveReservations(User $user)
+    {
+        $dq = $this->createQueryBuilder('o')
+            ->select('o')
+            ->where('o.user = :user')
+            ->andWhere('o.status = \'reserved\'')
+            ->orderBy('o.pickupDate', 'DESC')
+            ->setMaxResults(1)
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        $order = $dq->getOneOrNullResult();
+
+        return $order;
     }
 }

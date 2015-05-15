@@ -1,0 +1,9 @@
+{% if message == false %}
+
+{{ recentBook.getBook().getCover() | raw }} <br>
+{{ recentBook.getBook().getAuthor() }} <br>
+{{ recentBook.getBook().getTitle() }} <br>
+<a class="btn" href={{ path('fos_user_profile_show')  }} >More</a>
+{% else %}
+    <b>There is no active orders</b>
+{% endif %}
