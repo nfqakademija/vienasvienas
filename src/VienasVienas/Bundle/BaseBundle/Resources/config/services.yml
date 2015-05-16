@@ -47,3 +47,9 @@ services:
     ajax.login.handler:
         class: VienasVienas\Bundle\BaseBundle\Services\AuthSuccessHandler\LoginAuthenticationHandler
         arguments: ["@translator.default", "@router"]
+
+    user.registration_completed:
+        class: VienasVienas\Bundle\BaseBundle\EventListener\RegistrationSuccessListener
+        arguments: [@router]
+        tags:
+            - { name: kernel.event_subscriber }

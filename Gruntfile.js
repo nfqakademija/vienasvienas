@@ -92,7 +92,8 @@ module.exports = function (grunt) {
                 generatedImagesDir: '<%= config.out %>/img',
                 httpGeneratedImagesPath: '/img',
                 sassDir: '<%= config.in %>/style',
-                cssDir: '<%= config.out %>/css'
+                cssDir: '<%= config.out %>/css',
+                bundleExec: true
             },
             dev: {
                 options: {

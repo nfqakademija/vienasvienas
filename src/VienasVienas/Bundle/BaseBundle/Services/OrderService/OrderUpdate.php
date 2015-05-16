@@ -48,6 +48,7 @@ class OrderUpdate
             ->set('o.status', ':status')
             ->set('o.pickupDate', ':pickup_date')
             ->set('o.reservationDate', 'null')
+            ->set('o.token', 'null')
             ->where('o.book = :id')
             ->andWhere('o.user = :user')
             ->andWhere('o.status = \'reserved\'')

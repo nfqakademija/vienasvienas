@@ -44,7 +44,7 @@ class AuthenticationHandler implements
      */
     public function onAuthenticationSuccess(Request $request, TokenInterface $token)
     {
-        $referer = $request->headers->get('referrer');
+        $referrer = $request->headers->get('referrer');
 
         if (empty($referrer)) {
             return new RedirectResponse($this->router->generate('books_homepage'));

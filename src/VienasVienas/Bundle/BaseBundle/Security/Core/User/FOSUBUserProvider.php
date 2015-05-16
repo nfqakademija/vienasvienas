@@ -3,6 +3,7 @@
 namespace VienasVienas\Bundle\BaseBundle\Security\Core\User;
 
 use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\Exception\AccountNotLinkedException;
 use HWI\Bundle\OAuthBundle\Security\Core\User\FOSUBUserProvider as BaseClass;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -53,12 +54,11 @@ class FOSUBUserProvider extends BaseClass
     public function loadUserByOAuthUserResponse(UserResponseInterface $response)
     {
         $username = $response->getUsername();
-        $name = $response->getNickname();
         $email = $response->getEmail();
         $user = $this->userManager->findUserBy(
             array
             (
-                $this->getProperty($response) => $username
+                $this->getProperty($response) => $email
             )
         );
         // When the user is registrating.
@@ -73,7 +73,7 @@ class FOSUBUserProvider extends BaseClass
             $user->$setter_token($response->getAccessToken());
             // I have set all requested data with the user's username
             // modify here with relevant data.
-            $user->setUsername($name);
+            $user->setUsername($email);
             $user->setEmail($email);
             $user->setPassword($username);
             $user->setEnabled(true);
@@ -83,7 +83,14 @@ class FOSUBUserProvider extends BaseClass
         }
 
         // If user exists - go with the HWIOAuth way.
-        $user = parent::loadUserByOAuthUserResponse($response);
+
+        $email = $response->getEmail();
+
+        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $email));
+        if (null === $user || null === $email) {
+            throw new AccountNotLinkedException(sprintf("User '%s' not found.", $username));
+        }
+
 
         $serviceName = $response->getResourceOwner()->getName();
         $setter = 'set' . ucfirst($serviceName) . 'AccessToken';
