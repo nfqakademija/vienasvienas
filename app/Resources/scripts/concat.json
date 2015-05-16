@@ -10,7 +10,6 @@
     "../../../bower_components/jquery/dist/jquery.min.js"
 ],
     "typeahead.js": [
-    "../../../app/Resources/scripts/handlebars.js",
     "../../../app/Resources/scripts/typeahead.js"
     ]
 }

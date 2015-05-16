@@ -71,7 +71,7 @@ class AmazonBookFinder implements BookFinderServiceInterface
         };
         //looking for element with review
         for ($i = 0; $i <= $count; $i++) {
-            if ($comments ->{'Items'}->{'Item'}[$i]->{'CustomerReviews'}->{'HasReviews'} == "true") {
+            if (isset($comments ->{'Items'}->{'Item'}[$i]->{'CustomerReviews'}->{'HasReviews'}) && ($comments ->{'Items'}->{'Item'}[$i]->{'CustomerReviews'}->{'HasReviews'} == "true")) {
                 $comments = $comments ->{'Items'}->{'Item'}[$i]->{'CustomerReviews'}->{'IFrameURL'};
                 $comments = '<iframe src="' . $comments . '" width="100%" height="100%"></iframe>';
                 return $comments;
