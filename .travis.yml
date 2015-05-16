@@ -14,3 +14,7 @@ script:
     - php app/console doctrine:schema:update --force
     - php app/console doctrine:fixtures:load --no-interaction
     - phpunit -c app
+
+services:
+  - elasticsearch
+
