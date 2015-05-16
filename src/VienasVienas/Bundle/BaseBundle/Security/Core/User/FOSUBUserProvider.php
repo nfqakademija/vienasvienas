@@ -58,7 +58,7 @@ class FOSUBUserProvider extends BaseClass
         $user = $this->userManager->findUserBy(
             array
             (
-                $this->getProperty($response) => $email
+                $this->getProperty($response) => $username
             )
         );
         // When the user is registrating.
@@ -84,9 +84,9 @@ class FOSUBUserProvider extends BaseClass
 
         // If user exists - go with the HWIOAuth way.
 
-        $email = $response->getEmail();
+        $username = $response->getUsername();
 
-        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $email));
+        $user = $this->userManager->findUserBy(array($this->getProperty($response) => $username));
         if (null === $user || null === $email) {
             throw new AccountNotLinkedException(sprintf("User '%s' not found.", $username));
         }
