@@ -49,6 +49,7 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         $fileNumber = $input->getArgument('fileNumber');
         $until = $input->getArgument('until');
         $total = 0;
+        $number = 0;
 
         for ($i=0; $i <= $until; $i++){
             $output->writeln('Memory usage before ' . $i . memory_get_peak_usage());
@@ -65,7 +66,7 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         }
         $e = microtime(true);
         $output->writeln('total was inserted:' . $total);
-        echo ' Inserted' . $number . ' objects in ' . ($e - $s) . ' seconds' . PHP_EOL;
+        echo 'Inserted ' . $number . ' objects in ' . ($e - $s) . ' seconds' . PHP_EOL;
         $output->writeln('Memory usage ' . memory_get_peak_usage());
 
     }
@@ -80,6 +81,7 @@ class BulkBookAdderCommand extends ContainerAwareCommand
     private function getFileInfo($file)
     {
         $myfile = fopen($file, "r") or die("Unable to open file!");
+        $linesInFile = array();
         while (!feof($myfile)) {
             $linesInFile[] = fgets($myfile);
         }
@@ -101,7 +103,6 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         foreach ($linesInFile as $string) {
             //getting isbn from Open Library dump
             $string = preg_split('/isbn_13/', $string);
-            $book = new Book();
             $isbn = new Isbn();
 
             if (isset($string[1])) {
