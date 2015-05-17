@@ -53,7 +53,7 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         for ($i=0; $i <= $until; $i++){
             $output->writeln('Memory usage before ' . $i . memory_get_peak_usage());
 
-            $file = 'input/x' . $fileNumber;
+            $file = 'input/' . $fileNumber;
             $output->writeln('Started reading from ' . $file);
 
             $number = $this->update($file);
