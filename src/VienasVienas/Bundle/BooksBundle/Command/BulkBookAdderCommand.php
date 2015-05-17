@@ -51,7 +51,7 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         $total = 0;
         $number = 0;
 
-        for ($i=0; $i <= $until; $i++){
+        for ($i=0; $i <= $until; $i++) {
             $output->writeln('Memory usage before ' . $i . memory_get_peak_usage());
 
             $file = 'input/' . $fileNumber;
@@ -99,11 +99,14 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         $amazon = $this->getContainer()->get('amazon.books');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
         $number = 1;
+        $batchSize = 20;
+
 
         foreach ($linesInFile as $string) {
             //getting isbn from Open Library dump
             $string = preg_split('/isbn_13/', $string);
             $isbn = new Isbn();
+            $book = new Book();
 
             if (isset($string[1])) {
                 $value = str_split($string[1], 23);
@@ -117,16 +120,11 @@ class BulkBookAdderCommand extends ContainerAwareCommand
                     $book = $amazon->getBookByIsbn($isbn);
                 }
 
-                $image = $book->getCover();
-                $about = $book->getAbout();
-
-                if ($about !== "") {
-                    if ($image !=="") {
-                        $em->persist($book);
-                            $em->flush();
-                            $em->clear();
-                        $number++;
-                    }
+                $em->persist($book);
+                $number++;
+                if (($number % $batchSize) == 0) {
+                    $em->flush();
+                    $em->clear(); // Detaches all objects from Doctrine!
                 }
             }
         }

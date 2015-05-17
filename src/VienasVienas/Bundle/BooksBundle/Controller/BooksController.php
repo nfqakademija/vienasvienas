@@ -31,8 +31,10 @@ class BooksController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $entities = $em->getRepository('BooksBundle:Book')->findAll();
+        $em = $this->getDoctrine()->getRepository('BooksBundle:Book');
+        //limiting queries to list on main page
+        $entities = $em->findBy(array(), array( 'id' => 'DESC'), 400);
+
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
             $entities,
