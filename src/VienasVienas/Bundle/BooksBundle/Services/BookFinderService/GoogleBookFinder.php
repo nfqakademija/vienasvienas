@@ -10,7 +10,8 @@ namespace VienasVienas\Bundle\BooksBundle\Services\BookFinderService;
 use VienasVienas\Bundle\BooksBundle\BookFinderServiceInterface;
 
 /**
- * Class GoogleBookFinder
+ * Class GoogleBookFinder.
+ *
  * @package VienasVienas\Bundle\BooksBundle\Services\BookFinderService
  */
 class GoogleBookFinder implements BookFinderServiceInterface
@@ -18,7 +19,7 @@ class GoogleBookFinder implements BookFinderServiceInterface
     /**
      * Google APIs URL
      */
-    const API_URL = "https://www.googleapis.com/books/v1/volumes";
+    const API_URL = 'https://www.googleapis.com/books/v1/volumes';
 
     /**
      * @var GoogleBookFinderParser
@@ -35,6 +36,7 @@ class GoogleBookFinder implements BookFinderServiceInterface
 
     /**
      * @param Isbn $isbn
+     *
      * @return \VienasVienas\Bundle\BooksBundle\Entity\Book
      */
     public function getBookByIsbn(Isbn $isbn)
@@ -46,12 +48,13 @@ class GoogleBookFinder implements BookFinderServiceInterface
 
     /**
      * @param Isbn $isbn
+     *
      * @return object
      */
     public function getContent(Isbn $isbn)
     {
         $isbn = $isbn->getIsbn();
-        $query = "?q=isbn:" . urlencode($isbn);
+        $query = '?q=isbn:' . urlencode($isbn);
         $url = static::API_URL . $query;
         $session = curl_init($url);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);

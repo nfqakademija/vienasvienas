@@ -12,6 +12,9 @@ namespace VienasVienas\Bundle\BaseBundle\Services\NotificationService;
 use Doctrine\ORM\EntityManager;
 use VienasVienas\Bundle\BooksBundle\Entity\Book;
 
+/**
+ * Class TokenSetter sets token to user.
+ */
 class TokenSetter
 {
     /**
@@ -19,22 +22,34 @@ class TokenSetter
      */
     protected $entityManager;
 
+    /**
+     * @var NotificationService
+     */
     protected $notification;
 
+    /**
+     * @var TokenGenerator
+     */
     protected $generator;
 
     /**
-     * @param EntityManager $entityManager
+     * @param EntityManager       $entityManager
+     * @param NotificationService $notification
+     * @param TokenGenerator      $generator
      */
     public function __construct(
-        EntityManager $entityManager, NotificationService $notification, TokenGenerator $generator
-    )
-    {
+        EntityManager $entityManager,
+        NotificationService $notification,
+        TokenGenerator $generator
+    ) {
         $this->entityManager = $entityManager;
         $this->notification = $notification;
         $this->generator = $generator;
     }
 
+    /**
+     * @param Book $book
+     */
     public function setTokenToUser(Book $book)
     {
         $tokenDate = new \DateTime('now');
