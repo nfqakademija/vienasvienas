@@ -68,9 +68,8 @@ class GoogleBookFinderParser
      */
     private function parseAuthor($content)
     {
-        $author = $content->items[0]->volumeInfo->authors[0];
-        if (isset($author)) {
-            return $author;
+        if (isset($content->items[0]->volumeInfo->authors[0])) {
+            return $content->items[0]->volumeInfo->authors[0];
         } else {
             return 0;
         }
@@ -101,7 +100,11 @@ class GoogleBookFinderParser
      */
     private function parsePageCount($content)
     {
-        return $content->items[0]->volumeInfo->pageCount;
+        if (!isset($content->items[0]->volumeInfo->pageCoun)) {
+            return 0;
+        } else {
+            return $content->items[0]->volumeInfo->pageCoun;
+        }
     }
     /**
      * @param $content
@@ -109,7 +112,12 @@ class GoogleBookFinderParser
      */
     private function parseCover($content)
     {
-        return '<img src="' . $content->items[0]->volumeInfo->imageLinks->thumbnail .'">';
+        if (!isset($content->items[0]->volumeInfo->imageLinks->thumbnail)) {
+                return "";
+           // return '<img src="http://onlinebookclub.org/book-covers/id10485-125.jpg;">';
+        } else {
+            return '<img src="' . $content->items[0]->volumeInfo->imageLinks->thumbnail .'">';
+        }
     }
     /**
      * @param $content
