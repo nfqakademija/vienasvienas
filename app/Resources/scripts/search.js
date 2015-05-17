@@ -16,8 +16,7 @@ $( document ).ready(function() {
     $('#books_search').typeahead({
             hint: true,
             highlight: true,
-            minLength: 3,
-            limit: 5
+            minLength: 3
         },
         {
             name: 'book-search',

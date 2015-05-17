@@ -108,7 +108,11 @@ class AmazonBookParser
      */
     private function parsePageCount($content)
     {
-        return (integer) $content->Items->Item->ItemAttributes->NumberOfPages;
+        if (!isset($content->Items->Item->ItemAttributes->NumberOfPages)) {
+            return 0;
+        } else {
+            return (integer) $content->Items->Item->ItemAttributes->NumberOfPages;
+        }
     }
 
 
