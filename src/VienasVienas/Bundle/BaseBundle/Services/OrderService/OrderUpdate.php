@@ -61,7 +61,14 @@ class OrderUpdate
         $dq->execute();
 
         $quantity = $bookEntity->getQuantity();
+        $timesRead = $bookEntity->getTimesRead();
+
+        if ($quantity == 0) {
+            throw new \Exception('There is no enough books');
+        }
+
         $bookEntity->setQuantity($quantity - 1);
+        $bookEntity->setTimesRead($timesRead + 1);
 
         $this->entityManager->persist($bookEntity);
         $this->entityManager->flush();

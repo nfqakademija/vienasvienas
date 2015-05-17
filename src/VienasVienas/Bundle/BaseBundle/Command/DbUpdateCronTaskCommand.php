@@ -5,6 +5,8 @@ namespace VienasVienas\Bundle\BaseBundle\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use VienasVienas\Bundle\BaseBundle\Entity\Order;
+use VienasVienas\Bundle\BaseBundle\Entity\User;
 
 /**
  * Class DbUpdateCronTaskCommand Cron task for clearing database from inactive reservations.
@@ -40,6 +42,9 @@ class DbUpdateCronTaskCommand extends ContainerAwareCommand
             $order->setToken(null);
             $order->setReservationDate(null);
             $order->setStatus('done');
+            $user = $order->getUser();
+            $this->getContainer()->get('notification.service')->sendCancellation($order, $user);
+
             $em->flush();
 
             $output->writeln('Database cleared!');
