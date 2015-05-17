@@ -29,14 +29,22 @@ class BulkBookAdderCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $s = microtime(true);
         $output->writeln('<comment>Insertion began:</comment>');
+        $output->writeln('Memory usage on start:' . memory_get_peak_usage());
 
 
         $linesInFile = $this->getFileInfo('in.txt');
-        $number = $this->insertData($linesInFile, $output);
+        $output->writeln('Memory usage after reading file:' . memory_get_peak_usage());
 
-        $output->writeln('done');
+        $number = $this->insertData($linesInFile, $output);
+        $linesInFile = null;
+        $output->writeln('<info>done</info>');
+        $output->writeln('Memory usage in the end:' . memory_get_peak_usage());
         $output->writeln('total was inserted:' . $number);
+        $e = microtime(true);
+        echo ' Inserted' . $number . ' objects in ' . ($e - $s) . ' seconds' . PHP_EOL;
+
     }
 
 
@@ -56,17 +64,21 @@ class BulkBookAdderCommand extends ContainerAwareCommand
 
     private function insertData($linesInFile, $output)
     {
+
         $google = $this->getContainer()->get('google.books');
         $amazon = $this->getContainer()->get('amazon.books');
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        $isbn = new Isbn();
-        $book = new Book();
-        $number = 0;
+        $number = 1;
+        //using Batch for Bulk inserts
+        $batchSize = 5;
 
 
         foreach ($linesInFile as $string) {
             //getting isbn from Open Library dump
             $string = preg_split('/isbn_13/', $string);
+            $book = new Book();
+            $isbn = new Isbn();
+
             if (isset($string[1])) {
                 $value = str_split($string[1], 23);
                 $isbnValue = preg_replace('/\D/', '', $value[0]);
@@ -86,15 +98,21 @@ class BulkBookAdderCommand extends ContainerAwareCommand
                 if ($about !== "") {
                     if ($image !=="") {
                         $em->persist($book);
-                        $em->flush();
-                        $em->clear();
+                     //   if (($number % $batchSize) === 0) {
+                            $em->flush();
+                            $em->clear();
+                         //   $output->writeln('->>> to SQL');
+                            $output->writeln('Memory usage:' . memory_get_peak_usage());
+                         //   $book = null;
+                     //   }
                         $output->writeln($isbnValue);
                         $number++;
                     }
                 }
             }
         }
-
+        $em->flush();
+        $em->clear();
         return $number;
     }
 }
