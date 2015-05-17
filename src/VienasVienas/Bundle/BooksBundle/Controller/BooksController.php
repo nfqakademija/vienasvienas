@@ -41,10 +41,12 @@ class BooksController extends Controller
             $request->get('page', 1)/*page number*/,
             10/*limit per page*/
         );
-
+        $all = $em->findAll();
+        $count = count($all);
 
         return array(
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'count' => $count
         );
     }
 

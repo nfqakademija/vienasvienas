@@ -12,7 +12,7 @@ services:
 
     google.books:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\GoogleBookFinder
-        arguments: [@google.books.finder.parser]
+        arguments: [@google.books.finder.parser, %google_key%]
 
     book.finder:
         class: VienasVienas\Bundle\BooksBundle\Services\BookFinderService\BookFinder

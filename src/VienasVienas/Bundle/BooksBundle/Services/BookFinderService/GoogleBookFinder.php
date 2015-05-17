@@ -25,13 +25,14 @@ class GoogleBookFinder implements BookFinderServiceInterface
      * @var GoogleBookFinderParser
      */
     private $parser;
-
+    private $googleKey;
     /**
      * @param GoogleBookFinderParser $parser
      */
-    public function __construct(GoogleBookFinderParser $parser)
+    public function __construct(GoogleBookFinderParser $parser, $googleKey)
     {
         $this->parser = $parser;
+        $this->googleKey = $googleKey;
     }
 
     /**
@@ -54,12 +55,11 @@ class GoogleBookFinder implements BookFinderServiceInterface
     public function getContent(Isbn $isbn)
     {
         $isbn = $isbn->getIsbn();
-        $query = '?q=isbn:' . urlencode($isbn);
+        $query = '?q=isbn:' . urlencode($isbn) . '&key=' . $this->googleKey;
         $url = static::API_URL . $query;
         $session = curl_init($url);
         curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($session);
-
         return $response;
     }
 }

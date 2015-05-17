@@ -29,3 +29,4 @@ parameters:
     facebook_secret:    123
     google_id:          123
     google_secret:      132
+    google_key:         132

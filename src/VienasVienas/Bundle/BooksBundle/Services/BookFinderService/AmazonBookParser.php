@@ -73,9 +73,8 @@ class AmazonBookParser
      */
     private function parseAuthor($content)
     {
-        $author = (string) $content->Items->Item->ItemAttributes->Author;
-        if (isset($author)) {
-            return $author;
+        if (isset($content->Items->Item->ItemAttributes->Author)) {
+            return (string) $content->Items->Item->ItemAttributes->Author;
         } else {
             return 0;
         }
@@ -86,7 +85,12 @@ class AmazonBookParser
      */
     private function parseTitle($content)
     {
-        return (string) $content->Items->Item->ItemAttributes->Title;
+        if (!isset($content->Items->Item->ItemAttributes->Title)) {
+            return "";
+        } else {
+            return (string) $content->Items->Item->ItemAttributes->Title;
+        }
+
     }
 
     /**
@@ -122,7 +126,11 @@ class AmazonBookParser
      */
     private function parseCover($content)
     {
-        return '<img src="' . (string) $content->Items->Item->MediumImage->URL .'">';
+        if (!isset($content->Items->Item->MediumImage->URL)) {
+            return '<img src="./img/no_book_cover.jpg">';
+        } else {
+            return '<img src="' . (string) $content->Items->Item->MediumImage->URL .'">';
+        }
     }
 
     /**
@@ -131,7 +139,11 @@ class AmazonBookParser
      */
     private function parseIsbn($content)
     {
-        return (string) $content->Items->Item->ItemAttributes->EAN;
+        if (!isset($content->Items->Item->ItemAttributes->EAN)) {
+            return null;
+        } else {
+            return (string) $content->Items->Item->ItemAttributes->EAN;
+        }
     }
 
     /**

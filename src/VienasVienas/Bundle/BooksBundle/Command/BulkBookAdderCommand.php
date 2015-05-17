@@ -31,12 +31,12 @@ class BulkBookAdderCommand extends ContainerAwareCommand
             ->addArgument(
                 'fileNumber',
                 InputArgument::OPTIONAL,
-                'Who do you want to greet?'
+                'From which file you want to start?'
             )
             ->addArgument(
                 'until',
                 InputArgument::OPTIONAL,
-                'Who do you want to greet?'
+                'how many files to scan?'
             );
 
     }
@@ -106,7 +106,6 @@ class BulkBookAdderCommand extends ContainerAwareCommand
             //getting isbn from Open Library dump
             $string = preg_split('/isbn_13/', $string);
             $isbn = new Isbn();
-            $book = new Book();
 
             if (isset($string[1])) {
                 $value = str_split($string[1], 23);
@@ -122,10 +121,11 @@ class BulkBookAdderCommand extends ContainerAwareCommand
 
                 $em->persist($book);
                 $number++;
-                if (($number % $batchSize) == 0) {
+                if (($number % $batchSize) === 0) {
                     $em->flush();
                     $em->clear(); // Detaches all objects from Doctrine!
                 }
+
             }
         }
         $em->flush();
