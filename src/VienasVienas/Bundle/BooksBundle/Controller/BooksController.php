@@ -29,13 +29,20 @@ class BooksController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $entities = $em->getRepository('BooksBundle:Book')->findAll();
+        $paginator  = $this->get('knp_paginator');
+        $pagination = $paginator->paginate(
+            $entities,
+            $request->get('page', 1)/*page number*/,
+            10/*limit per page*/
+        );
+
 
         return array(
-            'entities' => $entities,
+            'pagination' => $pagination
         );
     }
 

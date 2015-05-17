@@ -5,7 +5,14 @@
         <h4>Books list</h4>
         <hr>
 
-        <table id="books_list" class="table-hover">
+
+<div class="count">
+   Books in dabase: {{ pagination.getTotalItemCount }}
+</div>
+<table>
+    {# table body #}
+
+    <table id="books_list" class="table-hover">
             <thead>
             <tr>
                 <th>Cover</th>
@@ -13,13 +20,16 @@
                 <th>Author</th>
                 <th>Pages</th>
                 <th>Isbn</th>
-                <th>Rating</th>
-                <th>Registration date</th>
+                <th{% if pagination.isSorted('entity.rating') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Rating', 'entity.rating') }}</th>
+                <th{% if pagination.isSorted('entity.registrationDate') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Registration date', 'entity.registrationDate') }}</th>
                 <th>Actions</th>
             </tr>
             </thead>
-            <tbody class="table-hover">
-            {% for entity in entities %}
+
+
+        <tbody class="table-hover">
+        {% for entity in pagination %}
+        <tr {% if loop.index is odd %}class="color"{% endif %}>
                 <tr>
                     <td>{{ entity.cover|raw }}</td>
                     <td>{{ entity.title }}</td>
@@ -39,21 +49,32 @@
                         </ul>
                     </td>
                 </tr>
-            {% endfor %}
+        {% endfor %}
             </tbody>
         </table>
 
-        <ul>
-            <li>
-                <a href="{{ path('book_new') }}">
-                    Create a new entry
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('book_new_isbn') }}">
-                    Create a new entry by ISBN
-                </a>
-            </li>
 
-        </ul>
+    </tr>
+
+</table>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+
+
+    <ul>
+        <li>
+            <a href="{{ path('book_new') }}">
+                Create a new entry
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('book_new_isbn') }}">
+                Create a new entry by ISBN
+            </a>
+        </li>
+
+    </ul>
+
 {% endblock %}
