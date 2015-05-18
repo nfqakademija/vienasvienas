@@ -130,7 +130,6 @@ class InsertFromFileCommand extends ContainerAwareCommand
         }
         $book->setIsbn($isbn);
 
-        echo $isbn . " ";
         //setting best description
         if (isset($file['description'])) {
             //Description is object inside array (but not always)

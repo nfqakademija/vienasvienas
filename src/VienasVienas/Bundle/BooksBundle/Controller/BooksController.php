@@ -386,27 +386,6 @@ class BooksController extends Controller
     }
 
     /**
-     * Lists total count books in database.
-     *
-     * @Route("/total", name="Total_books")
-     *
-     * @Template()
-     */
-    public function totalAction()
-    {
-        $em = $this->getDoctrine()->getRepository('BooksBundle:Book');
-        $count = $em->findAll();
-        $total = count($count);
-        $en = $this->getDoctrine()->getRepository('BooksBundle:Author');
-        $countA = $en->findAll();
-        $authors = count($countA);
-        return array(
-            'total' => $total,
-            'authors' => $authors
-        );
-    }
-
-    /**
      * Creates a form to delete a Book entity by id.
      *
      * @param int $id
