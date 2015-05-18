@@ -1,7 +1,7 @@
 #login_container
 {
   width: 350px;
-  height: 300px;
+  height: 310px;
   position: absolute;
   top: 5%;
   bottom: 0;
@@ -14,17 +14,7 @@
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
   border-radius: 10px;
-}
-#login_tabs
-{
-  width: 350px;
-  height: 380px;
-  position: absolute;
-  top: 5%;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+  padding: 5px 5px 15px 5px;
 }
 a
 {
