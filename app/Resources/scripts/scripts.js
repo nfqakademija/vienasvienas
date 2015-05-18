@@ -105,13 +105,23 @@ $(document).ready(function() {
             data: {'categoryName': ($(this).text())}
         })
             .success(function (jsondata) {
-                $('#main_list').html(jsondata.books);
+                if (jsondata.booksFind == true) {
+                    $('#main_list').html(jsondata.books);
+                } else {
+                    $('#main_list').html('<h4>There is no books in selected category!</h4>');
+                }
+
             })
             .fail(function (errorThrown) {
                 console.log(errorThrown);
             });
         ev.preventDefault();
     });
+});
+$('.hover_link').click( function() {
+    window.location = $(this).find('a').attr('href');
+}).hover( function() {
+    $(this).toggleClass('hover');
 });
 
 

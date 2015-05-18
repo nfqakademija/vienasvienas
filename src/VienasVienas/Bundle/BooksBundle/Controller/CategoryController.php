@@ -45,17 +45,24 @@ class CategoryController extends Controller
                 'message' => 'You can access this only using Ajax!'
             ), 400);
         }
-
+        $bookFind = true;
         $category = urldecode($categoryName);
         $em = $this->getDoctrine()->getEntityManager();
         $categoryId = $em->getRepository('BooksBundle:Category')->getCategoryId($category);
         $books = $em->getRepository('BooksBundle:Book')->getAllBooksByCategory($categoryId);
 
+        if (!$books) {
+            $bookFind = false;
+        }
 
 
-        return new JsonResponse(array('books' => $this->renderView('BooksBundle:Books:listByCategory.html.twig',
+
+        return new JsonResponse(array(
+            'books' => $this->renderView('BooksBundle:Books:listByCategory.html.twig',
             array(
                 'entities' => $books,
-            ))), 200);
+            )),
+            'booksFind' => $bookFind
+        , 200));
     }
 }
