@@ -24,6 +24,12 @@ monolog:
             type:               stream
             path:               "%kernel.logs_dir%/%kernel.environment%.log"
             level:              debug
+        swift:
+            type:               swift_mailer
+            from_email:         FQN@foo.com
+            to_email:           infovienasvienas@gmail.com
+            subject:            "OOps"
+            level:              debug
         login:
             type:               stream
             path:               "%kernel.logs_dir%/auth.log"
