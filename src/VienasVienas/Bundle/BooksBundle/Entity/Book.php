@@ -319,11 +319,10 @@ class Book
      * @param \VienasVienas\Bundle\BooksBundle\Entity\Category $categories
      * @return Book
      */
-    public function addCategory(\VienasVienas\Bundle\BooksBundle\Entity\Category $categories)
+    public function addCategory(\VienasVienas\Bundle\BooksBundle\Entity\Category $category)
     {
-        $this->categories[] = $categories;
-
-        return $this;
+        $category->addBook($this);
+        $this->categories[] = $category;
     }
 
     /**

@@ -74,5 +74,30 @@ tr.hover {
   text-align: center;
 }
 #backs {
-  background-image: url("/web/img/back.jpg");
+  background-image: url("/img/back.jpg");
+}
+
+ul
+{
+  list-style-type: none;
+  padding: 5px 5px 5px 0;
+}
+
+#cover {
+  float: left;
+  position: relative;
+  margin-right: 10px
+}
+#about_book {
+  float: right;
+  text-align: justify;
+}
+
+#order_button_position {
+  padding: 5px 5px 5px 0;
+}
+.order_buttons
+{
+  background-color: #FF8C00;
+  width: 100px
 }

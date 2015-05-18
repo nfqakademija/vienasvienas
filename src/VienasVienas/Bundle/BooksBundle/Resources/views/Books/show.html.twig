@@ -1,100 +1,59 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Books</h1>
+    <h4>{{ entity.author.author }}, {{ entity.title }}</h4>
+    <hr>
 
-    <table class="record_properties">
-        <tbody>
-            <tr>
-                <th>Cover</th>
-                <td>{{ entity.cover | raw }}</td>
-            </tr>
-            <tr>
-                <th>Id</th>
-                <td id="entity_id">{{ entity.id }}</td>
-            </tr>
-            <tr>
-                <th>Title</th>
-                <td>{{ entity.title }}</td>
-            </tr>
-            <tr>
-                <th>Author</th>
-                <td>{{ entity.author.author }}</td>
-            </tr>
-            <tr>
-                <th>Pages</th>
-                <td>{{ entity.pages }}</td>
-            </tr>
-            <tr>
-                <th>Isbn</th>
-                <td>{{ entity.isbn }}</td>
-            </tr>
-            <tr>
-                <th>Rating</th>
-                <td>{{ entity.rating }}</td>
-            </tr>
-            <tr>
-                <th>About</th>
-                <td>{{ entity.about|raw }}</td>
-            </tr>
-            <tr>
-                <th>Registration date</th>
-                <td>{{ entity.registrationDate|date('Y-m-d') }}</td>
-            </tr>
-            <tr>
-                <th>Category</th>
-                <td>{% for categories in entity.getCategories %}
-                        {{ categories.categoryName }}
-                    {% endfor %}
-                </td>
-            </tr>
-            <tr>
-                <th>Quantity</th>
-                <td id="query_result">{{ entity.quantity}}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div id="cover">
+    {{ entity.cover | raw }}
+    </div>
+    <div id="book_info">
+    <b>ID:</b> <span id="entity_id">{{ entity.id }}</span><br>
+    <b>Author:</b>  {{ entity.author.author }} <br>
+    <b>Title:</b> {{ entity.title }} <br>
+    <b>Pages:</b> {{ entity.pages }} <br>
+    <b>ISBN:</b> {{ entity.isbn }} <br>
+    <b>Rating: </b> {{ entity.rating }} <br>
+    <b>Category:</b> {% for categories in entity.getCategories %}
+    {{ categories.categoryName }}
+{% endfor %}<br>
+    <b>Registration date:</b> {{ entity.registrationDate|date('Y-m-d') }} <br>
+    <b>Quantity:</b> <span id="query_result"> {{ entity.quantity}} </span> <br>
+     <hr>
+    <div id="about_book"><b>About:</b><p>{{ entity.about|raw }}</p> </div>
+
+    </div>
+
+
+
 
     <ul class="record_actions">
-        <li id="ajax_message">
+        <li id="ajax_message"> </li>
 
-        </li>
-        <li>
-            <a href="{{ path('book') }}">
-                Back to the list
-            </a>
-        </li>
-        {% if is_granted('ROLE_ADMIN') %}
-            <li>
-                <a href="{{ path('book_edit', { 'id': entity.id }) }}">
-                    Edit
-                </a>
-            </li>
-        {% endif %}
-        <li>
+        <li id="order_button_position">
             {% if entity.quantity == 0 and user == true %}
                 You already reserved this book.
 
             {% elseif entity.quantity > 0 and user == true and isBookReserved == true %}
-                <button type="button" id="order_update_button" disabled>Order book</button>
+                <button type="button" id="order_update_button" disabled class="order_buttons">Order book</button>
 
             {% elseif entity.quantity > 0 and order == false and isBookReserved == false %}
-                <button type="button" id="order_button" disabled>Order book</button>
-                <button type="button" id="return_button" class="return_button" disabled>Return book</button>
+                <button type="button" id="order_button" disabled class="order_buttons">Order book</button>
+                <button type="button" id="return_button" class="return_button order_buttons" disabled>Return book</button>
 
             {% elseif order == true %}
-                <button type="button" id="return_button" disabled>Return book</button>
+                <button type="button" id="return_button" disabled class="order_buttons">Return book</button>
 
             {% elseif entity.quantity == 0 and user == false %}
-                <button type="button" id="reserve_button" disabled>Reserve book</button>
+                <button type="button" id="reserve_button" disabled class="order_buttons">Reserve book</button>
 
             {% elseif entity.quantity == 1 and user == false and isBookReserved == true %}
                 Book is reserved, you can't take it.
-                <button type="button" id="reserve_button" disabled>Reserve book</button>
+                <button type="button" id="reserve_button" disabled class="order_buttons">Reserve book</button>
 
             {% elseif entity.quantity > 1 and user == false and isBookReserved == true %}
-                <button type="button" id="order_button" disabled>Order book</button>
-                <button type="button" id="return_button" class="return_button" disabled>Return book</button>
+                <button type="button" id="order_button" disabled class="order_buttons">Order book</button>
+                <button type="button" id="return_button" class="return_button order_buttons" disabled>Return book</button>
 
             {% elseif entity.quantity == 0 and user == true %}
                 You already reserved this book.
@@ -107,6 +66,19 @@
         <li>
             {{ form(delete_form) }}
         </li>
+        <li>
+            <a href="{{ path('book_edit', { 'id': entity.id }) }}">
+                Edit
+            </a>
+        </li>
+        {% endif %}
+        <li>
+            <a href="{{ path('book') }}">
+                Back to the list
+            </a>
+        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+
         {% endif %}
 
     </ul>
