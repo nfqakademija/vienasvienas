@@ -33,7 +33,7 @@ class BooksController extends Controller
     {
         $em = $this->getDoctrine()->getRepository('BooksBundle:Book');
         //limiting queries to list on main page
-        $entities = $em->findBy(array(), array( 'id' => 'DESC'), 400);
+        $entities = $em->findBy(array(), array( 'id' => 'DESC'), 100);
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(

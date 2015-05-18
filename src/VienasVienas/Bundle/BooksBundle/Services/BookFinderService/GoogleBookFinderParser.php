@@ -113,7 +113,7 @@ class GoogleBookFinderParser
     private function parseCover($content)
     {
         if (!isset($content->items[0]->volumeInfo->imageLinks->thumbnail)) {
-            return '<img src="./img/no_book_cover.jpg">';
+            return '<img src="/img/no_book_cover.jpg">';
         } else {
             return '<img src="' . $content->items[0]->volumeInfo->imageLinks->thumbnail .'">';
         }
