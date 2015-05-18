@@ -29,9 +29,11 @@
                     <li>
                         <a href="{{ path('book_show', { 'id': entity.id }) }}">show</a>
                     </li>
+                    {% if is_granted('ROLE_ADMIN') %}
                     <li>
                         <a href="{{ path('book_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
+                    {% endif %}
                 </ul>
             </td>
         </tr>

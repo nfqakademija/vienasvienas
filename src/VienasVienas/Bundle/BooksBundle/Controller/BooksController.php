@@ -239,6 +239,7 @@ class BooksController extends Controller
      */
     public function editAction($id)
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
         $em = $this->getDoctrine()->getManager();
 
         $entity = $em->getRepository('BooksBundle:Book')->find($id);
@@ -343,6 +344,12 @@ class BooksController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('BooksBundle:Book')->find($id);
+            $order = $em->getRepository('BaseBundle:Order')->findOneByBook($entity);
+
+            if ($order) {
+                $em->remove($order);
+                $em->flush();
+            }
 
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find Book entity.');

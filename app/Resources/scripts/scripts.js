@@ -105,7 +105,6 @@ $(document).ready(function() {
             data: {'categoryName': ($(this).text())}
         })
             .success(function (jsondata) {
-                console.log(jsondata.books);
                 $('#main_list').html(jsondata.books);
             })
             .fail(function (errorThrown) {

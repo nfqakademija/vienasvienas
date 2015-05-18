@@ -64,14 +64,16 @@
                 Back to the list
             </a>
         </li>
-        <li>
-            <a href="{{ path('book_edit', { 'id': entity.id }) }}">
-                Edit
-            </a>
-        </li>
+        {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                <a href="{{ path('book_edit', { 'id': entity.id }) }}">
+                    Edit
+                </a>
+            </li>
+        {% endif %}
         <li>
             {% if entity.quantity == 0 and user == true %}
-            You already reserved this book.
+                You already reserved this book.
 
             {% elseif entity.quantity > 0 and user == true and isBookReserved == true %}
                 <button type="button" id="order_update_button" disabled>Order book</button>
@@ -101,9 +103,11 @@
         <li>
 
         </li>
+        {% if is_granted('ROLE_ADMIN') %}
         <li>
             {{ form(delete_form) }}
         </li>
+        {% endif %}
 
     </ul>
     {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': '{{ entity.id }}'} %}
