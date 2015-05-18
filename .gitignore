@@ -21,3 +21,4 @@ node_modules/
 /web/img/
 /.sass-cache/
 Gemfile.lock
+/input/

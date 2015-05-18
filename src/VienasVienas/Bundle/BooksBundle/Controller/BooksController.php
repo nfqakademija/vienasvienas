@@ -380,9 +380,8 @@ class BooksController extends Controller
         $mostPopular = $em->getRepository('BooksBundle:Book')->getMostPopularBooks();
 
         return $this->render(
-            'BooksBundle:Books:mostPopular.html.twig', array(
-                'mostPopular' => $mostPopular,
-            )
+            'BooksBundle:Books:mostPopular.html.twig',
+            array('mostPopular' => $mostPopular)
         );
     }
 
