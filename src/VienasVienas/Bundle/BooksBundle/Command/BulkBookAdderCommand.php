@@ -10,18 +10,22 @@ namespace VienasVienas\Bundle\BooksBundle\Command;
 
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use VienasVienas\Bundle\BooksBundle\Entity\Book;
 use VienasVienas\Bundle\BooksBundle\Entity\Category;
 use VienasVienas\Bundle\BooksBundle\Services\BookFinderService\Isbn;
 
+/**
+ * Class BulkBookAdderCommand
+ * @package VienasVienas\Bundle\BooksBundle\Command
+ */
 class BulkBookAdderCommand extends ContainerAwareCommand
 {
-
+    /**
+     * {@inheritdoc}
+     */
 
     protected function configure()
     {
@@ -40,6 +44,9 @@ class BulkBookAdderCommand extends ContainerAwareCommand
             );
 
     }
+    /**
+     * {@inheritdoc}
+     */
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
@@ -71,6 +78,10 @@ class BulkBookAdderCommand extends ContainerAwareCommand
 
     }
 
+    /**
+     * @param $file
+     * @return int
+     */
     private function update($file)
     {
         $linesInFile = $this->getFileInfo($file);
@@ -78,6 +89,10 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         return $number;
     }
 
+    /**
+     * @param $file
+     * @return array|int
+     */
     private function getFileInfo($file)
     {
         $myfile = fopen($file, "r") or die("Unable to open file!");
@@ -93,6 +108,10 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         }
     }
 
+    /**
+     * @param $linesInFile
+     * @return int
+     */
     private function insertData($linesInFile)
     {
         $google = $this->getContainer()->get('google.books');
