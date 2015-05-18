@@ -30,7 +30,7 @@ class InsertFromFileCommand extends ContainerAwareCommand
     {
         $this
             ->setName('add:from:file')
-            ->setDescription('Tool for inserting  books to database from txt file')
+            ->setDescription('Tool for inserting  books to database from Open library txt file')
             ->addArgument(
                 'fileNumber',
                 InputArgument::OPTIONAL,
@@ -39,7 +39,7 @@ class InsertFromFileCommand extends ContainerAwareCommand
             ->addArgument(
                 'until',
                 InputArgument::OPTIONAL,
-                'how many files to scan?'
+                'How many files to scan?'
             );
     }
 
@@ -64,13 +64,10 @@ class InsertFromFileCommand extends ContainerAwareCommand
             $fileNumber++;
             $total = $total + $number;
             $output->writeln('Was inserted:' . $number);
-
         }
-
         $output->writeln('<info>Done</info>');
         $e = microtime(true);
         $output->writeln('Inserted ' . $total . ' objects in ' . ($e - $s) . ' seconds' . PHP_EOL);
-
     }
 
     /**
@@ -85,13 +82,12 @@ class InsertFromFileCommand extends ContainerAwareCommand
         $batchSize = 20;
 
         foreach ($file as $lines) {
-            //if no title or isbn, skip line
+            //if no title or isbn, skip the line
             if (isset($lines['title'])) {
                 if (isset($lines['isbn_13']) || (isset($lines['isbn_10']))) {
                     $book = $this->setData($lines);
                     $number++;
                     $em->persist($book);
-
                     if (($number % $batchSize) === 0) {
                         $em->flush();
                         $em->clear();
@@ -99,10 +95,8 @@ class InsertFromFileCommand extends ContainerAwareCommand
                 }
             }
         }
-
         $em->flush();
         $em->clear();
-
         return $number;
     }
 
@@ -117,13 +111,12 @@ class InsertFromFileCommand extends ContainerAwareCommand
         $title = (string) $file['title'];
         $book->setTitle($title);
         $book->setRegistrationDate(new \DateTime());
-        $book->getQuantity(1);
+        $book->setQuantity(1);
         $book->setRating(0);
         $book->setCover('<img src="/img/no_book_cover.jpg">');
 
-
-        //setting ISBN 13 or ISBN 10
-        if (isset($file['isbn_13'])) {
+        //setting ISBN
+        if (isset($file['isbn_13'][0])) {
             $isbn = (string) $file['isbn_13'][0];
         } else {
             $isbn = (string) $file['isbn_10'][0];
@@ -146,7 +139,6 @@ class InsertFromFileCommand extends ContainerAwareCommand
         }
         $book->setAbout($about);
 
-
         //if exist, setting page count
         if (isset($file['number_of_pages'])) {
             $pages = (integer) $file['number_of_pages'];
@@ -155,7 +147,7 @@ class InsertFromFileCommand extends ContainerAwareCommand
             $book->setPages(0);
         }
         //getting author name
-        if (isset($file['publishers'])) {
+        if (isset($file['publishers'][0])) {
             $author = (string) $file['publishers'][0];
         } else {
             $author = 0;
@@ -169,7 +161,6 @@ class InsertFromFileCommand extends ContainerAwareCommand
             $newAuthor->setAuthor($author);
             $book->setAuthor($newAuthor);
         }
-
         return $book;
     }
 

@@ -1,5 +1,5 @@
 {% extends '::base.html.twig' %}
-
+{% block title %}{{ entity.author.author }} - {{ entity.title }}{% endblock %}
 {% block body -%}
     <h1>Books</h1>
 
