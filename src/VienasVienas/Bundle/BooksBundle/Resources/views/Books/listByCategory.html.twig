@@ -1,54 +1,53 @@
-<h4>Books list</h4>
+<h4>Books in category</h4>
 <hr>
 
 <table id="books_list" class="table-hover">
     <thead>
     <tr>
-        <th>Cover</th>
+        <th></th>
         <th>Title</th>
         <th>Author</th>
         <th>Pages</th>
         <th>Isbn</th>
         <th>Rating</th>
         <th>Registration date</th>
-        <th>Actions</th>
     </tr>
     </thead>
+
+
     <tbody class="table-hover">
+
     {% for entity in entities %}
-        <tr>
-            <td>{{ entity.cover|raw }}</td>
+
+        <tr class="hover_link">
+
+            <td><a href="{{ path('book_show', { 'id': entity.id }) }}"> {{ entity.cover|raw }}  </a></td>
             <td>{{ entity.title }}</td>
             <td>{{ entity.author.author }}</td>
             <td>{{ entity.pages }}</td>
             <td>{{ entity.isbn }}</td>
             <td>{{ entity.rating }}</td>
             <td>{% if entity.registrationDate %}{{ entity.registrationDate|date('Y-m-d') }}{% endif %}</td>
-            <td>
-                <ul>
-                    <li>
-                        <a href="{{ path('book_show', { 'id': entity.id }) }}">show</a>
-                    </li>
-                    <li>
-                        <a href="{{ path('book_edit', { 'id': entity.id }) }}">edit</a>
-                    </li>
-                </ul>
-            </td>
+
         </tr>
+
     {% endfor %}
+
     </tbody>
 </table>
 
-<ul>
-    <li>
-        <a href="{{ path('book_new') }}">
-            Create a new entry
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('book_new_isbn') }}">
-            Create a new entry by ISBN
-        </a>
-    </li>
+{% if is_granted('ROLE_ADMIN') %}
+    <ul>
+        <li>
+            <a href="{{ path('book_new') }}">
+                Create a new entry
+            </a>
+        </li>
+        <li>
+            <a href="{{ path('book_new_isbn') }}">
+                Create a new entry by ISBN
+            </a>
+        </li>
 
-</ul>
+    </ul>
+{% endif %}

@@ -36,11 +36,13 @@ footer {
   -o-border-radius: 10px;
   border-radius: 10px;
 }
+#books_list {
+  width: 100%;
+}
 
 #books_list td {
-    width: 110px;
-    height: 200px;
-    text-align: center;
+  text-align: center;
+  padding: 3px;
 }
 
 #books_list th {
@@ -65,3 +67,12 @@ footer {
   display: none;
 }
 
+tr.hover {
+  cursor: pointer;
+}
+.book_on_base {
+  text-align: center;
+}
+#backs {
+  background-image: url("/web/img/back.jpg");
+}

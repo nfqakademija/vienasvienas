@@ -1,9 +1,9 @@
 
 {% for popular in mostPopular %}
    <li><a href =" {{ path('book_show', { 'id' : popular.id }) }}" class="ajax_pop" >
-           {{ popular.cover | raw }} <br>
-           {{ popular.author }} <br>
-           {{ popular.title }}  <br>
+          {{ popular.cover | raw }} <br>
+           <b> {{ popular.author }} <br>
+           {{ popular.title }} </b>  <br>
        </a>
    </li>
 {% endfor %}

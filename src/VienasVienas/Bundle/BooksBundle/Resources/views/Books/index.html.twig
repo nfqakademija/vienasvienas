@@ -2,7 +2,7 @@
 
 {% block body -%}
 
-        <h4>Books list</h4>
+        <h4>Newest Books</h4>
         <hr>
 
 <table>
@@ -11,43 +11,38 @@
     <table id="books_list" class="table-hover">
             <thead>
             <tr>
-                <th>Cover</th>
+                <th></th>
                 <th>Title</th>
                 <th>Author</th>
                 <th>Pages</th>
                 <th>Isbn</th>
                 <th{% if pagination.isSorted('entity.rating') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Rating', 'entity.rating') }}</th>
                 <th{% if pagination.isSorted('entity.registrationDate') %} class="sorted"{% endif %}>{{ knp_pagination_sortable(pagination, 'Registration date', 'entity.registrationDate') }}</th>
-                <th>Actions</th>
             </tr>
             </thead>
 
 
         <tbody class="table-hover">
+
         {% for entity in pagination %}
         <tr {% if loop.index is odd %}class="color"{% endif %}>
-                <tr>
-                    <td>{{ entity.cover|raw }}</td>
+
+                <tr class="hover_link">
+
+                    <td><a href="{{ path('book_show', { 'id': entity.id }) }}"> {{ entity.cover|raw }}  </a></td>
                     <td>{{ entity.title }}</td>
                     <td>{{ entity.author.author }}</td>
                     <td>{{ entity.pages }}</td>
                     <td>{{ entity.isbn }}</td>
                     <td>{{ entity.rating }}</td>
                     <td>{% if entity.registrationDate %}{{ entity.registrationDate|date('Y-m-d') }}{% endif %}</td>
-                    <td>
-                        <ul>
-                            <li>
-                                <a href="{{ path('book_show', { 'id': entity.id }) }}">show</a>
-                            </li>
-                            <li>
-                                <a href="{{ path('book_edit', { 'id': entity.id }) }}">edit</a>
-                            </li>
-                        </ul>
-                    </td>
+
                 </tr>
+
         {% endfor %}
-            </tbody>
-        </table>
+
+        </tbody>
+    </table>
 
 
     </tr>
@@ -58,7 +53,7 @@
         {{ knp_pagination_render(pagination) }}
     </div>
 
-
+{% if is_granted('ROLE_ADMIN') %}
     <ul>
         <li>
             <a href="{{ path('book_new') }}">
@@ -72,5 +67,6 @@
         </li>
 
     </ul>
+{% endif %}
 
 {% endblock %}

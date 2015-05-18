@@ -61,11 +61,13 @@
             Back to the list
         </a>
     </li>
+    {% if is_granted('ROLE_ADMIN') %}
     <li>
         <a href="{{ path('book_edit', { 'id': entity.id }) }}">
             Edit
         </a>
     </li>
+    {% endif %}
     <li>
         {% if entity.quantity == 0 and user == true %}
             You already reserved this book.

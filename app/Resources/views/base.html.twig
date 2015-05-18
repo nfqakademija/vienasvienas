@@ -20,7 +20,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href={{ app.request.getSchemeAndHttpHost() }}>Library</a>
+                <a class="navbar-brand" href={{ app.request.getSchemeAndHttpHost() }}>VienasVienas Library</a>
             </div>
             <div class="navbar-collapse collapse">
 
@@ -65,10 +65,11 @@
                 <h4>Most Popular</h4>
 
                 <hr>
-
+                <div class="book_on_base">
                 <ul class="nav nav-pills nav-stacked">
                    {{ render(controller('BooksBundle:Books:mostPopular')) }}
                 </ul>
+                    </div>
             </div>
 
 
