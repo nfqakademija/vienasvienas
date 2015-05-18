@@ -373,9 +373,29 @@ class BooksController extends Controller
         $mostPopular = $em->getRepository('BooksBundle:Book')->getMostPopularBooks();
 
         return $this->render(
-            'BooksBundle:Books:mostPopular.html.twig', array(
-                'mostPopular' => $mostPopular,
-            )
+            'BooksBundle:Books:mostPopular.html.twig',
+            array('mostPopular' => $mostPopular)
+        );
+    }
+
+    /**
+     * Lists total count books in database.
+     *
+     * @Route("/total", name="Total_books")
+     *
+     * @Template()
+     */
+    public function totalAction()
+    {
+        $em = $this->getDoctrine()->getRepository('BooksBundle:Book');
+        $count = $em->findAll();
+        $total = count($count);
+        $en = $this->getDoctrine()->getRepository('BooksBundle:Author');
+        $countA = $en->findAll();
+        $authors = count($countA);
+        return array(
+            'total' => $total,
+            'authors' => $authors
         );
     }
 

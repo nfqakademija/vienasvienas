@@ -73,7 +73,7 @@ class BulkBookAdderCommand extends ContainerAwareCommand
         }
         $e = microtime(true);
         $output->writeln('total was inserted:' . $total);
-        echo 'Inserted ' . $number . ' objects in ' . ($e - $s) . ' seconds' . PHP_EOL;
+        $output->writeln('Inserted ' . $number . ' objects in ' . ($e - $s) . ' seconds' . PHP_EOL);
         $output->writeln('Memory usage ' . memory_get_peak_usage());
 
     }
