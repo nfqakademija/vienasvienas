@@ -19,30 +19,27 @@
 {% endfor %}<br>
     <b>Registration date:</b> {{ entity.registrationDate|date('Y-m-d') }} <br>
     <b>Quantity:</b> <span id="query_result"> {{ entity.quantity}} </span> <br>
-     <hr>
-    <div id="about_book"><b>About:</b><p>{{ entity.about|raw }}</p> </div>
-
+        <hr>
+        <div id="about_book"><b>About:</b><p>{{ entity.about|raw }}</p> </div>
+        <hr>
+        <div id="ajax_message"></div>
     </div>
 
-
-
-
-    <ul class="record_actions">
-        <li id="ajax_message"> </li>
+    <ul class="left_side">
 
         <li id="order_button_position">
             {% if entity.quantity == 0 and user == true %}
                 You already reserved this book.
 
             {% elseif entity.quantity > 0 and user == true and isBookReserved == true %}
-                <button type="button" id="order_update_button" disabled class="order_buttons">Order book</button>
+                <button type="button" id="order_update_button" disabled class="btn-default btn">Order book</button>
 
             {% elseif entity.quantity > 0 and order == false and isBookReserved == false %}
-                <button type="button" id="order_button" disabled class="order_buttons">Order book</button>
-                <button type="button" id="return_button" class="return_button order_buttons" disabled>Return book</button>
+                <button type="button" id="order_button" disabled class="btn-default btn">Order book</button>
+                <button type="button" id="return_button" class="return_button btn-default btn" disabled>Return book</button>
 
             {% elseif order == true %}
-                <button type="button" id="return_button" disabled class="order_buttons">Return book</button>
+                <button type="button" id="return_button" disabled class="btn-default btn">Return book</button>
 
             {% elseif entity.quantity == 0 and user == false %}
                 <button type="button" id="reserve_button" disabled class="order_buttons">Reserve book</button>
@@ -53,36 +50,33 @@
 
             {% elseif entity.quantity > 1 and user == false and isBookReserved == true %}
                 <button type="button" id="order_button" disabled class="order_buttons">Order book</button>
-                <button type="button" id="return_button" class="return_button order_buttons" disabled>Return book</button>
+                <button type="button" id="return_button" class="return_button btn-default btn" disabled>Return book</button>
 
             {% elseif entity.quantity == 0 and user == true %}
                 You already reserved this book.
             {% endif %}
         </li>
         <li>
-
+        <form action=" {{ path('book') }} ">
+            <input type="submit" value="Back" class="btn-default btn">
+            </form>
         </li>
-        {% if is_granted('ROLE_ADMIN') %}
-        <li>
-            {{ form(delete_form) }}
-        </li>
-        <li>
-            <a href="{{ path('book_edit', { 'id': entity.id }) }}">
-                Edit
-            </a>
-        </li>
-        {% endif %}
-        <li>
-            <a href="{{ path('book') }}">
-                Back to the list
-            </a>
-        </li>
-        {% if is_granted('ROLE_ADMIN') %}
-
-        {% endif %}
-
     </ul>
+    <ul class="right_side">
+        {% if is_granted('ROLE_ADMIN') %}
+            <li>
+                {{ form(delete_form) }}
+            </li>
+            <li>
+                <form action=" {{ path('book_edit', { 'id': entity.id }) }} ">
+                    <input type="submit" value="Edit" class="btn-default btn">
+                </form>
+            </li>
+        {% endif %}
+    </ul>
+    <div class="clear_sides">
     {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': '{{ entity.id }}'} %}
     <div class="book_comments">{{ amazon_comments|raw }} </div>
     <div class="book_comments">{{ goodreads_comments|raw }} </div>
+    </div>
 {% endblock %}

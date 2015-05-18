@@ -1,8 +1,26 @@
 #login_container
 {
   width: 350px;
+  height: 300px;
   position: absolute;
-  top: 25%;
+  top: 5%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  background-color: white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+}
+#login_tabs
+{
+  width: 350px;
+  height: 380px;
+  position: absolute;
+  top: 5%;
   bottom: 0;
   left: 0;
   right: 0;
@@ -25,11 +43,13 @@ a
 {
   padding: 5px;
 }
-.right_side
-{
+.right_side {
   float: right;
 }
-.left_side
-{
+
+.left_side {
   float: left;
+}
+.clear_sides {
+  clear: both;
 }

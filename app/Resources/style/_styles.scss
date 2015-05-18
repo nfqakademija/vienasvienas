@@ -74,7 +74,9 @@ tr.hover {
   text-align: center;
 }
 #backs {
-  background-image: url("/img/back.jpg");
+  background-image: url("../img/back.jpg");
+  width: 100%;
+  height: 100%;
 }
 
 ul
@@ -89,15 +91,18 @@ ul
   margin-right: 10px
 }
 #about_book {
-  float: right;
   text-align: justify;
 }
 
 #order_button_position {
-  padding: 5px 5px 5px 0;
+  padding: 0 0 15px 0;
 }
-.order_buttons
-{
+#ajax_message {
   background-color: #FF8C00;
-  width: 100px
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  text-align: center;
 }
