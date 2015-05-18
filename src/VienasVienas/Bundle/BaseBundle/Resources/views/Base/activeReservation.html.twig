@@ -3,7 +3,7 @@
 {{ reservedBook.getBook().getCover() | raw }} <br>
 {{ reservedBook.getBook().getAuthor() }} <br>
 {{ reservedBook.getBook().getTitle() }} <br>
-    <form action="{{ path('fos_user_profile_show')  }}">
+    <form class="right_side" action="{{ path('fos_user_profile_show')  }}">
         <input type="submit" value="More">
     </form><br>
 {% else %}

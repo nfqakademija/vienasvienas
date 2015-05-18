@@ -1,18 +1,20 @@
 {% extends '::base.html.twig' %}
 
 {% block body -%}
-    <h1>Books edit</h1>
+    <h4>Book edit</h4>
+    <hr>
 
     {{ form(edit_form) }}
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('book') }}">
-            Back to the list
-        </a>
-    </li>
-            {% if is_granted('ROLE_ADMIN') %}
+    <ul class="record_actions">
+        {% if is_granted('ROLE_ADMIN') %}
             <li>{{ form(delete_form) }}</li>
-            {%  endif %}
+        {%  endif %}
+        <li>
+            <a href="{{ path('book') }}">
+                Back to the list
+            </a>
+        </li>
+
 </ul>
 {% endblock %}

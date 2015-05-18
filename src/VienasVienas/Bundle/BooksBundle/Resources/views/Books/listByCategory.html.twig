@@ -1,3 +1,9 @@
+<html>
+<head>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+    {% endblock %}
+</head>
 <h4>Books in category</h4>
 <hr>
 
@@ -51,3 +57,10 @@
 
     </ul>
 {% endif %}
+{% block javascripts %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{{ asset('js/jquery.js') }}"><\/script>')</script>
+    <script src="{{ asset('js/app.js') }}"></script>
+{% endblock %}
+
+</html>

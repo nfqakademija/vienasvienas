@@ -62,6 +62,19 @@ class Category
         return $this->categoryName;
     }
 
+    /**
+     * @var Book
+     */
+    private $books;
+
+    /**
+     * @param Book $book
+     */
+    public function addBook(Book $book)
+    {
+        $this->books[] = $book;
+    }
+
     public function __toString()
     {
         return $this->categoryName;
