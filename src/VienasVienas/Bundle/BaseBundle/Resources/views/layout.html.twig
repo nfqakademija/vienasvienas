@@ -9,8 +9,7 @@
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {% endblock %}
 </head>
-<body>
-<div id="backs">
+<body id="backs">
 <div>
     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
         {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
@@ -39,6 +38,5 @@
     <script>window.jQuery || document.write('<script src="{{ asset('js/jquery.js') }}"><\/script>')</script>
     <script src="{{ asset('js/app.js') }}"></script>
 {% endblock %}
-</div>
 </body>
 </html>

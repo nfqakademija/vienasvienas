@@ -1,12 +1,20 @@
 #login_container
 {
   width: 350px;
+  height: 310px;
   position: absolute;
-  top: 25%;
+  top: 5%;
   bottom: 0;
   left: 0;
   right: 0;
   margin: auto;
+  background-color: white;
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+  border-radius: 10px;
+  padding: 5px 5px 15px 5px;
 }
 a
 {
@@ -25,11 +33,13 @@ a
 {
   padding: 5px;
 }
-.right_side
-{
+.right_side {
   float: right;
 }
-.left_side
-{
+
+.left_side {
   float: left;
+}
+.clear_sides {
+  clear: both;
 }
