@@ -127,7 +127,7 @@ class AmazonBookParser
     private function parseCover($content)
     {
         if (!isset($content->Items->Item->MediumImage->URL)) {
-            return '<img src="./img/no_book_cover.jpg">';
+            return '<img src="/img/no_book_cover.jpg">';
         } else {
             return '<img src="' . (string) $content->Items->Item->MediumImage->URL .'">';
         }
