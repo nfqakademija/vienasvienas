@@ -24,7 +24,7 @@ class Order
     /**
      * @ORM\ManyToOne(targetEntity="VienasVienas\Bundle\BooksBundle\Entity\Book", inversedBy="orders",
      * cascade={"persist"})
-     * JoinColumn(name="book_id", referencedColumnName="id")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      **/
     private $book;
 
