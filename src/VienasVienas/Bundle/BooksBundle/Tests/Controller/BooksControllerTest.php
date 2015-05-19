@@ -10,7 +10,7 @@ class BookControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        $crawler = $client->request('GET', '/');
+        $crawler = $client->request('GET', '/login');
         print_r($crawler);
         $this->assertTrue($crawler->filter('html:contains("Welcome")')->count() > 0);
     }
