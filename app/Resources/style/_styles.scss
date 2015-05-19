@@ -101,3 +101,8 @@ ul
   border-radius: 10px;
   text-align: center;
 }
+@media (max-width: 786px) {
+.hide_on_mobile {
+  display: none;
+}
+}

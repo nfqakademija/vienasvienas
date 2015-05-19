@@ -46,12 +46,13 @@
         <!-- /container -->
     </div>
     <!-- /Header -->
-
     <!-- Main -->
     <div class="container-fluid">
         <div class="row">
+            <div class="hide_on_mobile">
             <div class="col-sm-2">
                 <!-- Left column -->
+
                 <h4>Books categories</h4>
 
                 <hr>
@@ -67,10 +68,11 @@
                 <hr>
                 <div class="book_on_base">
                 <ul class="nav nav-pills nav-stacked">
-                   {{ render(controller('BooksBundle:Books:mostPopular')) }}
-                </ul>
-                    </div>
+                       {{ render(controller('BooksBundle:Books:mostPopular')) }}
+                    </ul>
+                </div>
             </div>
+        </div>
 
 
             <div class="col-sm-8">
@@ -83,6 +85,7 @@
 
             <div class="col-sm-2">
                 <!-- Right column -->
+                <div class="hide_on_mobile">
                 <a href="#"><h4>Your Books</h4></a>
 
                 <hr>
@@ -106,10 +109,11 @@
                     { 'user': app.security.getToken().getUser() }
                     )) }}
                 </div>
-
+                </div>
             </div>
         </div>
     </div>
+
     <footer class="text-center">Library &copy; 2015</footer>
 
     {% block javascripts %}
