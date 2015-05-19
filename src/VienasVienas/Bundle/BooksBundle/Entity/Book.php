@@ -36,6 +36,7 @@ class Book
      * @var Order
      *
      * @ORM\OneToMany(targetEntity="VienasVienas\Bundle\BaseBundle\Entity\Order", mappedBy="book")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      **/
     private $orders;
 
