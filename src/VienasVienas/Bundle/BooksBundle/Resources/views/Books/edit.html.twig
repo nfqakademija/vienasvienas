@@ -11,9 +11,9 @@
             <li>{{ form(delete_form) }}</li>
         {%  endif %}
         <li>
-            <a href="{{ path('book') }}">
-                Back to the list
-            </a>
+            <form action=" {{ path('book') }} ">
+                <input type="submit" value="Back to the list" class="btn-default btn">
+            </form>
         </li>
 
 </ul>

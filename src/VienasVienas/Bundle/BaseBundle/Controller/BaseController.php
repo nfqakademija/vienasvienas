@@ -30,8 +30,7 @@ class BaseController extends Controller
 
         return $this->render(
             'BaseBundle:Base:recentBook.html.twig',
-            array
-            (
+            array(
                 'recentBook' => $recentBook,
                 'message' => $message,
             ));
@@ -54,8 +53,7 @@ class BaseController extends Controller
         }
         return $this->render(
             'BaseBundle:Base:activeReservation.html.twig',
-            array
-            (
+            array(
                 'reservedBook' => $reservedBook,
                 'message' => $message,
             ));

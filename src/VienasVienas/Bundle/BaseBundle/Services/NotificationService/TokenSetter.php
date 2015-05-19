@@ -1,9 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: destas
- * Date: 5/6/15
- * Time: 8:20 PM
+
+/*
+ * This file is part of the BaseBundle package.
+ *
+ * (c) Valdemar Karasevic <valdemar.karasevic@gmail.com>
+ *
  */
 
 namespace VienasVienas\Bundle\BaseBundle\Services\NotificationService;

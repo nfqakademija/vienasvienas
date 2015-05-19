@@ -10,7 +10,7 @@
 .fos_comment_thread_show {
     margin-top: 2em;
     padding: 1em 20px;
-    width: 472px;
+    width: auto;
     background: #f0f0f0;
     box-shadow: 0 0 7px #bbb;
     -moz-box-shadow: 0 0 7px #bbb;
@@ -21,7 +21,7 @@
     -moz-border-radius: 5px;
 }
 .fos_comment_thread_show h3 {
-    font-size: 1.3em;
+    font-size: 0.6em;
     font-weight: bold;
     margin-bottom: 1em;
     color: #a0a0a0;

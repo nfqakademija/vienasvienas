@@ -25,15 +25,19 @@ class BooksController extends Controller
     /**
      * Lists all Book entities.
      *
+     * @param Request $request
+     *
      * @Route("/", name="book")
      * @Method("GET")
      * @Template()
+     *
+     * @return Response
      */
     public function indexAction(Request $request)
     {
         $em = $this->getDoctrine()->getRepository('BooksBundle:Book');
         //limiting queries to list on main page
-        $entities = $em->findBy(array(), array( 'id' => 'DESC'), 100);
+        $entities = $em->findBy(array(), array('id' => 'DESC'), 100);
 
         $paginator  = $this->get('knp_paginator');
         $pagination = $paginator->paginate(
@@ -365,17 +369,14 @@ class BooksController extends Controller
     /**
      * Gets most popular books.
      *
-     * @param Request $request
-     *
      * @Route("/popular", name="most_popular")
      * @Method("GET")
      *
      * @return Response
      * @throws NotFoundHttpException
      */
-    public function mostPopularAction(Request $request)
+    public function mostPopularAction()
     {
-
         $em = $this->getDoctrine()->getEntityManager();
         $mostPopular = $em->getRepository('BooksBundle:Book')->getMostPopularBooks();
 

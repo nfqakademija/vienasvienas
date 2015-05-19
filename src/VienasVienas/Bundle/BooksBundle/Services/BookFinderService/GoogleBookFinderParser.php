@@ -22,14 +22,15 @@ class GoogleBookFinderParser
     /**
      * @var Book Entity.
      */
-
     private $book;
+
     /**
      * @var Author
      */
     private $author;
+
     /**
-     * @param Book $book
+     * @param Book   $book
      * @param Author $author
      */
     public function __construct(Book $book, Author $author)
@@ -37,8 +38,12 @@ class GoogleBookFinderParser
         $this->book = $book;
         $this->author = $author;
     }
+
     /**
+     * Method sets parsed content to Book object.
+     *
      * @param object $content
+     *
      * @return Book $book
      */
     public function parseBook($content)
@@ -68,8 +73,9 @@ class GoogleBookFinderParser
             return $this->book;
         }
     }
+
     /**
-     * @param $content
+     * @param  $content
      * @return string
      */
     private function parseAuthor($content)
@@ -121,7 +127,7 @@ class GoogleBookFinderParser
         if (!isset($content->items[0]->volumeInfo->imageLinks->thumbnail)) {
             return '<img src="/img/no_book_cover.jpg">';
         } else {
-            return '<img src="' . $content->items[0]->volumeInfo->imageLinks->thumbnail .'">';
+            return '<img src="' . $content->items[0]->volumeInfo->imageLinks->thumbnail . '">';
         }
     }
     /**

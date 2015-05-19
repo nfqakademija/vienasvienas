@@ -304,7 +304,7 @@ class Book
     }
 
     /**
-     * Get quantity
+     * Get quantity.
      *
      * @return integer
      */
@@ -314,10 +314,9 @@ class Book
     }
 
     /**
-     * Add categories
+     * Add categories.
      *
-     * @param \VienasVienas\Bundle\BooksBundle\Entity\Category $categories
-     * @return Book
+     * @param \VienasVienas\Bundle\BooksBundle\Entity\Category $category
      */
     public function addCategory(\VienasVienas\Bundle\BooksBundle\Entity\Category $category)
     {
@@ -326,7 +325,7 @@ class Book
     }
 
     /**
-     * Remove category
+     * Remove category.
      *
      * @param \VienasVienas\Bundle\BooksBundle\Entity\Category $category
      */
@@ -392,9 +391,9 @@ class Book
     }
 
     /**
-     * Get orders
+     * Get orders.
      *
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Order
      */
     public function getOrders()
     {

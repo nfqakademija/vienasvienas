@@ -28,8 +28,7 @@ class FOSUBUserProvider extends BaseClass
         $setter_token = $setter . 'AccessToken';
 
         if (null !== $previousUser = $this->userManager->findUserByUsernameOrEmail(
-                array
-                (
+                array(
                     $property => $username
                 )
             )

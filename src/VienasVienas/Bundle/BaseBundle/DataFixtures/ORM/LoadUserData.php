@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: destas
- * Date: 5/14/15
- * Time: 5:21 PM
- */
 
 namespace VienasVienas\Bundle\BaseBundle\DataFixtures\ORM;
-
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;

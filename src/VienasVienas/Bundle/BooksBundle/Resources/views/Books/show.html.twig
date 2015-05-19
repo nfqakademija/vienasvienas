@@ -74,9 +74,18 @@
             </li>
         {% endif %}
     </ul>
+
     <div class="clear_sides">
-    {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': '{{ entity.id }}'} %}
-    <div class="book_comments">{{ amazon_comments|raw }} </div>
-    <div class="book_comments">{{ goodreads_comments|raw }} </div>
+        <hr>
+        {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': '{{ entity.id }}'} %}
+        {% if amazon_comments is defined %}
+        <h4>Amazon.com reviews</h4>
+        {% endif %}
+        <div class="book_comments">{{ amazon_comments|raw }} </div>
+        {% if goodreads_comments is defined %}
+        <hr>
+        <h4>Goodreads.com reviews</h4>
+        {% endif %}
+        <div class="book_comments">{{ goodreads_comments|raw }} </div>
     </div>
 {% endblock %}

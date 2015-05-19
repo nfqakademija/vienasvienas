@@ -1,0 +1,14 @@
+{% extends "BaseBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="login_container">
+        <p>
+            {{ 'resetting.check_email'|trans({'%email%': email}) }}
+        </p>
+        <form action=" {{ path('fos_user_security_login') }} ">
+            <input type="submit" value="Back" class="btn-default btn">
+        </form>
+    </div>
+{% endblock %}

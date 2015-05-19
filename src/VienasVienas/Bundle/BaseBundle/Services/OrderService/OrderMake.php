@@ -40,7 +40,6 @@ class OrderMake
      *
      * @param Book $bookEntity
      * @param User $userEntity
-     * @param null $reservationDate
      *
      * @throws Exception No enough books exception
      */

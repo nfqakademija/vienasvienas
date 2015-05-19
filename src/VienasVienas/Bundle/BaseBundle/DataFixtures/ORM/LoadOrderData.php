@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: destas
- * Date: 5/14/15
- * Time: 6:22 PM
- */
 
 namespace VienasVienas\Bundle\BaseBundle\DataFixtures\ORM;
-
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -17,7 +10,7 @@ use VienasVienas\Bundle\BaseBundle\Entity\Order;
 class LoadOrderData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function load(ObjectManager $manager)
     {

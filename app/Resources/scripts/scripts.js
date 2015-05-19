@@ -124,4 +124,9 @@ $('.hover_link').click( function() {
     $(this).toggleClass('hover');
 });
 
+$('#forgot_password').click( function() {
+   $('#password_reset').show();
+    $('#login_form').hide();
+
+});
 
