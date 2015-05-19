@@ -239,4 +239,20 @@ class OrderController extends Controller
         return $this->render(
             ':Order:orderCancel.html.twig');
     }
+
+    public function allUserOrdersAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userEntity = $this->getUser();
+        $activeReservations = $em->getRepository('BaseBundle:Order')->getAllActiveReservations($userEntity);
+        $activeOrders = $em->getRepository('BaseBundle:Order')->getAllActiveOrders($userEntity);
+        $pastOrders = $em->getRepository('BaseBundle:Order')->getAllPastOrders($userEntity);
+
+
+        return $this->render('BaseBundle:Profile:show.html.twig',
+            array('activeOrders' => $activeOrders,
+                  'activeReservations' => $activeReservations,
+                  'pastOrders' => $pastOrders,
+            ));
+    }
 }

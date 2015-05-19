@@ -21,3 +21,7 @@ update_order_by_email:
 delete_order_by_email:
    path:      /order/delete/{id}/{token}
    defaults: { _controller: BaseBundle:Order:deleteOrderByEmail }
+
+users_orders:
+   path:     /user
+   defaults: { _controller: BaseBundle:Order:allUserOrders}
