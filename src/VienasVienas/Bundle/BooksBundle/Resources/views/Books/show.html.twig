@@ -20,8 +20,10 @@
     <b>Registration date:</b> {{ entity.registrationDate|date('Y-m-d') }} <br>
     <b>Quantity:</b> <span id="query_result"> {{ entity.quantity}} </span> <br>
         <hr>
+         {% if entity.about != " " %}
         <div id="about_book"><b>About:</b><p>{{ entity.about|raw }}</p> </div>
         <hr>
+         {% endif %}
         <div id="ajax_message"></div>
     </div>
 
@@ -78,14 +80,14 @@
     <div class="clear_sides">
         <hr>
         {% include 'FOSCommentBundle:Thread:async.html.twig' with {'id': '{{ entity.id }}'} %}
-        {% if amazon_comments is defined %}
+        {% if amazon_comments != "" %}
         <h4>Amazon.com reviews</h4>
-        {% endif %}
         <div class="book_comments">{{ amazon_comments|raw }} </div>
-        {% if goodreads_comments is defined %}
+        {% endif %}
+        {% if goodreads_comments != "" %}
         <hr>
         <h4>Goodreads.com reviews</h4>
-        {% endif %}
         <div class="book_comments">{{ goodreads_comments|raw }} </div>
+        {% endif %}
     </div>
 {% endblock %}
