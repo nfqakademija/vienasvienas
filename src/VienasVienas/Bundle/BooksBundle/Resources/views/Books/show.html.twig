@@ -44,14 +44,14 @@
                 <button type="button" id="return_button" disabled class="btn-default btn">Return book</button>
 
             {% elseif entity.quantity == 0 and user == false %}
-                <button type="button" id="reserve_button" disabled class="order_buttons">Reserve book</button>
+                <button type="button" id="reserve_button" disabled class="order_buttons btn-default btn">Reserve book</button>
 
             {% elseif entity.quantity == 1 and user == false and isBookReserved == true %}
                 Book is reserved, you can't take it.
-                <button type="button" id="reserve_button" disabled class="order_buttons">Reserve book</button>
+                <button type="button" id="reserve_button" disabled class="order_buttons btn-default btn">Reserve book</button>
 
             {% elseif entity.quantity > 1 and user == false and isBookReserved == true %}
-                <button type="button" id="order_button" disabled class="order_buttons">Order book</button>
+                <button type="button" id="order_button" disabled class="order_buttons btn-default btn">Order book</button>
                 <button type="button" id="return_button" class="return_button btn-default btn" disabled>Return book</button>
 
             {% elseif entity.quantity == 0 and user == true %}
