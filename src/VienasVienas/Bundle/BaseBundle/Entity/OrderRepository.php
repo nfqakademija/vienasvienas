@@ -146,4 +146,74 @@ class OrderRepository extends EntityRepository
 
         return $order;
     }
+
+    /**
+     * Function finds all active reservation by User.
+     *
+     * @param User $user
+     *
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getAllActiveReservations(User $user)
+    {
+        $dq = $this->createQueryBuilder('o')
+            ->select('o')
+            ->where('o.user = :user')
+            ->andWhere('o.status = \'reserved\'')
+            ->orderBy('o.pickupDate', 'DESC')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        $order = $dq->getResult();
+
+        return $order;
+    }
+
+    /**
+     * Function finds all active orders by User.
+     *
+     * @param User $user
+     *
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getAllActiveOrders(User $user)
+    {
+        $dq = $this->createQueryBuilder('o')
+            ->select('o')
+            ->where('o.user = :user')
+            ->andWhere('o.status = \'active\'')
+            ->orderBy('o.pickupDate', 'DESC')
+            ->setParameter('user', $user)
+            ->getQuery();
+
+        $order = $dq->getResult();
+
+        return $order;
+    }
+
+    /**
+     * Function finds all active orders by User.
+     *
+     * @param User $user
+     *
+     * @return mixed
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getAllPastOrders(User $user)
+    {
+        $dq = $this->createQueryBuilder('o')
+            ->select('o')
+            ->where('o.user = :user')
+            ->andWhere('o.status = \'done\'')
+            ->orderBy('o.pickupDate', 'DESC')
+            ->setParameter('user', $user)
+            ->setMaxResults(10)
+            ->getQuery();
+
+        $order = $dq->getResult();
+
+        return $order;
+    }
 }
