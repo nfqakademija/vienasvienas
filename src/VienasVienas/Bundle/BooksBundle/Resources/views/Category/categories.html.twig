@@ -1,4 +1,4 @@
 
 {% for category in categories %}
-        <li><a class="ajax_cat" href="#">{{ category }}</a></li>
+        <li><a class="category_id" href={{ category.getId() }}> {{ category.getCategoryName() }} </a></li>
 {% endfor %}

@@ -98,11 +98,12 @@ $(document).ready(function() {
 });
 $(document).ready(function() {
 
-    $('.ajax_cat').click(function (ev) {
+    $('.category_id').click(function (ev) {
+        ev.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '/category/' + ($(this).text()),
-            data: {'categoryName': ($(this).text())}
+            url: '/category/' + ($(this).attr('href')),
+            data: {'categoryId': ($(this).attr('href'))}
         })
             .success(function (jsondata) {
                 if (jsondata.booksFind == true) {
@@ -115,7 +116,7 @@ $(document).ready(function() {
             .fail(function (errorThrown) {
                 console.log(errorThrown);
             });
-        ev.preventDefault();
+
     });
 });
 $('.hover_link').click( function() {

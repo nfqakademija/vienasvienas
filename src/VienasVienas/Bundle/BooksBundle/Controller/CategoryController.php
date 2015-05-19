@@ -34,21 +34,20 @@ class CategoryController extends Controller
      * Gets all books by category name.
      *
      * @param Request  $request
-     * @param Category $categoryName
+     * @param int      $categoryId
      *
      * @return JsonResponse
      */
-    public function categoriesAjaxAction(Request $request, $categoryName)
+    public function categoriesAjaxAction(Request $request, $categoryId)
     {
         if (!$request->isXmlHttpRequest()) {
             return new JsonResponse(array(
                 'message' => 'You can access this only using Ajax!'
             ), 400);
         }
+
         $bookFind = true;
-        $category = urldecode($categoryName);
         $em = $this->getDoctrine()->getEntityManager();
-        $categoryId = $em->getRepository('BooksBundle:Category')->getCategoryId($category);
         $books = $em->getRepository('BooksBundle:Book')->getAllBooksByCategory($categoryId);
 
         if (!$books) {

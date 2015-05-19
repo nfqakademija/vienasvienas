@@ -10,5 +10,5 @@ auto_books_search:
     defaults: { _controller: BooksBundle:Search:autoComplete }
 
 books_categories:
-    path:     /category/{categoryName}
+    path:     /category/{categoryId}
     defaults: { _controller: BooksBundle:Category:categoriesAjax }
